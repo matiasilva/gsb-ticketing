@@ -69,8 +69,3 @@ print("\n --- \n")
 print(f"processed {len(data_cols)} emails")
 print(f"✅ found {girton_count} Girton students")
 print(f"❌ found {len(data_cols)-girton_count-invalid_count} non-Girton students")
-
-
-    
-    
-    
