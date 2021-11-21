@@ -1,2 +1,3 @@
 # gsb-ticketing
-A simple, no-frills ticketing platform for the 2022 Girton Spring Ball
+
+A collection of tools used for the 2022 Girton Spring Ball Ticketing mess
