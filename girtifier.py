@@ -9,7 +9,8 @@ import csv
 import re
 
 LOOKUP_ENDPOINT = "https://www.lookup.cam.ac.uk/api/v1/person/crsid/"
-GIRTON_ID = "002866"
+GIRTON_ID1 = "002866"
+GIRTON_ID2 = "002880"
 
 parser = argparse.ArgumentParser(description='verify the status of Girton students in a CSV column by email')
 parser.add_argument('path',  help='file path of the CSV relative to `pwd`')
@@ -33,7 +34,7 @@ with open(args.path, newline='') as csvfile:
         data_cols.append(row[args.col])
 
 for email in data_cols:
-    match = re.match("([\d\w]+)@([\d\w.]+)", email)
+    match = re.match("([\d\w.-]+)@([\d\w.]+)", email)
 
     # reject but notify non cambridge emails
     if match.group(2) != "cam.ac.uk":
@@ -58,7 +59,7 @@ for email in data_cols:
 
     # technically, the 'cancelled' field is True if you're still *in* the University for some purpose (staff)
     is_student = not person['cancelled']
-    is_girton = any((g['groupid'] == GIRTON_ID) and (not g['cancelled']) for g in person['groups'])
+    is_girton = any((g['groupid'] == GIRTON_ID1 or g['groupid'] == GIRTON_ID2) and (not g['cancelled']) for g in person['groups'])
     
     if is_student and is_girton:
         girton_count += 1
