@@ -9,8 +9,12 @@ import csv
 import re
 
 LOOKUP_ENDPOINT = "https://www.lookup.cam.ac.uk/api/v1/person/crsid/"
+# ugrad
 GIRTON_ID1 = "002866"
+# grads
 GIRTON_ID2 = "002880"
+# girton staff
+GIRTON_ID3 = "002836"
 
 parser = argparse.ArgumentParser(description='verify the status of Girton students in a CSV column by email')
 parser.add_argument('path',  help='file path of the CSV relative to `pwd`')
@@ -33,8 +37,13 @@ with open(args.path, newline='') as csvfile:
             continue
         data_cols.append(row[args.col])
 
+data_cols = data_cols[:len(data_cols)-2]
+
 for email in data_cols:
     match = re.match("([\d\w.-]+)@([\d\w.]+)", email)
+
+    if match is None:
+        print(f"👎 unable to match email {email}")
 
     # reject but notify non cambridge emails
     if match.group(2) != "cam.ac.uk":
@@ -59,14 +68,32 @@ for email in data_cols:
 
     # technically, the 'cancelled' field is True if you're still *in* the University for some purpose (staff)
     is_student = not person['cancelled']
-    is_girton = any((g['groupid'] == GIRTON_ID1 or g['groupid'] == GIRTON_ID2) and (not g['cancelled']) for g in person['groups'])
+    groups = person['groups']
     
-    if is_student and is_girton:
-        girton_count += 1
-    elif is_student:
-        print(f"❓ non-Girton email found: {email}")
+    status = None
+    def match_identity(group):
+        if group['groupid'] == GIRTON_ID1:
+            return 'girton undergrad'
+        elif group['groupid'] == GIRTON_ID2:
+            return 'girton postgrad'
+        elif group['groupid'] == GIRTON_ID3:
+            return 'girton other'
+        else:
+            return None
+    for group in groups:
+        identity = match_identity(group)
+        if identity is not None:
+            status = identity
+
+    if status is None:
+        print(person['groups'][0]['name'], person['groups'][1]['name'])
+    else:
+        print(status)
+
+    #if is_student and is_girton:
+    #    girton_count += 1
+    #elif is_student:
+    #    print(f"❓ non-Girton email found: {email}")
 
 print("\n --- \n")
 print(f"processed {len(data_cols)} emails")
-print(f"✅ found {girton_count} Girton students")
-print(f"❌ found {len(data_cols)-girton_count-invalid_count} non-Girton students")
