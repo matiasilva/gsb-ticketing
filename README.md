@@ -1,6 +1,6 @@
 # gsb-ticketing
 
-A collection of tools used for the 2022 Girton Spring Ball Ticketing mess
+A collection of tools used for the 2023 Girton Spring Ball Ticketing
 
 ## girtifier
 
@@ -14,4 +14,4 @@ MIT
 
 ## Credits
 
-Matias Silva 2021 <3
+Matias Silva 2022 <3
