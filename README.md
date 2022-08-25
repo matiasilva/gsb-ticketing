@@ -12,7 +12,7 @@ The source code for the 2023 Girton Spring Ball Ticketing platform built with Dj
 
 ### Main dependencies
 
-* Django
+- Django
 
 ## girtifier
 
@@ -22,9 +22,8 @@ Usage: `python3 girtifier.py -h` to find out.
 
 ## Resources
 
-* [Single app project](https://zindilis.com/posts/django-anatomy-for-single-app/)
-* [Useful prod setup](https://www.oreilly.com/library/view/lightweight-django/9781491946275/ch01.html)
-
+- [Single app project](https://zindilis.com/posts/django-anatomy-for-single-app/)
+- [Useful prod setup](https://www.oreilly.com/library/view/lightweight-django/9781491946275/ch01.html)
 
 ## License
 
