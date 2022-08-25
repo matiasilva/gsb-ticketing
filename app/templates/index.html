@@ -1,68 +1,77 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block style %}
+{% extends "base.html" %} {% load static %} {% block style %}
 <style>
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
+  }
 
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
-}
+  @media only screen and (min-width: 576px) {
+    body {
+      display: flex;
+      align-items: center;
+    }
+  }
 
-@media only screen and (min-width: 576px) {
-	body {
-		display: flex;
-	  	align-items: center;
-	}
-}
-
-.container {
-  max-width: 960px;
-}
-
-
+  .container {
+    max-width: 960px;
+  }
 </style>
 
-{% endblock %}
-
-{% block main %}
+{% endblock %} {% block main %}
 <main class="container w-100">
-  	<div class="p-3 pb-md-4 mx-auto text-center">
+  <div class="p-3 pb-md-4 mx-auto text-center">
     <h1 class="display-4 fw-normal">GSB 2023</h1>
-    <p class="fs-5 text-muted">This is a quick demo of the soon-to-be GSB23 ticketing platform. Ticket holders can change their ticket names and access an electronic version of their ticket. Girton members can purchase tickets.</p>
-    </div>
+    <p class="fs-5 text-muted">
+      This is a quick demo of the soon-to-be GSB23 ticketing platform. Ticket
+      holders can change their ticket names and access an electronic version of
+      their ticket. Girton members can purchase tickets.
+    </p>
+  </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 mb-3 text-center">
-      <div class="col">
-        <div class="card mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">Current Girton members</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">£xx<small class="text-muted fw-light">/ticket</small></h1>
-            <p class="mt-3 mb-4">Log in with Raven to confirm your student status.
-            </p>
-		  	<a href="{% url 'login' %}" class="btn btn-lg btn-gsb-raven w-100">
-		  	<img src="{% static 'images/raven.svg' %}" class="me-2" style="width: 2rem">
-		  		Log in with Raven
-		  	</a>
-  	        </div>
+  <div class="row row-cols-1 row-cols-sm-2 mb-3 text-center">
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Current Girton members</h4>
         </div>
-      </div>
-      <div class="col">
-        <div class="card mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
-            <h4 class="my-0 fw-normal">Alumni</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">£xx<small class="text-muted fw-light">/ticket</small></h1>
-            <p class="mt-3 mb-4">Alumni graduated after 2013 login with Raven, otherwise register below.
-            </p>
-            <button type="button" class="w-100 btn btn-lg btn-primary">Request an account</button>
-          </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            £xx<small class="text-muted fw-light">/ticket</small>
+          </h1>
+          <p class="mt-3 mb-4">
+            Log in with Raven to confirm your student status.
+          </p>
+          <a href="{% url 'login' %}" class="btn btn-lg btn-gsb-raven w-100">
+            <img
+              src="{% static 'images/raven.svg' %}"
+              class="me-2"
+              style="width: 2rem"
+            />
+            Log in with Raven
+          </a>
         </div>
       </div>
     </div>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">Alumni</h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">
+            £xx<small class="text-muted fw-light">/ticket</small>
+          </h1>
+          <p class="mt-3 mb-4">
+            Alumni graduated after 2013 login with Raven, otherwise register
+            below.
+          </p>
+          <button type="button" class="w-100 btn btn-lg btn-primary">
+            Request an account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 {% endblock %}

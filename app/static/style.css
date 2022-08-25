@@ -9,12 +9,12 @@ body {
   --bs-btn-color: var(--bs-white);
   --bs-btn-bg: rgb(16, 100, 112);
   --bs-btn-border-color: rgb(16, 100, 112);
-  --bs-btn-border-radius: .5rem;
+  --bs-btn-border-radius: 0.5rem;
   --bs-btn-hover-color: var(--bs-white);
-  --bs-btn-hover-bg: #0E5A65;
-  --bs-btn-hover-border-color: #0E5A65;
-  --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(16, 100, 112, .5);
+  --bs-btn-hover-bg: #0e5a65;
+  --bs-btn-hover-border-color: #0e5a65;
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(16, 100, 112, 0.5);
   --bs-btn-active-color: var(--bs-btn-hover-color);
-  --bs-btn-active-bg: #0B464E;
-  --bs-btn-active-border-color: #0B464E;
+  --bs-btn-active-bg: #0b464e;
+  --bs-btn-active-border-color: #0b464e;
 }
