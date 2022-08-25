@@ -23,6 +23,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    'ticketing.apps.TicketingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
