@@ -7,8 +7,9 @@ The source code for the 2023 Girton Spring Ball Ticketing platform built with Dj
 1. Create a virtual environment: `python3 -m venv .venv`
 2. Activate the environment: `. .venv/bin/activate`
 3. Install dependencies: `pip install -r requirements.txt`
-4. Source required variables: `. app/dev.sh`
-5. Run Django local server
+4. Set up pre-commit: `pre-commit install`
+5. Source required variables: `. app/dev.sh`
+6. Run Django local server
 
 ### Main dependencies
 
