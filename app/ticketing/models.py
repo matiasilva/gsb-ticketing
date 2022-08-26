@@ -25,8 +25,8 @@ class User(models.Model):
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
     )
 
-    signup_date = models.DateField(default=date.today)
-    last_login_date = models.DateField(default=date.today)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'users'
