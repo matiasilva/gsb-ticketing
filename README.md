@@ -1,6 +1,6 @@
 # gsb-ticketing
 
-The source code for the 2023 Girton Spring Ball Ticketing platform built with Django.
+Django-powered web application for the 2023 Girton Spring Ball Ticketing platform.
 
 ## Development
 
@@ -9,13 +9,17 @@ The source code for the 2023 Girton Spring Ball Ticketing platform built with Dj
 3. Install dependencies: `pip install -r requirements.txt`
 4. Set up pre-commit: `pre-commit install`
 5. Source required variables: `. app/dev.sh`
-6. Run Django local server
+6. Run local development server: `python3 manage.py runserver`
 
 ### Main dependencies
 
 - Django
 
-## girtifier
+## Production
+
+TBD
+
+### girtifier
 
 Verifies that a list of Cambridge emails meet these requirements: current student + current member of Girton College.
 
