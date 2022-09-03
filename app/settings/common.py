@@ -66,9 +66,11 @@ WSGI_APPLICATION = 'wsgi.application'
 # Authentication
 
 AUTHENTICATION_BACKENDS = [
+    'ucamwebauth.backends.RavenAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+AUTH_USER_MODEL = 'ticketing.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

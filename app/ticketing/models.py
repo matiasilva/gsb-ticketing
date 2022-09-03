@@ -1,12 +1,14 @@
 from datetime import date
 
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(models.Model):
-    username = models.CharField(max_length=30)
-    email = models.EmailField()
-    name = models.CharField(max_length=100)
+class User(AbstractUser):
+    # see https://docs.djangoproject.com/en/4.1/ref/contrib/auth/#fields
+    # fields inherited: username, first name, last name, email, password,
+    # groups, user_permissions, is_staff, is_active, is_superuser, last_login
+    # date_joined
 
     class UserStatus(models.TextChoices):
         GIRTON_UGRAD = 0, 'Girton Undergraduate'
@@ -24,12 +26,6 @@ class User(models.Model):
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
     )
-
-    is_authenticated = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'users'
