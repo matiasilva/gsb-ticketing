@@ -4,7 +4,7 @@ from django.db import models
 
 
 class User(models.Model):
-    crsid = models.CharField(max_length=7)
+    username = models.CharField(max_length=30)
     email = models.EmailField()
     name = models.CharField(max_length=100)
 
@@ -24,6 +24,9 @@ class User(models.Model):
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
     )
+
+    is_authenticated = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now_add=True)

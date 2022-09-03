@@ -42,7 +42,10 @@
           <p class="mt-3 mb-4">
             Log in with Raven to confirm your student status.
           </p>
-          <a href="{% url 'login' %}" class="btn btn-lg btn-gsb-raven w-100">
+          <a
+            href="{% url 'social:begin' 'google-oauth2' %}"
+            class="btn btn-lg btn-gsb-raven w-100"
+          >
             <img
               src="{% static 'images/raven.svg' %}"
               class="me-2"
