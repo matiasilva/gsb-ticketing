@@ -74,14 +74,14 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = 'ticketing.User'
 
-UCAMWEBAUTH_LOGIN_URL: 'https://raven.cam.ac.uk/auth/authenticate.html'
-UCAMWEBAUTH_LOGOUT_URL: 'https://demo.raven.cam.ac.uk/auth/logout.html'
+UCAMWEBAUTH_LOGIN_URL = 'https://raven.cam.ac.uk/auth/authenticate.html'
+UCAMWEBAUTH_LOGOUT_URL = 'https://demo.raven.cam.ac.uk/auth/logout.html'
 # UCAMWEBAUTH_RETURN_URL:
 # UCAMWEBAUTH_LOGOUT_REDIRECT: a string representing the URL to where the user is redirected when she logs out of the app
 #    (Default to '/').
-UCAMWEBAUTH_NOT_CURRENT: True
-UCAMWEBAUTH_CERTS: {
-    "2": """-----BEGIN CERTIFICATE-----
+UCAMWEBAUTH_NOT_CURRENT = True
+UCAMWEBAUTH_CERTS = {
+    2: """-----BEGIN CERTIFICATE-----
 MIIDrTCCAxagAwIBAgIBADANBgkqhkiG9w0BAQQFADCBnDELMAkGA1UEBhMCR0Ix
 EDAOBgNVBAgTB0VuZ2xhbmQxEjAQBgNVBAcTCUNhbWJyaWRnZTEgMB4GA1UEChMX
 VW5pdmVyc2l0eSBvZiBDYW1icmlkZ2UxKDAmBgNVBAsTH0NvbXB1dGluZyBTZXJ2
@@ -108,9 +108,9 @@ hAM+a6/30F5fdkWpE1smPyrfASyXRfWE4Ccn1RVgYX9u
 # UCAMWEBAUTH_TIMEOUT:
 # UCAMWEBAUTH_REDIRECT_AFTER_LOGIN: The url where you want to redirect the user after login (Default to '/').
 # UCAMWEBAUTH_CREATE_USER:
-UCAMWEBAUTH_DESC: "Girton Spring Ball 2023 Ticketing"
+UCAMWEBAUTH_DESC = "Girton Spring Ball 2023 Ticketing"
 # UCAMWEBAUTH_IACT:
-UCAMWEBAUTH_MSG: "Authentication required to purchase/manage tickets"
+UCAMWEBAUTH_MSG = "Authentication required to purchase/manage tickets"
 # UCAMWEBAUTH_PARAMS:
 # UCAMWEBAUTH_FAIL:
 

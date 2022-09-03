@@ -10,6 +10,7 @@ def index(request):
 def signup(request):
     if not request.user.is_authenticated:
         return redirect('raven_login')
+    print(request.user)
 
 
 def manage(request):

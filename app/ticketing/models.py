@@ -17,7 +17,9 @@ class User(AbstractUser):
         GIRTON_ALUM = 3, 'Girton Alumnus/a'
         # UCAM_UGRAD, UCAM_PGRAD, EXTERNAL
 
-    status = models.IntegerField(choices=UserStatus.choices)
+    status = models.IntegerField(
+        choices=UserStatus.choices, default=UserStatus.GIRTON_UGRAD
+    )
 
     class UserAuthType(models.TextChoices):
         RAVEN = 0, 'Raven'
