@@ -1,4 +1,4 @@
+./django-ucamwebauth
 Django==4.1
-django-ucamwebauth
 pre-commit
 requests

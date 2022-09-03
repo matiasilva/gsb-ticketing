@@ -14,6 +14,7 @@ Django-powered web application for the 2023 Girton Spring Ball Ticketing platfor
 ### Main dependencies
 
 - Django
+- ucamwebauth (custom fork, needs to be manually installed with `python setup.py install`)
 
 ## Production
 
