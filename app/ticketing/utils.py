@@ -14,7 +14,8 @@ def login_required(
 
         if request.user.is_authenticated:
             # ensure user has entered sign up details before proceeding
-            if not request.user.has_signed_up:
+            if not request.user.has_signed_up and 'signup' not in request.path:
+                # prevent infinite redirect loop
                 return redirect('signup')
             return view_func(request, *args, **kwargs)
 

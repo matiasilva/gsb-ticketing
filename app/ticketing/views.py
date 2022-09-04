@@ -1,3 +1,4 @@
+import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -9,8 +10,14 @@ def index(request):
     return render(request, "index.html")
 
 
+@login_required
 def signup(request):
-    return HttpResponse("Hello, world. You're at the signup index.")
+    lookup_res = requests.get(
+        'https://mw781.user.srcf.net/lookup-gsb.cgi',
+        params={"user": request.user.username},
+    )
+    lookup_res = lookup_res.json()
+    return render(request, "signup.html", {"title": "Signup"})
 
 
 @login_required

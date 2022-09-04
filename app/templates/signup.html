@@ -1,2 +1,63 @@
-{% extends "base.html" %} {% block title %} {% endblock %} {% block main %} {%
-endblock %}
+{% extends "base.html" %} {% block title %}{{title}}{% endblock %} {% block
+style %}
+<style>
+  @media only screen and (min-width: 576px) {
+    body {
+      display: flex;
+      align-items: center;
+    }
+  }
+</style>
+{% endblock %} {% block main %}
+<section class="mb-4">
+  <h1>Confirm your details</h1>
+  <p>
+    You're almost there, we just need to confirm a few more details with you.
+  </p>
+</section>
+<form>
+  <div class="mb-4 bg-light p-3 rounded">
+    <h4>Basic details</h4>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="signup-name" class="form-label">Name</label>
+        <input id="signup-name" type="text" class="form-control" />
+      </div>
+      <div class="col">
+        <label for="signup-surname" class="form-label">Surname</label>
+        <input id="signup-surname" type="text" class="form-control" />
+      </div>
+    </div>
+    <div>
+      <label for="signup-email" class="form-label">Email address </label>
+      <input type="email" class="form-control" id="signup-email" />
+      <div id="signup-email-help" class="form-text">
+        We'll use this email to send you all ticketing-related correspondence,
+        including your tickets.
+      </div>
+    </div>
+  </div>
+  <div class="bg-light p-3 rounded mb-3">
+    <h4>Ticketing status</h4>
+    <div class="row">
+      <label for="signup-membership" class="col-sm-2 col-form-label"
+        >Group</label
+      >
+      <div class="col-sm-10">
+        <input
+          type="text"
+          readonly
+          class="form-control-plaintext"
+          id="signup-membership"
+          value="SOMETHING"
+        />
+      </div>
+    </div>
+    <div id="signup-email-help" class="form-text">
+      Your membership group determines your eligibility to purchase tickets, as
+      per our ticketing policy.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+</form>
+{% endblock %}
