@@ -106,7 +106,7 @@ hAM+a6/30F5fdkWpE1smPyrfASyXRfWE4Ccn1RVgYX9u
 """
 }
 # UCAMWEBAUTH_TIMEOUT:
-# UCAMWEBAUTH_REDIRECT_AFTER_LOGIN: The url where you want to redirect the user after login (Default to '/').
+UCAMWEBAUTH_REDIRECT_AFTER_LOGIN = "/manage"
 # UCAMWEBAUTH_CREATE_USER:
 UCAMWEBAUTH_DESC = "Girton Spring Ball 2023 Ticketing"
 # UCAMWEBAUTH_IACT:
