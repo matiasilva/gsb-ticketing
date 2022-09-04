@@ -16,6 +16,13 @@ Django-powered web application for the 2023 Girton Spring Ball Ticketing platfor
 - Django
 - ucamwebauth (custom fork, needs to be manually installed with `python setup.py install`)
 
+## Lookup requests
+
+Lookup requests are forwarded from a simple CGI script hosted inside the University.
+
+- Move to `public_html`
+- Set appropriate permissions
+
 ## Production
 
 TBD
