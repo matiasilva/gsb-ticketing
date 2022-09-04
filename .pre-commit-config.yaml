@@ -34,3 +34,10 @@ repos:
     rev: v2.30.0
     hooks:
       - id: pyupgrade
+  # djhtml reindents django templates
+  - repo: https://github.com/rtts/djhtml
+    # v1.5.2
+    rev: "b26c430"
+    hooks:
+      - id: djhtml
+        files: .*/templates/.*$
