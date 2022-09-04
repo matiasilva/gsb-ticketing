@@ -51,7 +51,7 @@ def signup(request):
         email = f'{user.username}@cam.ac.uk' if not user.profile.raven_for_life else ''
         form = SignupForm(
             {"name": split_name[0], "surname": split_name[1], "email": email},
-            initial={"status": status.label},
+            initial={"status": user.get_status_display()},
             auto_id='signup_%s',
         )
 
@@ -60,7 +60,7 @@ def signup(request):
 
 @login_required
 def manage(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'manage.html', {"title": "Manage"})
 
 
 def purchase(request):

@@ -40,7 +40,59 @@ class User(AbstractUser):
 
 
 class Ticket(models.Model):
+    purchaser = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # attendee details
+    name = models.CharField(max_length='100')
+    email = models.EmailField(blank=True)
+    dob = models.DateField()
+
+    # internal
+    is_own = models.BooleanField()
+    date_applied = models.DateField(auto_now_add=True)
+    last_changed = models.DateTimeField(auto_now=True)
+
+    # ticket type
+    class TicketType(models.IntegerChoices):
+        STANDARD = 0, 'Standard'
+        QUEUE_JUMP = 1, 'Queue Jump'
+
+    kind = models.IntegerField(choices=TicketType.choices)
+
+    # payment!
+    class PaymentMethod(models.IntegerChoices):
+        COLLEGE_BILL = 0, 'College Bill'
+        BANK_TRANSFER = 1, 'Bank Transfer'
+        CONCESSION = 2, 'Concession'
+
+    payment_method = models.IntegerField(choices=PaymentMethod.choices)
+    has_paid = models.BooleanField(default=False)
+    date_paid = models.DateTimeField(null=True)
+
+    # TODO answers to questions
+    # crsid, then use lookup to extract the below
+    # affiliation: 31 colleges, none
+    # degree level: ugrad, pgrad, alum, none
+    # affiliation -> none implies external (non ucam)
+    # degree level -> none but some affiliation implies staff
+
+    # dietary requirements
+    # drink preferences
+
     class Meta:
         db_table = 'tickets'
 
-    pass
+    def __str__(self):
+        return f"{self.type} {self.purchaser}"
+
+    def get_name(self):
+        if self.is_own:
+            return f"{self.purchaser.first_name} {self.purchaser.last_name}"
+        else:
+            return self.name
+
+    def get_email(self):
+        if self.is_own:
+            return self.purchaser.email
+        else:
+            return self.email
