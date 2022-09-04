@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .utils import login_required
+
 
 def index(request):
 
@@ -8,11 +10,10 @@ def index(request):
 
 
 def signup(request):
-    if not request.user.is_authenticated:
-        return redirect('raven_login')
-    print(request.user)
+    return HttpResponse("Hello, world. You're at the signup index.")
 
 
+@login_required
 def manage(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 

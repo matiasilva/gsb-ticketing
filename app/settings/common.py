@@ -40,9 +40,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'ucamwebauth.middleware.DefaultErrorBehaviour',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'ucamwebauth.middleware.DefaultErrorBehaviour',
 ]
 
 ROOT_URLCONF = 'urls'

@@ -15,10 +15,11 @@ class User(AbstractUser):
         GIRTON_PGRAD = 1, 'Girton Postgraduate'
         GIRTON_STAFF = 2, 'Girton Staff'
         GIRTON_ALUM = 3, 'Girton Alumnus/a'
+        UCAM_OTHER = 4, 'Cambridge member'
         # UCAM_UGRAD, UCAM_PGRAD, EXTERNAL
 
     status = models.IntegerField(
-        choices=UserStatus.choices, default=UserStatus.GIRTON_UGRAD
+        choices=UserStatus.choices, default=UserStatus.UCAM_OTHER
     )
 
     class UserAuthType(models.TextChoices):
@@ -28,6 +29,8 @@ class User(AbstractUser):
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
     )
+
+    has_signed_up = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'users'
