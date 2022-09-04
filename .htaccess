@@ -1,0 +1,6 @@
+Options -Indexes
+RedirectMatch 404 /lookup-gsb.sh
+
+<If "%{HTTP_REFERER} == ''">
+  Redirect permanent "/" "http://www.example.com/"
+</If>
