@@ -2,20 +2,20 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+from .enums import UserStatus
 from .forms import SignupForm
 from .utils import login_required, match_identity
 
 
 def index(request):
 
-    return render(request, "index.html")
+    return render(request, "index.html", {"title": "Home"})
 
 
 @login_required
 def signup(request):
     # aliases
     user = request.user
-    UserStatus = user._meta.model.UserStatus
 
     # in case a cheeky user tries to sign up twice
     if user.has_signed_up:
@@ -60,8 +60,21 @@ def signup(request):
 
 @login_required
 def manage(request):
-    return render(request, 'manage.html', {"title": "Manage"})
+    user = request.user
+    tickets_remaining = user.get_ticket_allowance() - len(user.tickets.all())
+    return render(
+        request,
+        'manage.html',
+        {"title": "Manage", "tickets_remaining": tickets_remaining},
+    )
 
 
-def purchase(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+def buy_ticket(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, "buy_ticket.html", {"title": "Buy"})
+
+
+def buy_change(request):
+    pass

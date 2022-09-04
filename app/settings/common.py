@@ -114,7 +114,6 @@ UCAMWEBAUTH_MSG = "Authentication required to purchase/manage tickets"
 # UCAMWEBAUTH_PARAMS:
 # UCAMWEBAUTH_FAIL:
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

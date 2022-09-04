@@ -1,0 +1,18 @@
+[
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 1,
+    "fields": {
+      "name": "Standard",
+      "price": 135
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 2,
+    "fields": {
+      "name": "Queue Jump",
+      "price": 145
+    }
+  }
+]

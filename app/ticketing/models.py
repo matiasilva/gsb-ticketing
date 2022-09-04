@@ -3,6 +3,15 @@ from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .enums import (
+    PAYMENT_METHOD_MAP,
+    USER_TICKET_ALLOWANCE,
+    PaymentMethod,
+    TicketType,
+    UserAuthType,
+    UserStatus,
+)
+
 
 class User(AbstractUser):
     # see https://docs.djangoproject.com/en/4.1/ref/contrib/auth/#fields
@@ -10,21 +19,9 @@ class User(AbstractUser):
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    class UserStatus(models.IntegerChoices):
-        GIRTON_UGRAD = 0, 'Girton Undergraduate'
-        GIRTON_PGRAD = 1, 'Girton Postgraduate'
-        GIRTON_STAFF = 2, 'Girton Staff'
-        GIRTON_ALUM = 3, 'Girton Alumnus/a'
-        UCAM_OTHER = 4, 'Cambridge University Member'
-        # UCAM_UGRAD, UCAM_PGRAD, EXTERNAL
-
     status = models.IntegerField(
         choices=UserStatus.choices, default=UserStatus.UCAM_OTHER
     )
-
-    class UserAuthType(models.TextChoices):
-        RAVEN = 0, 'Raven'
-        MANUAL = 1, 'Manual'
 
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
@@ -38,12 +35,39 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    def get_ticket_allowance(self):
+        return USER_TICKET_ALLOWANCE[self.status]
+
+    def get_payment_method(self):
+        return PAYMENT_METHOD_MAP[self.status].label
+
+    def is_first_ticket(self):
+        return self.tickets.count() == 0
+
+    def get_available_ticket_kinds(self):
+        # account for ticket kind limits
+        return TicketType.choices
+
+
+class TicketKind(models.Model):
+
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    class Meta:
+        db_table = 'ticketkind'
+
+    def __str__(self):
+        return self.name
+
 
 class Ticket(models.Model):
-    purchaser = models.ForeignKey(User, on_delete=models.CASCADE)
+    purchaser = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='tickets'
+    )
 
     # attendee details
-    name = models.CharField(max_length='100')
+    name = models.CharField(max_length=100)
     email = models.EmailField(blank=True)
     dob = models.DateField()
 
@@ -53,17 +77,9 @@ class Ticket(models.Model):
     last_changed = models.DateTimeField(auto_now=True)
 
     # ticket type
-    class TicketType(models.IntegerChoices):
-        STANDARD = 0, 'Standard'
-        QUEUE_JUMP = 1, 'Queue Jump'
-
-    kind = models.IntegerField(choices=TicketType.choices)
-
-    # payment!
-    class PaymentMethod(models.IntegerChoices):
-        COLLEGE_BILL = 0, 'College Bill'
-        BANK_TRANSFER = 1, 'Bank Transfer'
-        CONCESSION = 2, 'Concession'
+    kind = models.ForeignKey(
+        TicketKind, on_delete=models.CASCADE, related_name='tickets'
+    )
 
     payment_method = models.IntegerField(choices=PaymentMethod.choices)
     has_paid = models.BooleanField(default=False)

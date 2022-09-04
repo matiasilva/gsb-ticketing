@@ -1,16 +1,41 @@
 {% extends "base.html" %} {% block title %}{{title}}{% endblock %}
 
 {% block style %}
-<style>
-  @media only screen and (min-width: 576px) {
-    body {
-      display: flex;
-      align-items: center;
-    }
-  }
-</style>
 {% endblock %}
 
 {% block main %}
-<h1>Manage your tickets</h1>
+<section class="mb-4">
+	<h1 class="mb-3">Buy tickets</h1>
+	<div class="bg-light p-3 rounded">
+		<div class="row text-center">
+			<div class="col">
+				<h4>Your ticket allowance</h4>
+				<span class="fs-5 text-muted">{{ tickets_remaining }}</span>
+			</div>
+			<div class="col">
+				<h4>Ticket group</h4>
+				<span class="fs-5 text-muted">{{ user.get_status_display}}</span>
+			</div>
+			<div class="col align-self-center">
+				{% if tickets_remaining > 0 %}
+				<a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
+				{% else %}
+					<a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+<section class="mb-4">
+	<h1 class="mb-3">Your tickets</h1>
+	{% if user.tickets.all %}
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		{% for ticket in user.tickets.all %}
+		{% include "partials/ticket.html" with ticket=ticket only %}
+		{% endfor %}
+	</div>
+	{% else %}
+	<p>You have not purchased any tickets.</p>
+	{% endif %}
+</section>
 {% endblock %}

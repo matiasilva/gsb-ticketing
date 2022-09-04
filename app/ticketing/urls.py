@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
     path('', include('ucamwebauth.urls')),
     path('manage/', views.manage, name='manage'),
-    path('purchase/', views.purchase, name='purchase'),
     path('signup/', views.signup, name='signup'),
+    path('buy/ticket', views.buy_ticket, name='buy_ticket'),
+    path('buy/change', views.buy_change, name='buy_change'),
     path('', views.index, name='index'),
 ]
