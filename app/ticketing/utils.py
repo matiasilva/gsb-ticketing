@@ -35,3 +35,21 @@ def login_required(
         return redirect_to_login(path, resolved_login_url, redirect_field_name)
 
     return _wrapper_view
+
+
+def match_identity(resp, enum, canceled):
+    # first, check R4L against jdCollege attribute
+    if canceled and resp['college'] == 'GIRTON':
+        return enum.GIRTON_ALUM
+    groups = resp['groups']
+    # match group, if any
+    for group in groups:
+        if group['groupid'] == '002866':
+            return enum.GIRTON_UGRAD
+        elif group['groupid'] == '002880':
+            return enum.GIRTON_PGRAD
+        elif group['groupid'] == '002836':
+            return enum.GIRTON_STAFF
+
+    # if no match found, return other
+    return enum.UCAM_OTHER

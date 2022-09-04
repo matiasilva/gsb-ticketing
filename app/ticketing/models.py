@@ -10,12 +10,12 @@ class User(AbstractUser):
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    class UserStatus(models.TextChoices):
+    class UserStatus(models.IntegerChoices):
         GIRTON_UGRAD = 0, 'Girton Undergraduate'
         GIRTON_PGRAD = 1, 'Girton Postgraduate'
         GIRTON_STAFF = 2, 'Girton Staff'
         GIRTON_ALUM = 3, 'Girton Alumnus/a'
-        UCAM_OTHER = 4, 'Cambridge member'
+        UCAM_OTHER = 4, 'Cambridge University Member'
         # UCAM_UGRAD, UCAM_PGRAD, EXTERNAL
 
     status = models.IntegerField(
