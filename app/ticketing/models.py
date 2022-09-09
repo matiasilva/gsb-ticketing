@@ -7,6 +7,7 @@ from .enums import (
     PAYMENT_METHOD_MAP,
     USER_TICKET_ALLOWANCE,
     PaymentMethod,
+    TicketStatus,
     TicketType,
     UserAuthType,
     UserStatus,
@@ -49,22 +50,11 @@ class User(AbstractUser):
         return TicketType.choices
 
 
-class TicketKind(models.Model):
-
-    name = models.CharField(max_length=100)
-    price = models.IntegerField()
-
-    class Meta:
-        db_table = 'ticketkind'
-
-    def __str__(self):
-        return self.name
-
-
 class Ticket(models.Model):
     purchaser = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='tickets'
     )
+    status = models.IntegerField(choices=TicketStatus.choices)
 
     # attendee details
     name = models.CharField(max_length=100)
@@ -76,13 +66,7 @@ class Ticket(models.Model):
     date_applied = models.DateField(auto_now_add=True)
     last_changed = models.DateTimeField(auto_now=True)
 
-    # ticket type
-    kind = models.ForeignKey(
-        TicketKind, on_delete=models.CASCADE, related_name='tickets'
-    )
-
     payment_method = models.IntegerField(choices=PaymentMethod.choices)
-    has_paid = models.BooleanField(default=False)
     date_paid = models.DateTimeField(null=True)
 
     # TODO answers to questions
@@ -99,7 +83,7 @@ class Ticket(models.Model):
         db_table = 'tickets'
 
     def __str__(self):
-        return f"{self.type} {self.purchaser}"
+        return f"Owned by {self.purchaser}"
 
     def get_name(self):
         if self.is_own:

@@ -26,6 +26,12 @@ class PaymentMethod(models.IntegerChoices):
     CONCESSION = 2, 'Concession'
 
 
+class TicketStatus(models.IntegerChoices):
+    QUEUED = 0, 'Queued'
+    PENDING_PAYMENT = 1, 'Pending payment'
+    CONFIRMED = 2, 'Confirmed'
+
+
 USER_TICKET_ALLOWANCE = {
     UserStatus.GIRTON_UGRAD: 3,
     UserStatus.GIRTON_PGRAD: 3,
