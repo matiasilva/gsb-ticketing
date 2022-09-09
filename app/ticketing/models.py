@@ -56,6 +56,8 @@ class Ticket(models.Model):
     )
     status = models.IntegerField(choices=TicketStatus.choices)
 
+    is_queue_jump = models.BooleanField(default=False)
+
     # attendee details
     name = models.CharField(max_length=100)
     email = models.EmailField(blank=True)
@@ -83,7 +85,9 @@ class Ticket(models.Model):
         db_table = 'tickets'
 
     def __str__(self):
-        return f"Owned by {self.purchaser}"
+        if self.is_queue_jump:
+            return f"Queue jump ticket for {self.name}"
+        return f"Standard ticket for {self.name}"
 
     def get_name(self):
         if self.is_own:
