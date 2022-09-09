@@ -4,38 +4,40 @@
 {% endblock %}
 
 {% block main %}
-<section class="mb-4">
-	<h1 class="mb-3">Buy tickets</h1>
-	<div class="bg-light p-3 rounded">
-		<div class="row text-center">
-			<div class="col">
-				<h4>Your ticket allowance</h4>
-				<span class="fs-5 text-muted">{{ tickets_remaining }}</span>
-			</div>
-			<div class="col">
-				<h4>Ticket group</h4>
-				<span class="fs-5 text-muted">{{ user.get_status_display}}</span>
-			</div>
-			<div class="col align-self-center">
-				{% if tickets_remaining > 0 %}
-				<a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
-				{% else %}
-					<a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</section>
-<section class="mb-4">
-	<h1 class="mb-3">Your tickets</h1>
-	{% if user.tickets.all %}
-	<div class="row row-cols-1 row-cols-md-3 g-4">
-		{% for ticket in user.tickets.all %}
-		{% include "partials/ticket.html" with ticket=ticket only %}
-		{% endfor %}
-	</div>
-	{% else %}
-	<p>You have not purchased any tickets.</p>
-	{% endif %}
-</section>
+    <section class="mb-4">
+        <h1 class="mb-3">Manage tickets</h1>
+        {% if user.tickets.all|length == ticket_allowance %}
+            <!-- case where user has maximum number of tickets -->
+        {% elif user.tickets.all %}
+            <!-- case where user has nonzero number of tickets -->
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for ticket in user.tickets.all %}
+                    {% include "partials/ticket.html" with ticket=ticket only %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- case where user has no tickets -->
+            <p>You have not purchased any tickets.</p>
+        {% endif %}
+        <div class="bg-light p-3 rounded">
+            <div class="row text-center">
+                <div class="col">
+                    <h4>Your ticket allowance</h4>
+                    <span class="fs-5 text-muted">{{ tickets_remaining }}</span>
+                </div>
+                <div class="col">
+                    <h4>Ticket group</h4>
+                    <span class="fs-5 text-muted">{{ user.get_status_display}}</span>
+                </div>
+                <div class="col align-self-center">
+                    {% if tickets_remaining > 0 %}
+                        <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
+                    {% else %}
+                        <a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

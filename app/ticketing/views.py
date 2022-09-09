@@ -61,12 +61,12 @@ def signup(request):
 @login_required
 def manage(request):
     user = request.user
-    tickets_remaining = user.get_ticket_allowance() - len(user.tickets.all())
-    return render(
-        request,
-        'manage.html',
-        {"title": "Manage", "tickets_remaining": tickets_remaining},
-    )
+    context = {
+        "title": "Manage",
+        "tickets_remaining": user.get_ticket_allowance() - len(user.tickets.all()),
+        "ticket_allowance": user.get_ticket_allowance(),
+    }
+    return render(request, "manage.html", context)
 
 
 def buy_ticket(request):
