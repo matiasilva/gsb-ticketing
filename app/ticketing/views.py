@@ -1,9 +1,12 @@
+from datetime import date
+
 import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .enums import UserStatus
-from .forms import SignupForm
+from .forms import BuyTicketForm, SignupForm
+from .models import Ticket
 from .utils import login_required, match_identity
 
 
@@ -69,11 +72,44 @@ def manage(request):
     )
 
 
+@login_required
 def buy_ticket(request):
+    # aliases
+    user = request.user
     if request.method == 'POST':
-        pass
+        is_own = bool(request.POST['is_own'])
+        req_post = request.POST.copy()
+        if is_own:
+            # fill in name and email as disabled form fields are not sent
+            req_post.update({'full_name': user.get_full_name(), 'email': user.email})
+        form = BuyTicketForm(req_post)
+        if form.is_valid():
+            ticket = Ticket(
+                purchaser=user,
+                name=form.cleaned_data['full_name'],
+                email=form.cleaned_data['email'],
+                dob=form.cleaned_data['dob'],
+                is_own=form.cleaned_data['is_own'],
+                kind=form.cleaned_data['kind'],
+                payment_method=user.get_payment_method().value,
+            )
+            ticket.save()
+            return redirect('manage')
+        else:
+            return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
     else:
-        return render(request, "buy_ticket.html", {"title": "Buy"})
+        if user.is_first_own_ticket():
+            form = BuyTicketForm(
+                initial={
+                    "full_name": user.get_full_name(),
+                    "email": user.email,
+                    "is_own": True,
+                },
+                auto_id='buy_ticket_%s',
+            )
+        else:
+            form = BuyTicketForm(auto_id='buy_ticket_%s')
+        return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
 
 
 def buy_change(request):

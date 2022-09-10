@@ -34,19 +34,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     def get_ticket_allowance(self):
         return USER_TICKET_ALLOWANCE[self.status]
 
     def get_payment_method(self):
-        return PAYMENT_METHOD_MAP[self.status].label
+        return PAYMENT_METHOD_MAP[self.status]
 
     def is_first_own_ticket(self):
-        return self.tickets.count(is_own=False) == 0
-
-    def get_available_ticket_kinds(self):
-        pass
-        # account for ticket kind limits
-        # return TicketType.choices
+        return self.tickets.filter(is_own=False).count() == 0
 
 
 class TicketKind(models.Model):
@@ -55,7 +53,7 @@ class TicketKind(models.Model):
     price = models.IntegerField()
 
     class Meta:
-        db_table = 'ticketkind'
+        db_table = 'ticketkinds'
 
     def __str__(self):
         return self.name
@@ -102,7 +100,10 @@ class Ticket(models.Model):
                 fields=['purchaser'],
                 condition=models.Q(is_own=True),
                 name='unique_own_ticket_user',
-            )
+            ),
+            models.CheckConstraint(
+                check=models.Q(dob__lte=date(2005, 3, 17)), name="minimum_age_check"
+            ),
         ]
 
     def __str__(self):
@@ -122,4 +123,7 @@ class Ticket(models.Model):
 
 
 class UserType(models.Model):
+    class Meta:
+        db_table = 'usertypes'
+
     pass
