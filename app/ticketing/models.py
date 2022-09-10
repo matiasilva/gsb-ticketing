@@ -71,7 +71,7 @@ class Ticket(models.Model):
 
     # internal
     is_own = models.BooleanField()
-    date_applied = models.DateField(auto_now_add=True)
+    date_applied = models.DateTimeField(auto_now_add=True)
     last_changed = models.DateTimeField(auto_now=True)
 
     # ticket type
@@ -107,7 +107,7 @@ class Ticket(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.type} {self.purchaser}"
+        return f"{self.kind} {self.purchaser}"
 
     def get_name(self):
         if self.is_own:

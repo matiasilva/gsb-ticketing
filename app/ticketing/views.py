@@ -77,7 +77,7 @@ def buy_ticket(request):
     # aliases
     user = request.user
     if request.method == 'POST':
-        is_own = bool(request.POST['is_own'])
+        is_own = bool(request.POST.get('is_own', False))
         req_post = request.POST.copy()
         if is_own:
             # fill in name and email as disabled form fields are not sent
