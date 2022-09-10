@@ -15,11 +15,6 @@ class UserAuthType(models.TextChoices):
     MANUAL = 1, 'Manual'
 
 
-class TicketType(models.IntegerChoices):
-    STANDARD = 0, 'Standard'
-    QUEUE_JUMP = 1, 'Queue Jump'
-
-
 class PaymentMethod(models.IntegerChoices):
     COLLEGE_BILL = 0, 'College Bill'
     BANK_TRANSFER = 1, 'Bank Transfer'

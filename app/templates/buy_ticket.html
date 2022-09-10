@@ -1,105 +1,115 @@
 {% extends "base.html" %} {% block title %}{{title}}{% endblock %}
 
 {% block main %}
-<section class="mb-4">
-  <h1>Buy a ticket</h1>
-  <p>
-    You are only allowed to buy as many tickets as your ticket allowance permits. The first ticket must be for yourself and subsequent ones will be automatically counted as guest tickets.
-  </p>
-</section>
-{% if form.errors %}
-<section>
-  <div class="alert alert-danger">
-    <h4 class="alert-heading">There's a problem with the data you submitted</h4>
-    <ul class="mb-0">
-      {% for k, v in form.errors.items %} {% for err in v %}
-      <li><strong>{{k}}</strong>: {{err}}</li>
-      {% endfor %} {% endfor %}
-    </ul>
-  </div>
-</section>
-{% endif %}
-<form action="{% url 'buy_ticket' %}" method="post">
-  {% csrf_token %}
-  <div class="mb-4 bg-light p-3 rounded">
-    <h4>Attendee information</h4>
-    <div class="row mb-3">
-      <div class="col">
-        <label for="{{form.full_name.id_for_label}}" class="form-label">Full name</label>
-        <input
-          id="{{form.full_name.id_for_label}}"
-          type="text"
-          class="form-control"
-          name="{{form.full_name.html_name}}"
-          value="{{form.full_name.value}}"
-          {% if user.is_first_ticket %}disabled{% endif %}
-        />
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="{{form.email.id_for_label}}" class="form-label"
-        >Email address
-      </label>
-      <input
-        type="email"
-        class="form-control"
-        id="{{form.email.id_for_label}}"
-        value="{{form.email.value}}"
-        name="{{form.email.html_name}}"
-        {% if user.is_first_ticket %}disabled{% endif %}
-      />
-      <div class="form-text">
-        This is the email of the attendee (your guest). We'll use this email to send them all ticketing-related correspondence,
-        including their tickets.
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="{{form.dob.id_for_label}}" class="form-label">Date of Birth</label>
-      <input class="form-control" type="date" id="{{form.dob.id_for_label}}" name="{{form.dob.html_name}}"
-       value=""
-       max="2005-03-17"
-       />
-    </div>
-    <div class="mb-3">
-      <label for="{{form.kind.id_for_label}}" class="form-label">Ticket type</label>
-      <select class="form-select">
-        {% for kind in user.get_available_ticket_kinds %}
-            <option {% if forloop.first %}selected{% endif %} value="{{kind.0}}">{{kind.1}}</option>
-        {% endfor %}
-      </select>
-    </div>
+    <section class="mb-4">
+        <h1>Buy a ticket</h1>
+        <p>
+            You are only allowed to buy as many tickets as your ticket allowance permits. The first ticket must be for yourself and subsequent ones will be automatically counted as guest tickets.
+        </p>
+    </section>
+    {% if form.errors %}
+        <section>
+            <div class="alert alert-danger">
+                <h4 class="alert-heading">There's a problem with the data you submitted</h4>
+                <ul class="mb-0">
+                    {% for k, v in form.errors.items %} {% for err in v %}
+                        <li><strong>{{k}}</strong>: {{err}}</li>
+                    {% endfor %} {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+    <form action="{% url 'buy_ticket' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-4 bg-light p-3 rounded">
+            <h4>Attendee information</h4>
+            {% if user.is_first_own_ticket %}
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="true" id="{{form.is_own.id_for_label}}" name ="{{form.is_own.html_name}}" checked>
+                        <label class="form-check-label" for="{{form.is_own.id_for_label}}">
+                            Checked checkbox
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="mb-3">
+                <div class="col">
+                    <label for="{{form.full_name.id_for_label}}" class="form-label">Full name</label>
+                    <input
+                        id="{{form.full_name.id_for_label}}"
+                        type="text"
+                        class="form-control"
+                        name="{{form.full_name.html_name}}"
+                        value="{{form.full_name.value}}"
+                        {% if user.is_first_ticket %}disabled{% endif %}
+                    />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="{{form.email.id_for_label}}" class="form-label"
+                >Email address
+                </label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="{{form.email.id_for_label}}"
+                    value="{{form.email.value}}"
+                    name="{{form.email.html_name}}"
+                    {% if user.is_first_ticket %}disabled{% endif %}
+                />
+                <div class="form-text">
+                    This is the email of the attendee (your guest). We'll use this email to send them all ticketing-related correspondence,
+                    including their tickets.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="{{form.dob.id_for_label}}" class="form-label">Date of Birth</label>
+                <input class="form-control" type="date" id="{{form.dob.id_for_label}}" name="{{form.dob.html_name}}"
+                    value=""
+                    max="2005-03-17"
+                />
+            </div>
+            <div class="mb-3">
+                <label for="{{form.kind.id_for_label}}" class="form-label">Ticket type</label>
+                <select class="form-select">
+                    {% for kind in user.get_available_ticket_kinds %}
+                        <option {% if forloop.first %}selected{% endif %} value="{{kind.0}}">{{kind.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-  </div>
-  <div class="bg-light p-3 rounded mb-4">
-    <h4>Payment details</h4>
-    <div class="row mb-3">
-      <label for="buy_ticket_membership" class="col-sm-4 col-form-label"
-        >Method</label
-      >
-      <div class="col-sm-8">
-        <select id="buy_ticket_membership" class="form-select" disabled>
-        <option selected>{{user.get_payment_method}}</option>
-        </select>
-      </div>
-      <div id="buy_ticket_membership_help" class="form-text">
-      Members of {{ user.get_status_display }} are restricted to paying by {{ user.get_payment_method }}.
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label for="buy_ticket_amount" class="col-sm-2 col-form-label"
-        >Amount</label
-      >
-      <div class="col-sm-10">
-        <input
-          type="text"
-          readonly
-          class="form-control-plaintext"
-          id="buy_ticket_amount"
-          value=""
-        />
-      </div>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-</form>
+        </div>
+        <div class="bg-light p-3 rounded mb-4">
+            <h4>Payment details</h4>
+            <div class="row mb-3">
+                <label for="buy_ticket_membership" class="col-sm-4 col-form-label"
+                >Method</label
+                    >
+                    <div class="col-sm-8">
+                        <select id="buy_ticket_membership" class="form-select" disabled>
+                            <option selected>{{user.get_payment_method}}</option>
+                        </select>
+                    </div>
+                    <div id="buy_ticket_membership_help" class="form-text">
+                        Members of {{ user.get_status_display }} are restricted to paying by {{ user.get_payment_method }}.
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="buy_ticket_amount" class="col-sm-2 col-form-label"
+                    >Amount</label
+                        >
+                        <div class="col-sm-10">
+                            <input
+                                type="text"
+                                readonly
+                                class="form-control-plaintext"
+                                id="buy_ticket_amount"
+                                value=""
+                            />
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+            </form>
 {% endblock %}

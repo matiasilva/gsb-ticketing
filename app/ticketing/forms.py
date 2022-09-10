@@ -13,3 +13,4 @@ class TicketBuyForm(forms.Form):
     email = forms.EmailField()
     kind = forms.IntegerField()
     dob = forms.DateField()
+    is_own = forms.BooleanField(required=False)

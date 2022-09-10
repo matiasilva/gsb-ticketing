@@ -7,7 +7,6 @@ from .enums import (
     PAYMENT_METHOD_MAP,
     USER_TICKET_ALLOWANCE,
     PaymentMethod,
-    TicketType,
     UserAuthType,
     UserStatus,
 )
@@ -41,12 +40,13 @@ class User(AbstractUser):
     def get_payment_method(self):
         return PAYMENT_METHOD_MAP[self.status].label
 
-    def is_first_ticket(self):
-        return self.tickets.count() == 0
+    def is_first_own_ticket(self):
+        return self.tickets.count(is_own=False) == 0
 
     def get_available_ticket_kinds(self):
+        pass
         # account for ticket kind limits
-        return TicketType.choices
+        # return TicketType.choices
 
 
 class TicketKind(models.Model):
@@ -97,6 +97,13 @@ class Ticket(models.Model):
 
     class Meta:
         db_table = 'tickets'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['purchaser'],
+                condition=models.Q(is_own=True),
+                name='unique_own_ticket_user',
+            )
+        ]
 
     def __str__(self):
         return f"{self.type} {self.purchaser}"
@@ -112,3 +119,7 @@ class Ticket(models.Model):
             return self.purchaser.email
         else:
             return self.email
+
+
+class UserType(models.Model):
+    pass
