@@ -11,6 +11,12 @@ Django-powered web application for the 2023 Girton Spring Ball Ticketing platfor
 5. Source required variables: `. app/dev.sh`
 6. Run local development server: `python3 manage.py runserver`
 
+### Starting out
+
+1. Any `manage.py` command should automatically create the SQLite database.
+2. Import seed data: `python manage.py loaddata ticketing/fixtures/*`
+3. Migrate the database: `python manage.py migrate`
+
 ### Main dependencies
 
 - Django
