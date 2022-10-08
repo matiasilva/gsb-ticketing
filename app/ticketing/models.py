@@ -3,13 +3,17 @@ from datetime import date
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from .enums import (
-    PAYMENT_METHOD_MAP,
-    USER_TICKET_ALLOWANCE,
-    PaymentMethod,
-    UserAuthType,
-    UserStatus,
-)
+from .enums import UserAuthType
+
+
+class PaymentMethodManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
+class PaymentMethod(models.Model):
+    enum = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
 
 
 class User(AbstractUser):
@@ -18,8 +22,8 @@ class User(AbstractUser):
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    status = models.IntegerField(
-        choices=UserStatus.choices, default=UserStatus.UCAM_OTHER
+    kind = models.ForeignKey(
+        PaymentMethod, on_delete=models.CASCADE, related_name='users'
     )
 
     auth_type = models.IntegerField(
@@ -37,26 +41,40 @@ class User(AbstractUser):
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-    def get_ticket_allowance(self):
-        return USER_TICKET_ALLOWANCE[self.status]
-
-    def get_payment_method(self):
-        return PAYMENT_METHOD_MAP[self.status]
-
     def is_first_own_ticket(self):
         return self.tickets.filter(is_own=False).count() == 0
 
 
+class TicketKindManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
 class TicketKind(models.Model):
 
+    enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
+    requires_first = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'ticketkinds'
 
     def __str__(self):
         return self.name
+
+
+class UserKind(models.Model):
+    enum = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
+    # ideally make this many-to-many relation
+    payment_method = models.ForeignKey(
+        PaymentMethod, on_delete=models.CASCADE, related_name='users_kinds'
+    )
+    allowance = models.IntegerField()
+    ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
+
+    objects = PaymentMethodManager()
 
 
 class Ticket(models.Model):
@@ -79,7 +97,9 @@ class Ticket(models.Model):
         TicketKind, on_delete=models.CASCADE, related_name='tickets'
     )
 
-    payment_method = models.IntegerField(choices=PaymentMethod.choices)
+    payment_method = models.ForeignKey(
+        PaymentMethod, on_delete=models.CASCADE, related_name='tickets'
+    )
     has_paid = models.BooleanField(default=False)
     date_paid = models.DateTimeField(null=True)
 

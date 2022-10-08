@@ -5,6 +5,8 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, resolve_url
 
+from .models import UserKind
+
 
 def login_required(
     view_func=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='raven_login'
@@ -37,19 +39,21 @@ def login_required(
     return _wrapper_view
 
 
-def match_identity(resp, enum, canceled):
+def match_identity(resp, canceled):
     # first, check R4L against jdCollege attribute
     if canceled and resp['college'] == 'GIRTON':
-        return enum.GIRTON_ALUM
+        return UserKind.objects.get(enum="GIRTON_ALUM")
     groups = resp['groups']
     # match group, if any
     for group in groups:
         if group['groupid'] == '002866':
-            return enum.GIRTON_UGRAD
+            return UserKind.objects.get(enum="GIRTON_UGRAD")
         elif group['groupid'] == '002880':
-            return enum.GIRTON_PGRAD
+            return UserKind.objects.get(enum="GIRTON_PGRAD")
         elif group['groupid'] == '002836':
-            return enum.GIRTON_STAFF
+            return UserKind.objects.get(enum="GIRTON_STAFF")
+
+    # TODO: implement friends
 
     # if no match found, return other
-    return enum.UCAM_OTHER
+    return UserKind.objects.get(enum="UCAM_OTHER")

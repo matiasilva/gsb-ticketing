@@ -1,0 +1,73 @@
+[
+  {
+    "model": "ticketing.UserKind",
+    "pk": 1,
+    "fields": {
+      "name": "Girton Undergraduate",
+      "enum": "GIRTON_UGRAD",
+      "allowance": 3,
+      "payment_method": "COLLEGE_BILL",
+      "ticket_kinds": ["S", "QJ", "S_EXT", "QJ_EXT", "BURSARY"]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 2,
+    "fields": {
+      "name": "Girton Postgraduate",
+      "enum": "GIRTON_PGRAD",
+      "allowance": 3,
+      "payment_method": "COLLEGE_BILL",
+      "ticket_kinds": ["S", "QJ", "S_EXT", "QJ_EXT", "BURSARY"]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 3,
+    "fields": {
+      "name": "Girton Staff",
+      "enum": "GIRTON_STAFF",
+      "allowance": 3,
+      "payment_method": "COLLEGE_BILL",
+      "ticket_kinds": ["S", "QJ"]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 4,
+    "fields": {
+      "name": "Girton Alumnus/a",
+      "enum": "GIRTON_ALUM",
+      "allowance": 2,
+      "payment_method": "BANK_TRANSFER",
+      "ticket_kinds": [
+        "S_ALUM_DONATION",
+        "QJ_ALUM_DONATION",
+        "S_ALUM",
+        "QJ_ALUM"
+      ]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 5,
+    "fields": {
+      "name": "Cambridge University Member",
+      "enum": "UCAM_OTHER",
+      "allowance": 2,
+      "payment_method": "BANK_TRANSFER",
+      "ticket_kinds": ["S_EXT", "QJ_EXT"]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 6,
+    "fields": {
+      "name": "Friends",
+      "enum": "FRIENDS",
+      "allowance": 1,
+      "payment_method": "CONCESSION",
+      "ticket_kinds": "S"
+    }
+  }
+]

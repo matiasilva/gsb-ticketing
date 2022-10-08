@@ -4,7 +4,6 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .enums import UserStatus
 from .forms import BuyTicketForm, SignupForm
 from .models import Ticket
 from .utils import login_required, match_identity
@@ -25,8 +24,8 @@ def signup(request):
         return redirect('manage')
 
     if request.method == 'POST':
-        status = UserStatus(request.user.status)
-        form = SignupForm(request.POST, initial={"status": status.label})
+        status = request.user.kind
+        form = SignupForm(request.POST, initial={"status": status.name})
         if form.is_valid():
             user.first_name = form.cleaned_data['name']
             user.last_name = form.cleaned_data['surname']
@@ -42,7 +41,7 @@ def signup(request):
             params={"user": request.user.username},
         )
         lookup_res = lookup_res.json()
-        status = match_identity(lookup_res, UserStatus, user.profile.raven_for_life)
+        status = match_identity(lookup_res, user.profile.raven_for_life)
 
         # db
         user.status = status

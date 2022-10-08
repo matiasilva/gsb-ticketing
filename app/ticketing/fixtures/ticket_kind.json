@@ -3,16 +3,83 @@
     "model": "ticketing.TicketKind",
     "pk": 1,
     "fields": {
+      "enum": "S",
       "name": "Standard",
-      "price": 135
+      "price": 135,
+      "requires_first": true
     }
   },
   {
     "model": "ticketing.TicketKind",
     "pk": 2,
     "fields": {
+      "enum": "QJ",
+      "name": "Queue Jump",
+      "price": 145,
+      "requires_first": true
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 3,
+    "fields": {
+      "enum": "S_EXT",
+      "name": "Standard",
+      "price": 150
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 4,
+    "fields": {
+      "enum": "QJ_EXT",
+      "name": "Queue Jump",
+      "price": 155
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 5,
+    "fields": {
+      "enum": "S_ALUM",
+      "name": "Standard",
+      "price": 135
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 6,
+    "fields": {
+      "enum": "QJ_ALUM",
       "name": "Queue Jump",
       "price": 145
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 7,
+    "fields": {
+      "enum": "S_ALUM_DONATION",
+      "name": "Standard (with donation)",
+      "price": 150
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 8,
+    "fields": {
+      "enum": "QJ_ALUM_DONATION",
+      "name": "Queue Jump (with donation)",
+      "price": 155
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 9,
+    "fields": {
+      "enum": "BURSARY",
+      "name": "Bursary/Hardship",
+      "price": 100
     }
   }
 ]

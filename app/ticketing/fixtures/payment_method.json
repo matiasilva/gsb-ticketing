@@ -1,0 +1,26 @@
+[
+  {
+    "model": "ticketing.PaymentMethod",
+    "pk": 1,
+    "fields": {
+      "name": "College Bill",
+      "enum": "COLLEGE_BILL"
+    }
+  },
+  {
+    "model": "ticketing.PaymentMethod",
+    "pk": 2,
+    "fields": {
+      "name": "Bank Transfer",
+      "enum": "BANK_TRANSFER"
+    }
+  },
+  {
+    "model": "ticketing.PaymentMethod",
+    "pk": 3,
+    "fields": {
+      "name": "Concession",
+      "enum": "CONCESSION"
+    }
+  }
+]
