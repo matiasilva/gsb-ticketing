@@ -44,7 +44,8 @@ def signup(request):
         status = match_identity(lookup_res, user.profile.raven_for_life)
 
         # db
-        user.status = status
+        print(status)
+        user.kind = status
         user.save()
 
         # this is non-ideal, but it's a reasonable compromise

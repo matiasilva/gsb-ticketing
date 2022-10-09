@@ -18,15 +18,45 @@ class PaymentMethod(models.Model):
     objects = PaymentMethodManager()
 
 
+class TicketKindManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
+class TicketKind(models.Model):
+
+    enum = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    requires_first = models.BooleanField(default=False)
+
+    objects = TicketKindManager()
+
+    class Meta:
+        db_table = 'ticketkinds'
+
+    def __str__(self):
+        return self.name
+
+
+class UserKind(models.Model):
+    enum = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
+    # ideally make this many-to-many relation
+    payment_method = models.ForeignKey(
+        PaymentMethod, on_delete=models.CASCADE, related_name='users_kinds'
+    )
+    allowance = models.IntegerField()
+    ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
+
+
 class User(AbstractUser):
     # see https://docs.djangoproject.com/en/4.1/ref/contrib/auth/#fields
     # fields inherited: username, first name, last name, email, password,
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    kind = models.ForeignKey(
-        PaymentMethod, on_delete=models.CASCADE, related_name='users'
-    )
+    kind = models.ForeignKey(UserKind, on_delete=models.CASCADE, related_name='users')
 
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN
@@ -45,38 +75,6 @@ class User(AbstractUser):
 
     def is_first_own_ticket(self):
         return self.tickets.filter(is_own=False).count() == 0
-
-
-class TicketKindManager(models.Manager):
-    def get_by_natural_key(self, enum):
-        return self.get(enum=enum)
-
-
-class TicketKind(models.Model):
-
-    enum = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=100)
-    price = models.IntegerField()
-    requires_first = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = 'ticketkinds'
-
-    def __str__(self):
-        return self.name
-
-    objects = TicketKindManager()
-
-
-class UserKind(models.Model):
-    enum = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=100)
-    # ideally make this many-to-many relation
-    payment_method = models.ForeignKey(
-        PaymentMethod, on_delete=models.CASCADE, related_name='users_kinds'
-    )
-    allowance = models.IntegerField()
-    ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
 
 
 class Ticket(models.Model):
