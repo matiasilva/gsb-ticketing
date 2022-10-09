@@ -17,6 +17,9 @@ class PaymentMethod(models.Model):
 
     objects = PaymentMethodManager()
 
+    def __str__(self):
+        return self.name
+
 
 class TicketKindManager(models.Manager):
     def get_by_natural_key(self, enum):
@@ -56,7 +59,13 @@ class User(AbstractUser):
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    kind = models.ForeignKey(UserKind, on_delete=models.CASCADE, related_name='users')
+    # non nullable but hmm
+    kind = models.ForeignKey(
+        UserKind,
+        on_delete=models.CASCADE,
+        related_name='users',
+        default=UserKind.objects.get(enum='UCAM_OTHER'),
+    )
 
     auth_type = models.IntegerField(
         choices=UserAuthType.choices, default=UserAuthType.RAVEN

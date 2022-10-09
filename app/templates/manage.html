@@ -14,7 +14,7 @@
                 </div>
                 <div class="col">
                     <h4>Ticket group</h4>
-                    <span class="fs-5 text-muted">{{ user.get_status_display}}</span>
+                    <span class="fs-5 text-muted">{{ user.kind.name}}</span>
                 </div>
                 <div class="col align-self-center">
                     {% if tickets_remaining > 0 %}
@@ -29,13 +29,16 @@
     <section class="mb-4">
         <h2 class="mb-3">Your tickets</h2>
         {% if user.tickets.all %}
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <p>These are all the tickets you have requested/purchased.</p>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
                 {% for ticket in user.tickets.all %}
                     {% include "partials/ticket.html" with ticket=ticket only %}
                 {% endfor %}
             </div>
+            <p class="text-muted card-text">All College Bill payments will be cleared once they have been charged on your Lent Term bill. No further action is needed.</p>
         {% else %}
             <p>You have not purchased any tickets.</p>
         {% endif %}
+
     </section>
 {% endblock %}

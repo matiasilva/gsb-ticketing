@@ -1,11 +1,17 @@
 <div class="col">
     <div class="card h-100 {% if not ticket.has_paid %}border-warning{% else %}border-success{% endif %}">
         <div class="card-header">
-            <small class="text-muted">{% if not ticket.has_paid %}Requested{% else %}Purchased{% endif %} {{ ticket.date_applied | timesince }}</small>
+            <small class="text-muted">{% if not ticket.has_paid %}Requested{% else %}Purchased{% endif %} {{ ticket.date_applied | timesince }} ago</small>
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{ticket.name}}</h5>
-            <p class="card-text"></p>
+            <h5 class="card-title">{{ticket.kind}}</h5>
+            <ul class="card-text list-group list-group-flush">
+                <li class="list-group-item"><i class="bi-person-circle me-2"></i>Attendee — {{ticket.name}}</li>
+                <li class="list-group-item"><i class="bi-envelope me-2"></i>Email — {{ticket.email}}</li>
+                <li class="list-group-item"><i class="bi-piggy-bank-fill me-2"></i>Cost — £{{ticket.kind.price}}</li>
+                <li class="list-group-item"><i class="bi-credit-card me-2"></i>Payment — {{ticket.payment_method}}</li>
+                <li class="list-group-item fw-bold">{% if not ticket.has_paid %}<i class="bi-hourglass-split me-2"></i>Status — Pending{% else %}<i class="bi-patch-check me-2"></i>Status — Purchased{% endif %}</li>
+            </ul>
         </div>
 
     </div>

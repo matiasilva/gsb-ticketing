@@ -44,7 +44,6 @@ def signup(request):
         status = match_identity(lookup_res, user.profile.raven_for_life)
 
         # db
-        print(status)
         user.kind = status
         user.save()
 
@@ -54,7 +53,7 @@ def signup(request):
         email = f'{user.username}@cam.ac.uk' if not user.profile.raven_for_life else ''
         form = SignupForm(
             {"name": split_name[0], "surname": split_name[1], "email": email},
-            initial={"status": user.get_status_display()},
+            initial={"status": user.kind.name},
             auto_id='signup_%s',
         )
 
@@ -64,7 +63,7 @@ def signup(request):
 @login_required
 def manage(request):
     user = request.user
-    tickets_remaining = user.get_ticket_allowance() - len(user.tickets.all())
+    tickets_remaining = user.kind.allowance - len(user.tickets.all())
     return render(
         request,
         'manage.html',
@@ -76,13 +75,23 @@ def manage(request):
 def buy_ticket(request):
     # aliases
     user = request.user
+
+    # get valid ticket types
+    if any(user.kind.ticket_kinds.values_list('requires_first', flat=True)):
+        tickets_qs = user.kind.ticket_kinds.filter(
+            requires_first=user.is_first_own_ticket()
+        )
+    else:
+        tickets_qs = user.kind.ticket_kinds.all()
+
     if request.method == 'POST':
-        is_own = bool(request.POST.get('is_own', False))
         req_post = request.POST.copy()
-        if is_own:
+        if user.is_first_own_ticket():
             # fill in name and email as disabled form fields are not sent
-            req_post.update({'full_name': user.get_full_name(), 'email': user.email})
-        form = BuyTicketForm(req_post)
+            req_post.update(
+                {'full_name': user.get_full_name(), 'email': user.email, 'is_own': True}
+            )
+        form = BuyTicketForm(tickets_qs, req_post)
         if form.is_valid():
             ticket = Ticket(
                 purchaser=user,
@@ -91,24 +100,23 @@ def buy_ticket(request):
                 dob=form.cleaned_data['dob'],
                 is_own=form.cleaned_data['is_own'],
                 kind=form.cleaned_data['kind'],
-                payment_method=user.get_payment_method().value,
+                payment_method=user.kind.payment_method,
             )
             ticket.save()
             return redirect('manage')
         else:
             return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
     else:
+
         if user.is_first_own_ticket():
-            form = BuyTicketForm(
-                initial={
-                    "full_name": user.get_full_name(),
-                    "email": user.email,
-                    "is_own": True,
-                },
-                auto_id='buy_ticket_%s',
-            )
+            initial = {
+                "full_name": user.get_full_name(),
+                "email": user.email,
+            }
         else:
-            form = BuyTicketForm(auto_id='buy_ticket_%s')
+            initial = dict()
+
+        form = BuyTicketForm(tickets_qs, initial=initial, auto_id='buy_ticket_%s')
         return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
 
 

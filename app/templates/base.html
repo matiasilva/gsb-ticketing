@@ -59,13 +59,13 @@
     </head>
     <body>
         <header>
-            <nav class="navbar fixed-top" style="background-color: #e3f2fd;">
+            <nav class="navbar" style="background-color: #e3f2fd;">
                 <div class="container-fluid">
                     <a class="mx-auto navbar-brand fs-2" href="#">Girton Spring Ball 2023</a>
                 </div>
             </nav>
         </header>
-        <main class="container">{% block main %}{% endblock %}</main>
+        <main class="container my-3">{% block main %}{% endblock %}</main>
         <!-- lazy load JS -->
         <script src="{% static 'main.js' %}"></script>
         {% block scripts %} {% endblock %}

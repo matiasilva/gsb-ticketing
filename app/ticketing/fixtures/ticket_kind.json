@@ -79,7 +79,8 @@
     "fields": {
       "enum": "BURSARY",
       "name": "Bursary/Hardship",
-      "price": 100
+      "price": 100,
+      "requires_first": true
     }
   }
 ]
