@@ -10,14 +10,14 @@
             <div class="row text-center">
                 <div class="col">
                     <h4>Your ticket allowance</h4>
-                    <span class="fs-5 text-muted">{{ tickets_remaining }}</span>
+                    <span class="fs-5 text-muted">{{ tickets_left }}</span>
                 </div>
                 <div class="col">
                     <h4>Ticket group</h4>
                     <span class="fs-5 text-muted">{{ user.kind.name}}</span>
                 </div>
                 <div class="col align-self-center">
-                    {% if tickets_remaining > 0 %}
+                    {% if tickets_left > 0 %}
                         <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
                     {% else %}
                         <a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>

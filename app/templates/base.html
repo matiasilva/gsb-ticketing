@@ -65,6 +65,16 @@
                 </div>
             </nav>
         </header>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% endif %} d-flex align-items-center justify-content-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>
+                        {{message}}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
         <main class="container my-3">{% block main %}{% endblock %}</main>
         <!-- lazy load JS -->
         <script src="{% static 'main.js' %}"></script>

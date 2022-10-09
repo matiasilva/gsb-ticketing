@@ -1,6 +1,7 @@
 from datetime import date
 
 import requests
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -63,11 +64,10 @@ def signup(request):
 @login_required
 def manage(request):
     user = request.user
-    tickets_remaining = user.kind.allowance - len(user.tickets.all())
     return render(
         request,
         'manage.html',
-        {"title": "Manage", "tickets_remaining": tickets_remaining},
+        {"title": "Manage", "tickets_left": user.tickets_left},
     )
 
 
@@ -75,6 +75,12 @@ def manage(request):
 def buy_ticket(request):
     # aliases
     user = request.user
+
+    if user.tickets_left <= 0:
+        messages.add_message(
+            request, messages.WARNING, 'You have exceeded your ticket allowance.'
+        )
+        return redirect('manage')
 
     # get valid ticket types
     if any(user.kind.ticket_kinds.values_list('requires_first', flat=True)):
@@ -88,9 +94,7 @@ def buy_ticket(request):
         req_post = request.POST.copy()
         if user.is_first_own_ticket():
             # fill in name and email as disabled form fields are not sent
-            req_post.update(
-                {'full_name': user.get_full_name(), 'email': user.email, 'is_own': True}
-            )
+            req_post.update({'full_name': user.get_full_name(), 'email': user.email})
         form = BuyTicketForm(tickets_qs, req_post)
         if form.is_valid():
             ticket = Ticket(
@@ -98,7 +102,7 @@ def buy_ticket(request):
                 name=form.cleaned_data['full_name'],
                 email=form.cleaned_data['email'],
                 dob=form.cleaned_data['dob'],
-                is_own=form.cleaned_data['is_own'],
+                is_own=user.is_first_own_ticket(),
                 kind=form.cleaned_data['kind'],
                 payment_method=user.kind.payment_method,
             )

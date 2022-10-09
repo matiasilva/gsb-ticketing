@@ -85,6 +85,10 @@ class User(AbstractUser):
     def is_first_own_ticket(self):
         return self.tickets.filter(is_own=False).count() == 0
 
+    @property
+    def tickets_left(self):
+        return self.kind.allowance - len(self.tickets.all())
+
 
 class Ticket(models.Model):
     purchaser = models.ForeignKey(
