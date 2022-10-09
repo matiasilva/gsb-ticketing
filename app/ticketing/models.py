@@ -15,6 +15,8 @@ class PaymentMethod(models.Model):
     enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
 
+    objects = PaymentMethodManager()
+
 
 class User(AbstractUser):
     # see https://docs.djangoproject.com/en/4.1/ref/contrib/auth/#fields
@@ -63,6 +65,8 @@ class TicketKind(models.Model):
     def __str__(self):
         return self.name
 
+    objects = TicketKindManager()
+
 
 class UserKind(models.Model):
     enum = models.CharField(max_length=20, unique=True)
@@ -73,8 +77,6 @@ class UserKind(models.Model):
     )
     allowance = models.IntegerField()
     ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
-
-    objects = PaymentMethodManager()
 
 
 class Ticket(models.Model):
