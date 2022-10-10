@@ -4,7 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from .enums import UserAuthType
-from .utils import gen_ticket_id
+
+
+def gen_ticket_id():
+    return f"GSB{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"
 
 
 class PaymentMethodManager(models.Manager):

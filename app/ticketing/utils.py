@@ -58,7 +58,3 @@ def match_identity(resp, canceled):
 
     # if no match found, return other
     return UserKind.objects.get(enum="UCAM_OTHER")
-
-
-def gen_ticket_id():
-    return f"GSB{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"

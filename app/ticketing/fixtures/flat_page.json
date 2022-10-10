@@ -1,0 +1,20 @@
+[
+  {
+    "model": "django.contrib.flatpages.Flatpage",
+    "pk": 1,
+    "fields": {
+      "url": "/privacy/",
+      "title": "Privacy Statement",
+      "template_name": "flatpages/privacy.html"
+    }
+  },
+  {
+    "model": "django.contrib.flatpages.Flatpage",
+    "pk": 2,
+    "fields": {
+      "url": "/terms/",
+      "title": "Terms and Conditions",
+      "template_name": "flatpages/terms.html"
+    }
+  }
+]
