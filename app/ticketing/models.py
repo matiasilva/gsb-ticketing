@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from .enums import UserAuthType
+from .utils import gen_ticket_id
 
 
 class PaymentMethodManager(models.Manager):
@@ -177,6 +178,7 @@ class Ticket(models.Model):
 
     # internal
     is_own = models.BooleanField()
+    uuid = models.CharField(max_length=13, default=gen_ticket_id)
     date_applied = models.DateTimeField(auto_now_add=True)
     last_changed = models.DateTimeField(auto_now=True)
 
