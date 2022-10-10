@@ -65,9 +65,9 @@ def signup(request):
 def manage(request):
     user = request.user
     settings = Setting.objects.get(pk=1)
-    wave = settings.wave
+    wave = settings.current_wave
 
-    eligible = user.can_buy_tickets(wave) or user.tickets_left > 0
+    eligible = user.can_buy_tickets(wave) and (user.tickets_left > 0)
     return render(
         request,
         'manage.html',
@@ -80,7 +80,7 @@ def buy_ticket(request):
     # aliases
     user = request.user
     settings = Setting.objects.get(pk=1)
-    wave = settings.wave
+    wave = settings.current_wave
 
     # eligibility check
 

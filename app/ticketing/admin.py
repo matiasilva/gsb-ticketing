@@ -1,7 +1,24 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
 
-from .models import Ticket, User
+from .models import (
+    PaymentMethod,
+    Setting,
+    Ticket,
+    TicketAllocation,
+    TicketKind,
+    User,
+    UserKind,
+    Wave,
+)
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User)
 admin.site.register(Ticket)
+admin.site.register(Setting)
+admin.site.register(UserKind)
+admin.site.register(Wave)
+admin.site.register(TicketKind)
+admin.site.register(TicketAllocation)
+admin.site.register(PaymentMethod)
+
+admin.site.unregister(Group)

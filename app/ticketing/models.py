@@ -49,6 +49,9 @@ class TicketAllocation(models.Model):
 
     objects = TicketAllocationManager()
 
+    def __str__(self):
+        return self.name
+
 
 class TicketKind(models.Model):
 
@@ -78,6 +81,9 @@ class UserKind(models.Model):
     ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
 
     objects = UserKindManager()
+
+    def __str__(self):
+        return self.name
 
 
 class User(AbstractUser):
