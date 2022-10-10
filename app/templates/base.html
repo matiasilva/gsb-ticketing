@@ -53,18 +53,31 @@
         <meta property="og:description" content="GSB 2023 Ticketing System" />
 
         <!-- internal CSS -->
-        {% block style %}
-            <style></style>
-        {% endblock %}
+        <style>
+            a:not(:hover){
+                text-decoration: none;
+            }
+            {% block style %}
+
+            {% endblock %}
+        </style>
     </head>
     <body>
-        <header>
-            <nav class="navbar" style="background-color: #e3f2fd;">
-                <div class="container-fluid">
-                    <a class="mx-auto navbar-brand fs-2" href="#">Girton Spring Ball 2023</a>
-                </div>
-            </nav>
+        <header class='container my-3'>
+            <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+                <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                    <img src="{% static 'favicon-32x32.png' %}" width="30" height="24" class="d-inline-block align-text-top me-2">
+                    <span class="fs-4">Girton Spring Ball 2023</span>
+                </a>
+
+                <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                    <a class="me-3 py-2 text-dark" href="{% url 'privacy'%}"><i class="bi bi-shield-shaded me-1"></i>Privacy Statement</a>
+                    <a class="me-3 py-2 text-dark" href="{% url 'terms'%}"><i class="bi bi-pencil-square me-1"></i>Terms and Conditions</a>
+                    <a class="py-2 text-dark" href="https://www.girtonball.com#support"><i class="bi bi-patch-question me-1"></i>Support</a>
+                </nav>
+            </div>
         </header>
+
         {% if messages %}
             {% for message in messages %}
                 <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% endif %} d-flex align-items-center justify-content-center">
@@ -75,7 +88,7 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <main class="container my-3">{% block main %}{% endblock %}</main>
+        <main class="container mb-3">{% block main %}{% endblock %}</main>
         <!-- lazy load JS -->
         <script src="{% static 'main.js' %}"></script>
         {% block scripts %} {% endblock %}

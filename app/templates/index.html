@@ -4,73 +4,59 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block style %}
-    <style>
-        body {
-            background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
-        }
+    body {
+    background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
+    }
 
-        .container {
-            max-width: 960px;
-        }
-    </style>
-
+    .container {
+    max-width: 960px;
+    }
 {% endblock %}
 
 {% block main %}
     <div class="p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">GSB 2023</h1>
+        <h1 class="display-4 fw-normal"><span class="rounded px-2" style="background-color: rgba(186,225,255, 0.7);">GSB 2023</span></h1>
         <p class="fs-5 text-muted">
-            This is a quick demo of the soon-to-be GSB23 ticketing platform. Ticket
-            holders can change their ticket names and access an electronic version of
-            their ticket. Girton members can purchase tickets.
+            This is the 2023 Girton Spring Ball ticketing platform.
         </p>
     </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 mb-3 text-center">
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Current Girton members</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">
-                        £xx<small class="text-muted fw-light">/ticket</small>
-                    </h1>
-                    <p class="mt-3 mb-4">
-                        Log in with Raven to confirm your student status.
-                    </p>
-                    <a
-                        href="{% url 'raven_login' %}"
-                        class="btn btn-lg btn-gsb-raven w-100"
-                    >
-                        <img
-                            src="{% static 'images/raven.svg' %}"
-                            class="me-2"
-                            style="width: 2rem"
-                        />
-                        Log in with Raven
-                    </a>
-                </div>
-            </div>
+    <div class="p-3 mb-4" style="background-color: rgba(255,223,186);">
+        <h4>Buy tickets</h4>
+        <ul class="mb-0">
+            <li>Only Girton members (undergraduate, postgraduate, staff, and alumni) are allowed to purchase tickets.</li>
+            <li>Girton members will be charged on their College Bill. Alumni will bank transfer.</li>
+            <li>You are entitled to purchase a set number of tickets. The exact allocation is revealed upon login.</li>
+        </ul>
+    </div>
+
+    <div class="p-3 mb-4" style="background-color: rgba(186,255,201, 0.7);">
+        <h4>Manage tickets</h4>
+        <ul class="mb-0">
+            <li>Once tickets are bought, they cannot be refunded.</li>
+            <li>You are allowed to request a name change, subject to a cost of £xx.</li>
+            <li>Any ticket holder can mark their ticket as 'swappable', after which any member of Cambridge University can purchase it here.</li>
+        </ul>
+    </div>
+
+    <div class="p-3" style="background-color: rgba(255,255,186, 0.7);">
+        <h4>Gaining access</h4>
+        <div class="pb-2  mb-2" style="border-bottom: 1px solid skyblue;">
+            <p>Login with Raven below to buy or manage tickets.</p>
+            <a
+                href="{% url 'raven_login' %}"
+                class="btn btn-lg btn-gsb-raven w-100 mb-2"
+            >
+                <img
+                    src="{% static 'images/raven.svg' %}"
+                    class="me-2"
+                    style="width: 2rem"
+                />
+
+                Log in with Raven
+            </a>
         </div>
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-                <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Alumni</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">
-                        £xx<small class="text-muted fw-light">/ticket</small>
-                    </h1>
-                    <p class="mt-3 mb-4">
-                        Alumni graduated after 2013 login with Raven, otherwise register
-                        below.
-                    </p>
-                    <button type="button" class="w-100 btn btn-lg btn-primary">
-                        Request an account
-                    </button>
-                </div>
-            </div>
-        </div>
+        <p class="mb-0">Are you a pre-2013 alumnus/a? <a href="{% url 'request_account'%}">Request an account</a> or <a href="{% url 'login_manual'%}">log in</a>.</p>
+
     </div>
 {% endblock %}

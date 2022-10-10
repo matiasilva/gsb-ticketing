@@ -11,8 +11,23 @@ from .utils import login_required, match_identity
 
 
 def index(request):
-
     return render(request, "index.html", {"title": "Home"})
+
+
+def privacy(request):
+    return render(request, "privacy.html")
+
+
+def terms(request):
+    return render(request, "terms.html")
+
+
+def request_account(request):
+    return render(request, "request_account.html")
+
+
+def login_manual(request):
+    return render(request, "login_manual.html")
 
 
 @login_required
