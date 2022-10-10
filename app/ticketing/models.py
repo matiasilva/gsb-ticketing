@@ -209,9 +209,7 @@ class Wave(models.Model):
 
 class Setting(models.Model):
 
-    current_wave = models.OneToOneField(
-        Wave, on_delete=models.CASCADE, null=True, default=1
-    )
+    current_wave = models.OneToOneField(Wave, on_delete=models.CASCADE)
 
     # ensure only a single instance
     class Meta:

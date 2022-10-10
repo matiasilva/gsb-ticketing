@@ -64,7 +64,10 @@ def signup(request):
 @login_required
 def manage(request):
     user = request.user
-    eligible = user.can_buy_tickets() or user.tickets_left > 0
+    settings = Setting.objects.get(pk=1)
+    wave = settings.wave
+
+    eligible = user.can_buy_tickets(wave) or user.tickets_left > 0
     return render(
         request,
         'manage.html',
@@ -95,7 +98,7 @@ def buy_ticket(request):
         )
         return redirect('manage')
 
-    tickets_qs = user.get_valid_ticketkinds()
+    tickets_qs = user.get_valid_ticketkinds(wave)
 
     if not tickets_qs.exists():
         messages.add_message(

@@ -1,100 +1,90 @@
 {% extends "base.html" %} {% block title %}{{title}}{% endblock %}
-{% block style %}
-<style>
-  @media only screen and (min-width: 576px) {
-    body {
-      display: flex;
-      align-items: center;
-    }
-  }
-</style>
-{% endblock %}
 
 {% block main %}
-<section class="mb-4">
-  <h1>Confirm your details</h1>
-  <p>
-    You're almost there, we just need to confirm a few more details with you.
-  </p>
-</section>
-{% if form.errors %}
-<section>
-  <div class="alert alert-danger">
-    <h4 class="alert-heading">There's a problem with the data you submitted</h4>
-    <ul class="mb-0">
-      {% for k, v in form.errors.items %} {% for err in v %}
-      <li><strong>{{k}}</strong>: {{err}}</li>
-      {% endfor %} {% endfor %}
-    </ul>
-  </div>
-</section>
-{% endif %}
-<form action="{% url 'signup' %}" method="post">
-  {% csrf_token %}
-  <div class="mb-4 bg-light p-3 rounded">
-    <h4>Basic details</h4>
-    <div class="row mb-3">
-      <div class="col">
-        <label for="{{form.name.id_for_label}}" class="form-label">Name</label>
-        <input
-          id="{{form.name.id_for_label}}"
-          type="text"
-          class="form-control"
-          name="{{form.name.html_name}}"
-          value="{{form.name.value}}"
-        />
-      </div>
-      <div class="col">
-        <label for="{{form.surname.id_for_label}}" class="form-label"
-          >Surname</label
-        >
-        <input
-          id="{{form.surname.id_for_label}}"
-          type="text"
-          class="form-control"
-          name="{{form.surname.html_name}}"
-          value="{{form.surname.value}}"
-        />
-      </div>
-    </div>
-    <div>
-      <label for="{{form.email.id_for_label}}" class="form-label"
-        >Email address
-      </label>
-      <input
-        type="email"
-        class="form-control"
-        id="{{form.email.id_for_label}}"
-        value="{{form.email.value}}"
-        name="{{form.email.html_name}}"
-      />
-      <div class="form-text">
-        We'll use this email to send you all ticketing-related correspondence,
-        including your tickets.
-      </div>
-    </div>
-  </div>
-  <div class="bg-light p-3 rounded mb-3">
-    <h4>Ticketing status</h4>
-    <div class="row">
-      <label for="signup-membership" class="col-sm-2 col-form-label"
-        >Group</label
-      >
-      <div class="col-sm-10">
-        <input
-          type="text"
-          readonly
-          class="form-control-plaintext"
-          id="signup-membership"
-          value="{{form.status.value}}"
-        />
-      </div>
-    </div>
-    <div id="signup-email-help" class="form-text">
-      Your membership group determines your eligibility to purchase tickets, as
-      per our ticketing policy.
-    </div>
-  </div>
-  <button type="submit" class="btn btn-lg btn-primary">Submit</button>
-</form>
+    <section class="mb-4">
+        <h1>Confirm your details</h1>
+        <p>
+            You're almost there, we just need to confirm a few more details with you.
+        </p>
+    </section>
+    {% if form.errors %}
+        <section>
+            <div class="alert alert-danger">
+                <h4 class="alert-heading">There's a problem with the data you submitted</h4>
+                <ul class="mb-0">
+                    {% for k, v in form.errors.items %} {% for err in v %}
+                        <li><strong>{{k}}</strong>: {{err}}</li>
+                    {% endfor %} {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-4 bg-light p-3 rounded">
+            <h4>Basic details</h4>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="{{form.name.id_for_label}}" class="form-label">Name</label>
+                    <input
+                        id="{{form.name.id_for_label}}"
+                        type="text"
+                        class="form-control"
+                        name="{{form.name.html_name}}"
+                        value="{{form.name.value}}"
+                    />
+                </div>
+                <div class="col">
+                    <label for="{{form.surname.id_for_label}}" class="form-label"
+                    >Surname</label
+                        >
+                        <input
+                            id="{{form.surname.id_for_label}}"
+                            type="text"
+                            class="form-control"
+                            name="{{form.surname.html_name}}"
+                            value="{{form.surname.value}}"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <label for="{{form.email.id_for_label}}" class="form-label"
+                    >Email address
+                    </label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="{{form.email.id_for_label}}"
+                        value="{{form.email.value}}"
+                        name="{{form.email.html_name}}"
+                    />
+                    <div class="form-text">
+                        We'll use this email to send you all ticketing-related correspondence,
+                        including your tickets.
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-3 rounded mb-3">
+                <h4>Ticketing status</h4>
+                <div class="row">
+                    <label for="signup-membership" class="col-sm-2 col-form-label"
+                    >Group</label
+                        >
+                        <div class="col-sm-10">
+                            <input
+                                type="text"
+                                readonly
+                                class="form-control-plaintext"
+                                id="signup-membership"
+                                value="{{form.status.value}}"
+                            />
+                        </div>
+                    </div>
+                    <div id="signup-email-help" class="form-text">
+                        Your membership group determines your eligibility to purchase tickets, as
+                        per our ticketing policy.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+            </form>
 {% endblock %}
