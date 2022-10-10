@@ -86,11 +86,9 @@ class User(AbstractUser):
     # groups, user_permissions, is_staff, is_active, is_superuser, last_login
     # date_joined
 
-    # non nullable but hmm
+    # hard-coded..yikes!
     kind = models.ForeignKey(
-        UserKind,
-        on_delete=models.CASCADE,
-        related_name='users',
+        UserKind, on_delete=models.CASCADE, related_name='users', default=5
     )
 
     auth_type = models.IntegerField(
