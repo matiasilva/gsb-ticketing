@@ -3,6 +3,14 @@
     "model": "ticketing.Wave",
     "pk": 1,
     "fields": {
+      "enum": "NONE",
+      "name": "0th wave"
+    }
+  },
+  {
+    "model": "ticketing.Wave",
+    "pk": 2,
+    "fields": {
       "enum": "GIRTON_ONLY",
       "name": "Girton Internal Wave (1st)",
       "ticket_kinds": [["S"], ["QJ"], ["BURSARY"]],
@@ -11,10 +19,26 @@
   },
   {
     "model": "ticketing.Wave",
-    "pk": 2,
+    "pk": 3,
     "fields": {
       "enum": "ALL",
-      "name": "General Release (2nd)"
+      "name": "General Release (2nd)",
+      "ticket_kinds": [
+        ["S"],
+        ["QJ"],
+        ["S_EXT"],
+        ["QJ_EXT"],
+        ["S_ALUM"],
+        ["S_ALUM_DONATION"],
+        ["QJ_ALUM"],
+        ["QJ_ALUM_DONATION"]
+      ],
+      "user_kinds": [
+        ["GIRTON_UGRAD"],
+        ["GIRTON_PGRAD"],
+        ["GIRTON_ALUM"],
+        ["GIRTON_STAFF"]
+      ]
     }
   }
 ]

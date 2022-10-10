@@ -201,7 +201,7 @@ class Wave(models.Model):
 class Setting(models.Model):
 
     current_wave = models.OneToOneField(
-        Wave, on_delete=models.CASCADE, primary_key=True, null=True
+        Wave, on_delete=models.CASCADE, primary_key=True, null=True, default=1
     )
 
     # ensure only a single instance

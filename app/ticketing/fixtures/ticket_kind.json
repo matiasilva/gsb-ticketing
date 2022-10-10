@@ -7,7 +7,7 @@
       "name": "Standard",
       "price": 135,
       "requires_first": true,
-      "allocation": "S_GIRTON"
+      "allocation": ["S_GIRTON"]
     }
   },
   {
@@ -18,7 +18,7 @@
       "name": "Queue Jump",
       "price": 145,
       "requires_first": true,
-      "allocation": "QJ_GIRTON"
+      "allocation": ["QJ_GIRTON"]
     }
   },
   {
@@ -28,7 +28,7 @@
       "enum": "S_EXT",
       "name": "Standard",
       "price": 150,
-      "allocation": "S_EXT"
+      "allocation": ["S_EXT"]
     }
   },
   {
