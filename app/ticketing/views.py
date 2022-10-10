@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import BuyTicketForm, SignupForm
-from .models import Setting, Ticket, TicketKind, UserKind
+from .models import Setting, Ticket, TicketAllocation, TicketKind, UserKind
 from .utils import login_required, match_identity
 
 
@@ -71,7 +71,12 @@ def manage(request):
     return render(
         request,
         'manage.html',
-        {"title": "Manage", "tickets_left": user.tickets_left, "eligible": eligible},
+        {
+            "title": "Manage",
+            "tickets_left": user.tickets_left,
+            "eligible": eligible,
+            "wave": wave,
+        },
     )
 
 
@@ -83,7 +88,6 @@ def buy_ticket(request):
     wave = settings.current_wave
 
     # eligibility check
-
     if not user.can_buy_tickets(wave):
         messages.add_message(
             request,
@@ -113,7 +117,9 @@ def buy_ticket(request):
         if user.is_first_own_ticket():
             # fill in name and email as disabled form fields are not sent
             req_post.update({'full_name': user.get_full_name(), 'email': user.email})
-        form = BuyTicketForm(tickets_qs, req_post)
+        # only handle active tickets from now on
+        tickets_qs_active = tickets_qs.all().filter(allocation__is_active=True)
+        form = BuyTicketForm(tickets_qs_active, req_post)
         if form.is_valid():
             ticket = Ticket(
                 purchaser=user,
@@ -127,9 +133,12 @@ def buy_ticket(request):
             ticket.save()
             return redirect('manage')
         else:
-            return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
+            return render(
+                request,
+                "buy_ticket.html",
+                {"title": "Buy", "form": BuyTicketForm(tickets_qs, req_post)},
+            )
     else:
-
         if user.is_first_own_ticket():
             initial = {
                 "full_name": user.get_full_name(),

@@ -4,7 +4,7 @@
             <small class="text-muted">{% if not ticket.has_paid %}Requested{% else %}Purchased{% endif %} {{ ticket.date_applied | timesince }} ago</small>
         </div>
         <div class="card-body">
-            <h5 class="card-title">{{ticket.kind}}</h5>
+            <h5 class="card-title">{{ticket.kind.name}}</h5>
             <ul class="card-text list-group list-group-flush">
                 <li class="list-group-item"><i class="bi-person-circle me-2"></i>Attendee — {{ticket.name}}</li>
                 <li class="list-group-item"><i class="bi-envelope me-2"></i>Email — {{ticket.email}}</li>

@@ -19,6 +19,28 @@
             </div>
         </section>
     {% endif %}
+    <div class="mb-4 bg-light p-3 rounded">
+        <h4>Ticket availability</h4>
+        <div class="mb-3">
+            {% if user.is_first_own_ticket %}
+                <p>As a member of {{user.kind.name}} you are eligible to buy 1 of:</p>
+                <ul>
+                    {% for kind in form.fields.kind.queryset %}
+                        <li>{{kind.name}} -- {{kind.price}} ({% if kind.is_available %}<span class='text-success'>available</span>{% else %}<span class='text-danger'>sold out</span>{%endif%})</li>
+                    {% endfor %}
+                </ul>
+                <p>Once you have bought your first ticket (for yourself), more ticket types will become available.</p>
+            {% else %}
+                <p>As a member of {{user.kind.name}} you are eligible to buy {{ user.tickets_left }} of:</p>
+                <ul>
+                    {% for kind in form.fields.kind.queryset %}
+                        <li>{{kind.name}} -- {{kind.price}} ({% if kind.is_available %}<span class='text-success'>available</span>{% else %}<span class='text-danger'>sold out</span>{%endif%})</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+
     <form action="{% url 'buy_ticket' %}" method="post">
         {% csrf_token %}
         <div class="mb-4 bg-light p-3 rounded">
@@ -64,7 +86,7 @@
                 <label for="{{form.kind.id_for_label}}" class="form-label">Ticket type</label>
                 <select class="form-select" name="{{form.kind.html_name}}" id="{{form.kind.id_for_label}}">
                     {% for kind in form.fields.kind.queryset %}
-                        <option data-price="{{kind.price}}" value="{{ kind.id|stringformat:'s' }}">{{ kind.name }}</option>
+                        <option data-price="{{kind.price}}" value="{{ kind.id|stringformat:'s' }}">{{ kind.name }} {% if not kind.allocation.is_active %}(unavailable){% endif %}</option>
                     {% endfor %}
                 </select>
             </div>

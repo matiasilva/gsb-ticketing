@@ -77,7 +77,7 @@
     "fields": {
       "enum": "QJ_ALUM_DONATION",
       "name": "Queue Jump (with donation)",
-      "price": 155,
+      "price": 160,
       "allocation": ["QJ_ALUM"]
     }
   },

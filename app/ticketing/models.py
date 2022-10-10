@@ -46,11 +46,19 @@ class TicketAllocation(models.Model):
     enum = models.CharField(max_length=20, unique=True)
     quantity = models.IntegerField()
     name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+    is_visible = models.BooleanField(default=True)
 
     objects = TicketAllocationManager()
 
     def __str__(self):
         return self.name
+
+    def count(self):
+        return Ticket.objects.filter(kind__allocation__pk=self.pk).count()
+
+    def is_available(self):
+        return self.count() < self.quantity
 
 
 class TicketKind(models.Model):
@@ -59,7 +67,9 @@ class TicketKind(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     requires_first = models.BooleanField(default=False)
-    allocation = models.ForeignKey(TicketAllocation, on_delete=models.CASCADE)
+    allocation = models.ForeignKey(
+        TicketAllocation, on_delete=models.CASCADE, related_name='kinds'
+    )
 
     objects = TicketKindManager()
 
@@ -67,7 +77,10 @@ class TicketKind(models.Model):
         db_table = 'ticketkinds'
 
     def __str__(self):
-        return self.name
+        return f"{self.enum}"
+
+    def is_available(self):
+        return self.allocation.available()
 
 
 class UserKind(models.Model):
@@ -113,7 +126,7 @@ class User(AbstractUser):
         return f"{self.first_name} {self.last_name}"
 
     def is_first_own_ticket(self):
-        return self.tickets.filter(is_own=False).count() == 0
+        return self.tickets.filter(is_own=True).count() == 0
 
     def can_buy_tickets(self, wave):
         return wave.user_kinds.all().filter(pk=self.kind.pk).exists()
@@ -127,8 +140,14 @@ class User(AbstractUser):
         else:
             tickets_qs = self.kind.ticket_kinds.all().order_by('-price')
 
-        # second, mask out any ticketkinds not allowed in this wave
-        return tickets_qs.intersection(wave.ticket_kinds.all())
+        # lastly, remove any explicitly hidden tickets
+        tickets_qs = tickets_qs.filter(allocation__is_visible=True)
+
+        # lastly, mask out any ticketkinds not allowed in this wave
+        # hack around limitations of intersection filtering
+        return tickets_qs.filter(
+            id__in=wave.ticket_kinds.all().values_list('id', flat=True)
+        )
 
     @property
     def tickets_left(self):
@@ -185,7 +204,7 @@ class Ticket(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.kind} {self.purchaser}"
+        return f"{self.kind} -- {self.purchaser}"
 
     def get_name(self):
         if self.is_own:
@@ -212,16 +231,12 @@ class Wave(models.Model):
 
     objects = WaveManager()
 
+    def __str__(self):
+        return self.name
+
 
 class Setting(models.Model):
 
     current_wave = models.OneToOneField(Wave, on_delete=models.CASCADE)
 
-    # ensure only a single instance
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                name="%(app_label)s_%(class)s_single_instance",
-                check=models.Q(pk=1),
-            ),
-        ]
+    # TODO: ensure only a single instance
