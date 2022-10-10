@@ -11,6 +11,26 @@ class PaymentMethodManager(models.Manager):
         return self.get(enum=enum)
 
 
+class TicketKindManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
+class UserKindManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
+class WaveManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
+class TicketAllocationManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
 class PaymentMethod(models.Model):
     enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
@@ -21,18 +41,13 @@ class PaymentMethod(models.Model):
         return self.name
 
 
-class TicketKindManager(models.Manager):
-    def get_by_natural_key(self, enum):
-        return self.get(enum=enum)
-
-
 class TicketAllocation(models.Model):
-    def get_by_natural_key(self, enum):
-        return self.get(enum=enum)
 
     enum = models.CharField(max_length=20, unique=True)
     quantity = models.IntegerField()
     name = models.CharField(max_length=100)
+
+    objects = TicketAllocationManager()
 
 
 class TicketKind(models.Model):
@@ -57,10 +72,12 @@ class UserKind(models.Model):
     name = models.CharField(max_length=100)
     # ideally make this many-to-many relation
     payment_method = models.ForeignKey(
-        PaymentMethod, on_delete=models.CASCADE, related_name='users_kinds'
+        PaymentMethod, on_delete=models.CASCADE, related_name='userkinds'
     )
     allowance = models.IntegerField()
     ticket_kinds = models.ManyToManyField(TicketKind, db_table="userkind_ticketkinds")
+
+    objects = UserKindManager()
 
 
 class User(AbstractUser):
@@ -74,7 +91,6 @@ class User(AbstractUser):
         UserKind,
         on_delete=models.CASCADE,
         related_name='users',
-        default=UserKind.objects.get(enum='UCAM_OTHER'),
     )
 
     auth_type = models.IntegerField(
@@ -180,11 +196,6 @@ class Ticket(models.Model):
             return self.email
 
 
-class WaveManager(models.Manager):
-    def get_by_natural_key(self, enum):
-        return self.get(enum=enum)
-
-
 class Wave(models.Model):
     enum = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
@@ -201,7 +212,7 @@ class Wave(models.Model):
 class Setting(models.Model):
 
     current_wave = models.OneToOneField(
-        Wave, on_delete=models.CASCADE, primary_key=True, null=True, default=1
+        Wave, on_delete=models.CASCADE, null=True, default=1
     )
 
     # ensure only a single instance
@@ -209,6 +220,6 @@ class Setting(models.Model):
         constraints = [
             models.CheckConstraint(
                 name="%(app_label)s_%(class)s_single_instance",
-                check=models.Q(id=1),
+                check=models.Q(pk=1),
             ),
         ]
