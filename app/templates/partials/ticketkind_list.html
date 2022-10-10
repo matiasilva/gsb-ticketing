@@ -1,0 +1,5 @@
+<ul>
+    {% for kind in qs %}
+        <li>{{kind.name}} -- £{{kind.price}} ({% if kind.is_available %}<span class='text-success'>available</span>{% else %}<span class='text-danger'>sold out</span>{%endif%})</li>
+    {% endfor %}
+</ul>

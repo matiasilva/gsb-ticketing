@@ -48,7 +48,8 @@
       "enum": "S_ALUM",
       "name": "Standard",
       "price": 135,
-      "allocation": ["S_ALUM"]
+      "allocation": ["S_ALUM"],
+      "requires_first": true
     }
   },
   {
@@ -58,7 +59,8 @@
       "enum": "QJ_ALUM",
       "name": "Queue Jump",
       "price": 145,
-      "allocation": ["QJ_ALUM"]
+      "allocation": ["QJ_ALUM"],
+      "requires_first": true
     }
   },
   {

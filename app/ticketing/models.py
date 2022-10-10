@@ -80,7 +80,7 @@ class TicketKind(models.Model):
         return f"{self.enum}"
 
     def is_available(self):
-        return self.allocation.available()
+        return self.allocation.is_available()
 
 
 class UserKind(models.Model):
@@ -131,23 +131,34 @@ class User(AbstractUser):
     def can_buy_tickets(self, wave):
         return wave.user_kinds.all().filter(pk=self.kind.pk).exists()
 
+    def has_firstonly_ticketkinds(self):
+        return any(self.kind.ticket_kinds.values_list('requires_first', flat=True))
+
     def get_valid_ticketkinds(self, wave):
+        # note: this method obtains all the valid (but not necessarily purchasable) ticket types
+        # use only for displaying readonly information, never for transactions
+
         # first, retrieve all valid ticketkinds for this userkind
-        if any(self.kind.ticket_kinds.values_list('requires_first', flat=True)):
+        if self.has_firstonly_ticketkinds():
             tickets_qs = self.kind.ticket_kinds.filter(
                 requires_first=self.is_first_own_ticket()
             )
         else:
             tickets_qs = self.kind.ticket_kinds.all().order_by('-price')
 
-        # lastly, remove any explicitly hidden tickets
         tickets_qs = tickets_qs.filter(allocation__is_visible=True)
 
-        # lastly, mask out any ticketkinds not allowed in this wave
+        # secondly, mask out any ticketkinds not allowed in this wave
         # hack around limitations of intersection filtering
         return tickets_qs.filter(
             id__in=wave.ticket_kinds.all().values_list('id', flat=True)
         )
+
+    def get_available_ticketkinds(self, wave):
+        # return the ticketkinds available NOW to the user
+        tickets_qs = self.get_valid_ticketkinds(wave)
+        # remove any explicitly hidden or disabled tickets
+        return tickets_qs.filter(allocation__is_active=True).all()
 
     @property
     def tickets_left(self):

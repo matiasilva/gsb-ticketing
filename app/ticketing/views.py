@@ -98,11 +98,13 @@ def buy_ticket(request):
 
     if user.tickets_left <= 0:
         messages.add_message(
-            request, messages.WARNING, 'You have exceeded your ticket allowance.'
+            request,
+            messages.WARNING,
+            'You have reached the limit of your ticket allowance.',
         )
         return redirect('manage')
 
-    tickets_qs = user.get_valid_ticketkinds(wave)
+    tickets_qs = user.get_available_ticketkinds(wave)
 
     if not tickets_qs.exists():
         messages.add_message(
@@ -113,13 +115,13 @@ def buy_ticket(request):
         return redirect('manage')
 
     if request.method == 'POST':
+
         req_post = request.POST.copy()
         if user.is_first_own_ticket():
             # fill in name and email as disabled form fields are not sent
             req_post.update({'full_name': user.get_full_name(), 'email': user.email})
         # only handle active tickets from now on
-        tickets_qs_active = tickets_qs.all().filter(allocation__is_active=True)
-        form = BuyTicketForm(tickets_qs_active, req_post)
+        form = BuyTicketForm(tickets_qs, req_post)
         if form.is_valid():
             ticket = Ticket(
                 purchaser=user,
@@ -130,13 +132,29 @@ def buy_ticket(request):
                 kind=form.cleaned_data['kind'],
                 payment_method=user.kind.payment_method,
             )
-            ticket.save()
+            allocation = ticket.kind.allocation
+            if ticket.kind.is_available():
+                ticket.save()
+                if allocation.count() == allocation.quantity:
+                    # disable ticket allocation once max limit has been reached
+                    allocation.is_active = False
+                    allocation.save()
+            else:
+                messages.add_message(
+                    request,
+                    messages.WARNING,
+                    'That ticket type has sold out!',
+                )
             return redirect('manage')
         else:
             return render(
                 request,
                 "buy_ticket.html",
-                {"title": "Buy", "form": BuyTicketForm(tickets_qs, req_post)},
+                {
+                    "title": "Buy",
+                    "form": form,
+                    "valid_ticketkinds": user.get_valid_ticketkinds(wave),
+                },
             )
     else:
         if user.is_first_own_ticket():
@@ -148,7 +166,15 @@ def buy_ticket(request):
             initial = dict()
 
         form = BuyTicketForm(tickets_qs, initial=initial, auto_id='buy_ticket_%s')
-        return render(request, "buy_ticket.html", {"title": "Buy", "form": form})
+        return render(
+            request,
+            "buy_ticket.html",
+            {
+                "title": "Buy",
+                "form": form,
+                "valid_ticketkinds": user.get_valid_ticketkinds(wave),
+            },
+        )
 
 
 def buy_change(request):
