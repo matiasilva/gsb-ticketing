@@ -1,0 +1,65 @@
+[
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 1,
+    "fields": {
+      "enum": "S_GIRTON",
+      "name": "Girton Standard Internal Allocation",
+      "quantity": 360
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 2,
+    "fields": {
+      "enum": "S_ALUM",
+      "name": "Girton Standard Alumni Allocation",
+      "quantity": 75
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 3,
+    "fields": {
+      "enum": "S_EXT",
+      "name": "Girton Standard Guest Allocation",
+      "quantity": 255
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 4,
+    "fields": {
+      "enum": "BURSARY",
+      "name": "Girton Bursary Allocation",
+      "quantity": 75
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 5,
+    "fields": {
+      "enum": "QJ_GIRTON",
+      "name": "Girton Queue Jump Internal Allocation",
+      "quantity": 65
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 6,
+    "fields": {
+      "enum": "QJ_ALUM",
+      "name": "Girton Queue Jump Alumni Allocation",
+      "quantity": 25
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 7,
+    "fields": {
+      "enum": "QJ_EXT",
+      "name": "Girton Guest Queue Jump Allocation",
+      "quantity": 45
+    }
+  }
+]

@@ -6,7 +6,8 @@
       "enum": "S",
       "name": "Standard",
       "price": 135,
-      "requires_first": true
+      "requires_first": true,
+      "allocation": "S_GIRTON"
     }
   },
   {
@@ -16,7 +17,8 @@
       "enum": "QJ",
       "name": "Queue Jump",
       "price": 145,
-      "requires_first": true
+      "requires_first": true,
+      "allocation": "QJ_GIRTON"
     }
   },
   {
@@ -25,7 +27,8 @@
     "fields": {
       "enum": "S_EXT",
       "name": "Standard",
-      "price": 150
+      "price": 150,
+      "allocation": "S_EXT"
     }
   },
   {
@@ -34,7 +37,8 @@
     "fields": {
       "enum": "QJ_EXT",
       "name": "Queue Jump",
-      "price": 155
+      "price": 155,
+      "allocation": ["QJ_EXT"]
     }
   },
   {
@@ -43,7 +47,8 @@
     "fields": {
       "enum": "S_ALUM",
       "name": "Standard",
-      "price": 135
+      "price": 135,
+      "allocation": ["S_ALUM"]
     }
   },
   {
@@ -52,7 +57,8 @@
     "fields": {
       "enum": "QJ_ALUM",
       "name": "Queue Jump",
-      "price": 145
+      "price": 145,
+      "allocation": ["QJ_ALUM"]
     }
   },
   {
@@ -61,7 +67,8 @@
     "fields": {
       "enum": "S_ALUM_DONATION",
       "name": "Standard (with donation)",
-      "price": 150
+      "price": 150,
+      "allocation": ["S_ALUM"]
     }
   },
   {
@@ -70,7 +77,8 @@
     "fields": {
       "enum": "QJ_ALUM_DONATION",
       "name": "Queue Jump (with donation)",
-      "price": 155
+      "price": 155,
+      "allocation": ["QJ_ALUM"]
     }
   },
   {
@@ -79,8 +87,9 @@
     "fields": {
       "enum": "BURSARY",
       "name": "Bursary/Hardship",
+      "requires_first": true,
       "price": 100,
-      "requires_first": true
+      "allocation": ["BURSARY"]
     }
   }
 ]

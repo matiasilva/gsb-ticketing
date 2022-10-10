@@ -1,0 +1,20 @@
+[
+  {
+    "model": "ticketing.Wave",
+    "pk": 1,
+    "fields": {
+      "enum": "GIRTON_ONLY",
+      "name": "Girton Internal Wave (1st)",
+      "ticket_kinds": [["S"], ["QJ"], ["BURSARY"]],
+      "user_kinds": [["GIRTON_UGRAD"], ["GIRTON_PGRAD"]]
+    }
+  },
+  {
+    "model": "ticketing.Wave",
+    "pk": 2,
+    "fields": {
+      "enum": "ALL",
+      "name": "General Release (2nd)"
+    }
+  }
+]

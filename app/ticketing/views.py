@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import BuyTicketForm, SignupForm
-from .models import Ticket
+from .models import Setting, Ticket, TicketKind, UserKind
 from .utils import login_required, match_identity
 
 
@@ -64,10 +64,11 @@ def signup(request):
 @login_required
 def manage(request):
     user = request.user
+    eligible = user.can_buy_tickets() or user.tickets_left > 0
     return render(
         request,
         'manage.html',
-        {"title": "Manage", "tickets_left": user.tickets_left},
+        {"title": "Manage", "tickets_left": user.tickets_left, "eligible": eligible},
     )
 
 
@@ -75,6 +76,18 @@ def manage(request):
 def buy_ticket(request):
     # aliases
     user = request.user
+    settings = Setting.objects.get(pk=1)
+    wave = settings.wave
+
+    # eligibility check
+
+    if not user.can_buy_tickets(wave):
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'You are not allowed to purchase a ticket in this wave.',
+        )
+        return redirect('manage')
 
     if user.tickets_left <= 0:
         messages.add_message(
@@ -82,13 +95,15 @@ def buy_ticket(request):
         )
         return redirect('manage')
 
-    # get valid ticket types
-    if any(user.kind.ticket_kinds.values_list('requires_first', flat=True)):
-        tickets_qs = user.kind.ticket_kinds.filter(
-            requires_first=user.is_first_own_ticket()
+    tickets_qs = user.get_valid_ticketkinds()
+
+    if not tickets_qs.exists():
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'There are no valid ticket types for you to buy in this wave.',
         )
-    else:
-        tickets_qs = user.kind.ticket_kinds.all()
+        return redirect('manage')
 
     if request.method == 'POST':
         req_post = request.POST.copy()

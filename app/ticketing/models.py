@@ -26,12 +26,22 @@ class TicketKindManager(models.Manager):
         return self.get(enum=enum)
 
 
+class TicketAllocation(models.Model):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+    enum = models.CharField(max_length=20, unique=True)
+    quantity = models.IntegerField()
+    name = models.CharField(max_length=100)
+
+
 class TicketKind(models.Model):
 
     enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     requires_first = models.BooleanField(default=False)
+    allocation = models.ForeignKey(TicketAllocation, on_delete=models.CASCADE)
 
     objects = TicketKindManager()
 
@@ -84,6 +94,21 @@ class User(AbstractUser):
 
     def is_first_own_ticket(self):
         return self.tickets.filter(is_own=False).count() == 0
+
+    def can_buy_tickets(self, wave):
+        return wave.user_kinds.all().filter(pk=self.kind.pk).exists()
+
+    def get_valid_ticketkinds(self, wave):
+        # first, retrieve all valid ticketkinds for this userkind
+        if any(self.kind.ticket_kinds.values_list('requires_first', flat=True)):
+            tickets_qs = self.kind.ticket_kinds.filter(
+                requires_first=self.is_first_own_ticket()
+            )
+        else:
+            tickets_qs = self.kind.ticket_kinds.all().order_by('-price')
+
+        # second, mask out any ticketkinds not allowed in this wave
+        return tickets_qs.intersection(wave.ticket_kinds.all())
 
     @property
     def tickets_left(self):
@@ -155,8 +180,35 @@ class Ticket(models.Model):
             return self.email
 
 
-class UserType(models.Model):
-    class Meta:
-        db_table = 'usertypes'
+class WaveManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
 
-    pass
+
+class Wave(models.Model):
+    enum = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    ticket_kinds = models.ManyToManyField(
+        TicketKind, db_table='ticketkinds_waves', related_name='waves'
+    )
+    user_kinds = models.ManyToManyField(
+        UserKind, db_table='userkinds_waves', related_name='waves'
+    )
+
+    objects = WaveManager()
+
+
+class Setting(models.Model):
+
+    current_wave = models.OneToOneField(
+        Wave, on_delete=models.CASCADE, primary_key=True, null=True
+    )
+
+    # ensure only a single instance
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_single_instance",
+                check=models.Q(id=1),
+            ),
+        ]

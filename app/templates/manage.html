@@ -17,7 +17,7 @@
                     <span class="fs-5 text-muted">{{ user.kind.name}}</span>
                 </div>
                 <div class="col align-self-center">
-                    {% if tickets_left > 0 %}
+                    {% if eligible %}
                         <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
                     {% else %}
                         <a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
