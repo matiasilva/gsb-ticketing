@@ -1,3 +1,0 @@
-[submodule "django-ucamwebauth"]
-	path = django-ucamwebauth
-	url = https://github.com/matiasilva/django-ucamwebauth.git
