@@ -33,6 +33,7 @@ ADMINS = [
 EMAIL_HOST = 'smtp.srcf.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+SERVER_EMAIL = f'{os.environ["EMAIL_HOST_USER"]}@srcf.net'
 
 if 'EMAIL_HOST_USER' in os.environ:
     EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
