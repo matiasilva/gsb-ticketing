@@ -1,9 +1,10 @@
+cd app
 python3 manage.py migrate --check
 
 # check for unapplied migrations
 if [ $? -ne 0 ]
 then
-  python manage.py migrate
+  python3 manage.py migrate
 
   # check for a good exit
   if [ $? -ne 0 ]
