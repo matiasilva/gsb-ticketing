@@ -37,7 +37,7 @@ Because of Reasons, we are using Heroku for deployment.
 Changes to make:
 
 1. Set the right env vars: django_settings_module, secret_key
-2. Push: `git push heroku master` or `git push heroku `git subtree split --prefix app master`:master --force` if you need to get yourself out of a pickle
+2. Push: `git subtree push --prefix app heroku master` or ` git push heroku ``git subtree split --prefix app master``:master --force ` if you need to get yourself out of a pickle
 
 ### girtifier
 
