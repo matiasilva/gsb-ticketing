@@ -1,20 +1,22 @@
 [
   {
-    "model": "django.contrib.flatpages.Flatpage",
+    "model": "flatpages.Flatpage",
     "pk": 1,
     "fields": {
       "url": "/privacy/",
       "title": "Privacy Statement",
-      "template_name": "flatpages/privacy.html"
+      "template_name": "flatpages/privacy.html",
+      "sites": [["example.com"]]
     }
   },
   {
-    "model": "django.contrib.flatpages.Flatpage",
+    "model": "flatpages.Flatpage",
     "pk": 2,
     "fields": {
       "url": "/terms/",
       "title": "Terms and Conditions",
-      "template_name": "flatpages/terms.html"
+      "template_name": "flatpages/terms.html",
+      "sites": [["example.com"]]
     }
   }
 ]
