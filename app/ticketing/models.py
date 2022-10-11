@@ -1,3 +1,4 @@
+import random
 from datetime import date
 
 from django.contrib.auth.models import AbstractUser
