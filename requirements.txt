@@ -1,4 +1,7 @@
 ./django-ucamwebauth
-Django==4.1
-pre-commit
+dj-database-url
+django
+gunicorn
+psycopg2
 requests
+whitenoise
