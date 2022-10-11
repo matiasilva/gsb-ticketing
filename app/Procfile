@@ -1,2 +1,2 @@
-release: app/boot.sh
-web: cd app && gunicorn wsgi
+release: ./boot.sh
+web: gunicorn wsgi

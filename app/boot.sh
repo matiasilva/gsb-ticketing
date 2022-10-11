@@ -1,4 +1,3 @@
-cd app
 python3 manage.py migrate --check
 
 # check for unapplied migrations
