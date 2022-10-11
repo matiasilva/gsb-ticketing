@@ -25,3 +25,15 @@ DATABASES["default"] = dj_database_url.config(
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+ADMINS = [
+    ('Matias', 'info@matiasilva.com'),
+]
+
+EMAIL_HOST = 'smtp.srcf.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+if 'EMAIL_HOST_USER' in os.environ:
+    EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+    EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
