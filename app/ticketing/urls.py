@@ -12,11 +12,6 @@ urlpatterns = [
     path('buy/', views.buy_ticket, name='buy_ticket'),
     path('privacy/', flatpage_views.flatpage, {'url': '/privacy/'}, name='privacy'),
     path('terms/', flatpage_views.flatpage, {'url': '/terms/'}, name='terms'),
-    path(
-        'accounts/request-manual-account/',
-        views.request_account,
-        name='request_account',
-    ),
     path('accounts/login/manual', views.login_manual, name='login_manual'),
     path('', views.index, name='index'),
 ]

@@ -21,3 +21,8 @@ class BuyTicketForm(forms.Form):
     email = forms.EmailField(initial="")
     dob = forms.DateField(initial="")
     kind = forms.ModelChoiceField(queryset=None, initial=1)
+
+
+class ManualLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(max_length=20)

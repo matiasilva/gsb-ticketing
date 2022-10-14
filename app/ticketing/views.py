@@ -22,12 +22,14 @@ def terms(request):
     return render(request, "terms.html")
 
 
-def request_account(request):
-    return render(request, "request_account.html")
-
-
 def login_manual(request):
-    return render(request, "login_manual.html")
+    user = request.user
+
+    if request.method == 'POST':
+        if user.is_authenticated:
+            return redirect('manage')
+    else:
+        return render(request, "login_manual.html")
 
 
 @login_required
