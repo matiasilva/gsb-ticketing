@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import BuyTicketForm, SignupForm
+from .forms import BuyTicketForm, ManualLoginForm, SignupForm
 from .models import Setting, Ticket, TicketAllocation, TicketKind, UserKind
 from .utils import login_required, match_identity
 
@@ -28,8 +28,9 @@ def login_manual(request):
     if request.method == 'POST':
         if user.is_authenticated:
             return redirect('manage')
+
     else:
-        return render(request, "login_manual.html")
+        return render(request, "login_manual.html", {"form": ManualLoginForm()})
 
 
 @login_required
