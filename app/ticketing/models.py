@@ -1,4 +1,4 @@
-import random
+import secrets
 from datetime import date
 
 from django.contrib.auth.models import AbstractUser
@@ -8,7 +8,8 @@ from .enums import UserAuthType
 
 
 def gen_ticket_id():
-    return f"GSB{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"
+    # 32 possibilities * 10 characters = 50 bits of entropy
+    return "GSB" + ''.join(secrets.choice('ABCDEFGHJKLMNPQRSTUVWXYZ23456789') for _ in range(10))
 
 
 class PaymentMethodManager(models.Manager):
