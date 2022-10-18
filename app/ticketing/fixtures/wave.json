@@ -31,13 +31,15 @@
         ["S_ALUM"],
         ["S_ALUM_DONATION"],
         ["QJ_ALUM"],
-        ["QJ_ALUM_DONATION"]
+        ["QJ_ALUM_DONATION"],
+        ["FRIENDS"]
       ],
       "user_kinds": [
         ["GIRTON_UGRAD"],
         ["GIRTON_PGRAD"],
         ["GIRTON_ALUM"],
-        ["GIRTON_STAFF"]
+        ["GIRTON_STAFF"],
+        ["FRIENDS"]
       ]
     }
   }

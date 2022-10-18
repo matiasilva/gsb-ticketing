@@ -85,31 +85,41 @@
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <div class="bg-light p-3 rounded mb-4">
-            <h4>Payment details</h4>
-            <div class="row mb-3">
-                <label for="buy_ticket_membership" class="col-sm-4 col-form-label"
-                >Method</label
-                    >
-                    <div class="col-sm-8">
-                        <select id="buy_ticket_membership" class="form-select" disabled>
-                            <option selected>{{user.kind.payment_method.name}}</option>
-                        </select>
-                    </div>
-                    <div id="buy_ticket_membership_help" class="form-text">
-                        Members of {{ user.kind.name }} are restricted to paying by {{ user.kind.payment_method.name }}.
-                    </div>
+            {% for extra in form.get_extras %}
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{extra.value}}" id="{{extra.id_for_label}}" name ="{{extra.html_name}}" {% if extra.value %}checked{% endif %} data-price={{extra.price}}>
+                    <label class="form-check-label" for="{{extra.id_for_label}}">
+                        {{ extra.label }}
+                    </label>
                 </div>
-                <div class="row">
-                    <div class="col-4">Amount (£)</div>
-                    <div class="col-8 text-end" id="buy_ticket_amount">
-                    </div>
-                </div>
-
             </div>
-            <button type="submit" class="btn btn-lg btn-primary">Purchase</button>
-        </form>
+{% endif %}
+</div>
+<div class="bg-light p-3 rounded mb-4">
+    <h4>Payment details</h4>
+    <div class="row mb-3">
+        <label for="buy_ticket_membership" class="col-sm-4 col-form-label"
+        >Method</label
+            >
+            <div class="col-sm-8">
+                <select id="buy_ticket_membership" class="form-select" disabled>
+                    <option selected>{{user.kind.payment_method.name}}</option>
+                </select>
+            </div>
+            <div id="buy_ticket_membership_help" class="form-text">
+                Members of {{ user.kind.name }} are restricted to paying by {{ user.kind.payment_method.name }}.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">Amount (£)</div>
+            <div class="col-8 text-end" id="buy_ticket_amount">
+            </div>
+        </div>
+
+    </div>
+    <button type="submit" class="btn btn-lg btn-primary">Purchase</button>
+</form>
 {% endblock %}
 
 {% block scripts %}

@@ -23,7 +23,7 @@
     "fields": {
       "enum": "S_EXT",
       "name": "Girton Standard Guest Allocation",
-      "quantity": 255
+      "quantity": 245
     }
   },
   {
@@ -32,7 +32,7 @@
     "fields": {
       "enum": "BURSARY",
       "name": "Girton Bursary Allocation",
-      "quantity": 75
+      "quantity": 100
     }
   },
   {
@@ -59,7 +59,16 @@
     "fields": {
       "enum": "QJ_EXT",
       "name": "Girton Guest Queue Jump Allocation",
-      "quantity": 45
+      "quantity": 35
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 8,
+    "fields": {
+      "enum": "FRIENDS",
+      "name": "Girton Friends Allocation",
+      "quantity": 40
     }
   }
 ]

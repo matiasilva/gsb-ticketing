@@ -36,11 +36,30 @@ class TicketAllocationManager(models.Manager):
         return self.get(enum=enum)
 
 
+class TicketExtraManager(models.Manager):
+    def get_by_natural_key(self, enum):
+        return self.get(enum=enum)
+
+
 class PaymentMethod(models.Model):
     enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
 
     objects = PaymentMethodManager()
+
+    def __str__(self):
+        return self.name
+
+
+class TicketExtra(models.Model):
+    enum = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    label = models.CharField(max_length=100)
+    requires_first = models.BooleanField()
+    opt_out = models.BooleanField()
+
+    objects = TicketExtraManager()
 
     def __str__(self):
         return self.name
@@ -75,6 +94,7 @@ class TicketKind(models.Model):
     allocation = models.ForeignKey(
         TicketAllocation, on_delete=models.CASCADE, related_name='kinds'
     )
+    optional_extras = models.ManyToManyField(TicketExtra)
 
     objects = TicketKindManager()
 
@@ -190,6 +210,7 @@ class Ticket(models.Model):
     kind = models.ForeignKey(
         TicketKind, on_delete=models.CASCADE, related_name='tickets'
     )
+    extras = models.ManyToManyField(TicketExtra, related_name='tickets')
 
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.CASCADE, related_name='tickets'

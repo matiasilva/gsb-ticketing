@@ -1,0 +1,14 @@
+[
+  {
+    "model": "ticketing.TicketExtra",
+    "pk": 1,
+    "fields": {
+      "enum": "ALUM_DONATION",
+      "name": "Alumni donation extra",
+      "price": 15,
+      "label": "I want to donate £15 to the ball",
+      "requires_first": true,
+      "opt_out": true
+    }
+  }
+]
