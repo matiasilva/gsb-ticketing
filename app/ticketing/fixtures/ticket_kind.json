@@ -49,7 +49,8 @@
       "name": "Standard",
       "price": 135,
       "allocation": ["S_ALUM"],
-      "optional_extras": ["ALUM_DONATION"]
+      "optional_extras": [["ALUM_DONATION"]],
+      "requires_first": true
     }
   },
   {
@@ -60,12 +61,33 @@
       "name": "Queue Jump",
       "price": 145,
       "allocation": ["QJ_ALUM"],
-      "optional_extras": ["ALUM_DONATION"]
+      "optional_extras": [["ALUM_DONATION"]],
+      "requires_first": true
     }
   },
   {
     "model": "ticketing.TicketKind",
     "pk": 7,
+    "fields": {
+      "enum": "S_ALUM_EXT",
+      "name": "Standard",
+      "price": 150,
+      "allocation": ["S_ALUM"]
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 8,
+    "fields": {
+      "enum": "QJ_ALUM_EXT",
+      "name": "Queue Jump",
+      "price": 160,
+      "allocation": ["QJ_ALUM"]
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 9,
     "fields": {
       "enum": "BURSARY",
       "name": "Bursary/Participation",
@@ -76,7 +98,7 @@
   },
   {
     "model": "ticketing.TicketKind",
-    "pk": 8,
+    "pk": 10,
     "fields": {
       "enum": "FRIENDS",
       "name": "Friends of GSB",

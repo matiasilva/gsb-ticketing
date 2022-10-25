@@ -124,6 +124,11 @@ def buy_ticket(request):
 
     tickets_qs = user.get_available_ticketkinds(wave)
 
+    # double list comprehension, bonkers!
+    # all_extras = [extra for extras in tickets_qs for extra in extras]
+    # note last value wins
+    # unique_extras = {extra.enum: extra for extra in extras}
+
     if not tickets_qs.exists():
         messages.add_message(
             request,
@@ -183,7 +188,7 @@ def buy_ticket(request):
         else:
             initial = dict()
 
-        form = BuyTicketForm(tickets_qs, initial=initial, auto_id='buy_ticket_%s')
+        form = BuyTicketForm(tickets_qs, initial=initial)
         return render(
             request,
             "buy_ticket.html",

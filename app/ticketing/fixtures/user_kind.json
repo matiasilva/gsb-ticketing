@@ -40,12 +40,7 @@
       "enum": "GIRTON_ALUM",
       "allowance": 2,
       "payment_method": ["BANK_TRANSFER"],
-      "ticket_kinds": [
-        ["S_ALUM_DONATION"],
-        ["QJ_ALUM_DONATION"],
-        ["S_ALUM"],
-        ["QJ_ALUM"]
-      ]
+      "ticket_kinds": [["S_ALUM"], ["QJ_ALUM"], ["S_ALUM_EXT"], ["QJ_ALUM_EXT"]]
     }
   },
   {

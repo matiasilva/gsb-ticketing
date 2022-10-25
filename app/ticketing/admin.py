@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
 from django.contrib.auth.models import Group
-from django.contrib.flatpages import FlatPage
+from django.contrib.flatpages.models import FlatPage
+from django.contrib.sites.models import Site
 
 from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
 
@@ -67,3 +68,4 @@ admin.site.register(TicketAllocation)
 
 admin.site.unregister(Group)
 admin.site.unregister(FlatPage)
+admin.site.unregister(Site)
