@@ -29,9 +29,9 @@
         ["S_EXT"],
         ["QJ_EXT"],
         ["S_ALUM"],
-        ["S_ALUM_DONATION"],
+        ["S_ALUM_EXT"],
         ["QJ_ALUM"],
-        ["QJ_ALUM_DONATION"],
+        ["QJ_ALUM_EXT"],
         ["FRIENDS"]
       ],
       "user_kinds": [

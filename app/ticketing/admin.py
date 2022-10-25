@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
 from django.contrib.auth.models import Group
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
 
@@ -56,7 +57,25 @@ class TicketKindAdmin(admin.ModelAdmin):
 
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ("purchaser", "name", "kind", "has_paid", "payment_method")
+    list_display = (
+        "purchaser",
+        "name",
+        "kind",
+        "has_paid",
+        "payment_method",
+        "has_donated",
+    )
+
+    @admin.display(description='Donated', boolean=True)
+    def has_donated(self, obj):
+        if obj.kind.enum == 'S_ALUM' or obj.kind.enum == 'QJ_ALUM':
+            try:
+                obj.extras.get(enum="ALUM_DONATION")
+                return True
+            except ObjectDoesNotExist:
+                return False
+        else:
+            return None
 
 
 admin.site.register(User, UserAdmin)

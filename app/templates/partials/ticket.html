@@ -9,7 +9,7 @@
                 <li class="list-group-item"><i class="bi-person-circle me-2"></i>Attendee — {{ticket.name}}</li>
                 <li class="list-group-item"><i class="bi-envelope me-2"></i>Email — {{ticket.email}}</li>
                 <li class="list-group-item"><i class="bi-card-list me-2"></i>Subtype — {% if not ticket.is_own %}Guest{% else %}Internal{% endif %}</li>
-                <li class="list-group-item"><i class="bi-piggy-bank-fill me-2"></i>Cost — £{{ticket.kind.price}}</li>
+                <li class="list-group-item"><i class="bi-piggy-bank-fill me-2"></i>Cost — £{{ticket.price}}</li>
                 <li class="list-group-item"><i class="bi-credit-card me-2"></i>Payment — {{ticket.payment_method}}</li>
                 {% if ticket.payment_method.enum == 'BANK_TRANSFER' %}
                     <li class="list-group-item"><i class="bi-keyme-2"></i>Payment reference — {{ ticket.uuid }}</li>

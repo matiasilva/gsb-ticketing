@@ -5,7 +5,7 @@
 
 {% block style %}
     div.mb-3:last-child {
-    margin-bottom: 0px !important;
+    margin-bottom   : 0px !important;
     }
 {% endblock %}
 
@@ -96,10 +96,10 @@
             </div>
             {% for kind in form.fields.kind.queryset %}
                 {% for extra in kind.optional_extras.all %}
-                    <div class="mb-3">
+                    <div class="{% if not forloop.last %}%mb-3{% endif %}" {% if not forloop.parentloop.first %}style="display:none"{% endif %}>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="true" id="{{extra.enum.lower}}" name ="{{extra.enum.lower}}_{{kind.pk}}" {% if extra.opt_out %}checked{% endif %} data-price={{extra.price}}>
-                            <label class="form-check-label" for="{{extra.enum.lower}}">
+                            <input class="extra {{extra.enum.lower}} form-check-input" type="checkbox" value="true" name ="{{extra.enum.lower}}_{{kind.pk}}" {% if extra.opt_out %}checked{% endif %} data-price={{extra.price}} data-kind={{kind.pk}}>
+                            <label class="form-check-label">
                                 {{ extra.label }}
                             </label>
                         </div>

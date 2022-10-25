@@ -2,6 +2,7 @@ import random
 from datetime import date
 
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from .enums import UserAuthType
@@ -169,7 +170,7 @@ class User(AbstractUser):
                 requires_first=self.is_first_own_ticket()
             )
         else:
-            tickets_qs = self.kind.ticket_kinds.all().order_by('-price')
+            tickets_qs = self.kind.ticket_kinds.all()
 
         tickets_qs = tickets_qs.filter(allocation__is_visible=True)
 
@@ -177,7 +178,7 @@ class User(AbstractUser):
         # hack around limitations of intersection filtering
         return tickets_qs.filter(
             id__in=wave.ticket_kinds.all().values_list('id', flat=True)
-        )
+        ).order_by('-price')
 
     def get_available_ticketkinds(self, wave):
         # return the ticketkinds available NOW to the user
@@ -255,6 +256,13 @@ class Ticket(models.Model):
             return self.purchaser.email
         else:
             return self.email
+
+    @property
+    def price(self):
+        sum_extras = 0
+        for extra in self.extras.all():
+            sum_extras = extra.price
+        return sum_extras + self.kind.price
 
 
 class Wave(models.Model):

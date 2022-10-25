@@ -158,6 +158,10 @@ def buy_ticket(request):
             allocation = ticket.kind.allocation
             if ticket.kind.is_available():
                 ticket.save()
+                # hardcoded
+                valid_extra = form.cleaned_data.get(f'alum_donation_{ticket.kind.pk}')
+                if valid_extra:
+                    ticket.extras.add(valid_extra)
                 if allocation.count() == allocation.quantity:
                     # disable ticket allocation once max limit has been reached
                     allocation.is_active = False
