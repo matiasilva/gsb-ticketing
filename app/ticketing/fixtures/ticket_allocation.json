@@ -5,7 +5,7 @@
     "fields": {
       "enum": "S_GIRTON",
       "name": "Girton Standard Internal Allocation",
-      "quantity": 360
+      "quantity": 425
     }
   },
   {
@@ -23,7 +23,7 @@
     "fields": {
       "enum": "S_EXT",
       "name": "Girton Standard Guest Allocation",
-      "quantity": 245
+      "quantity": 165
     }
   },
   {
@@ -41,7 +41,7 @@
     "fields": {
       "enum": "QJ_GIRTON",
       "name": "Girton Queue Jump Internal Allocation",
-      "quantity": 65
+      "quantity": 75
     }
   },
   {
