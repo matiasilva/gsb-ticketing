@@ -115,8 +115,20 @@
             {% endfor %}
         {% endif %}
         <main class="container mb-3 p-3 pb-0">{% block main %}{% endblock %}</main>
-        <footer class="text-center bg-light p-3">
-            <p class="mb-0">GSB ticketing brought to you by Matias 🥐 (<a href="https://www.github.com/matiasilva">@matiasilva</a>) and Krish</p>
+        <footer
+            style="
+                background: url('/static/images/banner.svg') no-repeat;
+                background-position: center; 
+                background-size: cover; 
+                margin-top: 3rem;
+            " 
+            class="text-center p-3"
+        >
+            <p class="mb-0 text-light">
+                GSB ticketing brought to you by 
+                Matias 🥐 (<a href="https://www.github.com/matiasilva" class="text-light "><u>@matiasilva</u></a>) and 
+                Krish 🥛 (<a href="https://www.github.com/k12ish" class="text-light "><u>@k12ish</u></a>)
+            </p>
         </footer>
         <!-- lazy load JS -->
         {% block scripts %} {% endblock %}
