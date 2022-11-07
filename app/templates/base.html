@@ -63,23 +63,46 @@
         </style>
     </head>
     <body>
-        <header class='container my-3'>
-            <div class="d-flex flex-column flex-lg-row align-items-center pb-3 mb-4 border-bottom">
-                <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                    <img src="{% static 'android-chrome-192x192.png' %}" width="30" height="30" class="d-inline-block align-text-top me-2">
-                    <span class="fs-4">Girton Spring Ball 2023</span>
+        <div
+            style="
+            background: url('/static/images/banner.svg') no-repeat;
+            background-position: center;
+            background-size: cover;
+            "
+        >
+            <div class="container">
+            <header
+                class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
+                style="color: white"
+            >
+                <a href="/" class="d-flex mb-3 mb-md-0 me-md-auto">
+                    <img 
+                        src="/static/images/gsb.svg" 
+                        id="title" 
+                        alt="Girton Spring Ball 2023!" 
+                        style="max-width: 30vw; max-height: 14vh; padding: 3vh 3vw;"
+                    />
                 </a>
-
-                <nav class="d-inline-flex mt-2 mt-md-0 ms-lg-auto">
-                    <a class="me-3 py-2 text-dark" href="https://girtonball.com/legal.html"><i class="bi bi-shield-shaded me-1"></i>Privacy Statement</a>
-                    <a class="me-3 py-2 text-dark" href="https://girtonball.com/legal.html"><i class="bi bi-pencil-square me-1"></i>Terms and Conditions</a>
-                    <a class="me-3 py-2 text-dark" href="https://www.girtonball.com#support"><i class="bi bi-patch-question me-1"></i>Support</a>
+        
+                <ul class="nav nav-pills" style="margin-top: auto; margin-bottom: auto">
+                    <li class="nav-item">
+                        <a href="https://girtonball.com/legal.html" class="nav-link text-light"><i class="bi bi-shield-shaded me-1"></i>Privacy Statement</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://girtonball.com/legal.html" class="nav-link text-light"><i class="bi bi-pencil-square me-1"></i>Terms and Conditions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-light"><i class="bi bi-patch-question me-1"></i>Support</a>
+                    </li>
                     {% if user.is_authenticated %}
-                        <a class="py-2 text-dark" href="{% url 'raven_logout' %}"><i class="bi bi-box-arrow-left me-1"></i>Log out</a>
+                        <li class="nav-item">
+                            <a href="{% url 'raven_logout' %}" class="nav-link text-light"><i class="bi bi-box-arrow-left me-1"></i>Log out</a>
+                        </li>
                     {% endif %}
-                </nav>
+                </ul>
+            </header>
             </div>
-        </header>
+        </div> 
 
         {% if messages %}
             {% for message in messages %}
