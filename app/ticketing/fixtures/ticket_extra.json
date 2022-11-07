@@ -4,10 +4,9 @@
     "pk": 1,
     "fields": {
       "enum": "ALUM_DONATION",
-      "name": "Alumni donation extra",
+      "name": "Alumni contribution extra",
       "price": 15,
-      "label": "I want to donate £15 to the ball",
-      "requires_first": true,
+      "label": "I want to contribute £15 to the ball",
       "opt_out": true
     }
   }

@@ -30,10 +30,10 @@ ADMINS = [
     ('Matias', 'info@matiasilva.com'),
 ]
 
-EMAIL_HOST = 'smtp.srcf.net'
+EMAIL_HOST = 'smtp.zeptomail.eu'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-SERVER_EMAIL = f'{os.environ["EMAIL_HOST_USER"]}@srcf.net'
+SERVER_EMAIL = f'it@girtonball.com'
 
 if 'EMAIL_HOST_USER' in os.environ:
     EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]

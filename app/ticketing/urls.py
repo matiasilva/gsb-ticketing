@@ -12,6 +12,7 @@ urlpatterns = [
     path('buy/', views.buy_ticket, name='buy_ticket'),
     path('privacy/', flatpage_views.flatpage, {'url': '/privacy/'}, name='privacy'),
     path('terms/', flatpage_views.flatpage, {'url': '/terms/'}, name='terms'),
-    path('accounts/login/manual', views.login_manual, name='login_manual'),
+    path('accounts/login/guest', views.login_guest, name='login_guest'),
+    path('accounts/signup/guest', views.signup_guest, name='signup_guest'),
     path('', views.index, name='index'),
 ]

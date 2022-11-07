@@ -2,8 +2,10 @@ from datetime import date
 
 import requests
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 
 from .forms import BuyTicketForm, ManualLoginForm, SignupForm
 from .models import Setting, Ticket, TicketAllocation, TicketKind, UserKind
@@ -14,15 +16,7 @@ def index(request):
     return render(request, "index.html", {"title": "Home"})
 
 
-def privacy(request):
-    return render(request, "privacy.html")
-
-
-def terms(request):
-    return render(request, "terms.html")
-
-
-def login_manual(request):
+def login_guest(request):
     user = request.user
 
     if request.method == 'POST':
@@ -31,6 +25,10 @@ def login_manual(request):
 
     else:
         return render(request, "login_manual.html", {"form": ManualLoginForm()})
+
+
+def signup_guest(request):
+    pass
 
 
 @login_required
@@ -162,6 +160,16 @@ def buy_ticket(request):
                 valid_extra = form.cleaned_data.get(f'alum_donation_{ticket.kind.pk}')
                 if valid_extra:
                     ticket.extras.add(valid_extra)
+
+                # send confirmation email
+                msg = render_to_string("emails/buy.txt", {"ticket": ticket})
+                send_mail(
+                    'GSB23 Ticketing: Ticket Confirmation',
+                    msg,
+                    'it@girtonball.com',
+                    ticket.email,
+                )
+
                 if allocation.count() == allocation.quantity:
                     # disable ticket allocation once max limit has been reached
                     allocation.is_active = False

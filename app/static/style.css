@@ -4,10 +4,6 @@ body {
 }
 */
 
-html {
-  height: 100%;
-}
-
 /* raven button styling */
 
 .btn-gsb-raven {
@@ -22,4 +18,18 @@ html {
   --bs-btn-active-color: var(--bs-btn-hover-color);
   --bs-btn-active-bg: #0b464e;
   --bs-btn-active-border-color: #0b464e;
+}
+
+.btn-gsb-alum {
+  --bs-btn-color: var(--bs-white);
+  --bs-btn-bg: rgb(62, 63, 131);
+  --bs-btn-border-color: rgb(62, 63, 131);
+  --bs-btn-border-radius: 0.5rem;
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: #3e3f83;
+  --bs-btn-hover-border-color: #3e3f83;
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(62, 63, 131, 0.5);
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: #373876;
+  --bs-btn-active-border-color: #373876;
 }

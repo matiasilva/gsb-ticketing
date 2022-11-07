@@ -31,7 +31,7 @@
         <ul class="mb-0">
             <li>Once tickets are bought, they cannot be refunded.</li>
             <li>You are allowed to request a name change, subject to a cost of £xx.</li>
-            <li>Any ticket holder can mark their ticket as 'swappable', after which any member of Cambridge University can purchase it here.</li>
+            <li>Email<a href="mailto:it@girtonball.com"> it@girtonball.com</a> for any queries.</li>
         </ul>
     </div>
 
@@ -51,8 +51,20 @@
 
                 Log in with Raven
             </a>
+            <a
+                href="{% url 'login_manual' %}"
+                class="btn btn-lg btn-gsb-alum w-100 mb-2"
+            >
+                <img
+                    src="{% static 'images/squirrel.png' %}"
+                    class="me-2"
+                    style="width: 30px"
+                />
+
+                Alumni login
+            </a>
         </div>
-        <p class="mb-0">Are you a pre-2013 alumnus/a? Email<a href="mailto:it@girtonball.com"> it@girtonball.com</a> with your date of matriculation, date of graduation, subject and full name to request an account then <a href="{% url 'login_manual'%}">log in</a>.</p>
+        <p class="mb-0">Alumni are expected to use the code given to them by the Development Office to create an account the first time. Tickets can then be managed by using the 'alumni login' shown above.</p>
 
     </div>
 {% endblock %}

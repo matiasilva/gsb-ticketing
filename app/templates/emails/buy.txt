@@ -1,0 +1,30 @@
+Hi {ticket.name},
+
+You've bought a {ticket.name} {%if not ticket.is_own %} (Guest) {% endif %} ticket to the 2023 Girton Spring Ball at the cost of £{ticket.price}. This is a confirmation email.
+
+{% if ticket.payment_method.enum == 'COLLEGE_BILL' %}
+The amount due will be debited from your Lent Term College Bill. Once confirmation of this has been received from the Bursary Clerk, your ticket purchase will be marked as 'completed'. Until then, it will show up as 'pending'. Rest assured, your ticket has been secured.
+{% elif ticket.payment_method.enum == 'BANK_TRANSFER' %}
+The amount due must be paid to the bank account (details follow) within a week of purchase. After this, the tickets will be re-released into the pool where they can be bought by other interested buyers.
+
+IMPORTANT: The exact payment reference provided must be used. This is also availble on the ticketing platform in case you want to consult this at a later time.
+
+Account Name : Girton Ball
+Bank Name : Barclays Bank
+Sort Code : 20-17-68
+Account Number : 50402508
+Reference : {ticket.uuid}
+
+For payments from Overseas:
+IBAN Number : GB48BARC20176850402508
+SwiftBic Code : BARCGB22
+{% else %}
+No payment is necessary!
+{% endif %}
+
+For any queries about your ticket, please email it@girtonball.com or reply to this email.
+
+Best,
+
+Matias & Krish
+GSB23 IT & Ticketing
