@@ -1,0 +1,11 @@
+[
+  {
+    "model": "ticketing.PromoCode",
+    "pk": 1,
+    "fields": {
+      "enum": "ALUM_SIGNUP",
+      "value": "hehehahahuhu",
+      "description": "Allows alumni to access the account creation portal (one-time only)."
+    }
+  }
+]

@@ -5,7 +5,15 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
+from .models import (
+    PromoCode,
+    Setting,
+    Ticket,
+    TicketAllocation,
+    TicketKind,
+    User,
+    UserKind,
+)
 
 
 class UserAdmin(UserAdminOriginal):
@@ -84,6 +92,7 @@ admin.site.register(TicketKind, TicketKindAdmin)
 admin.site.register(Setting)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
+admin.site.register(PromoCode)
 
 admin.site.unregister(Group)
 admin.site.unregister(FlatPage)

@@ -265,6 +265,12 @@ class Ticket(models.Model):
         return sum_extras + self.kind.price
 
 
+class PromoCode(models.Model):
+    enum = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
+    value = models.CharField(max_length=30)
+
+
 class Wave(models.Model):
     enum = models.CharField(max_length=20)
     name = models.CharField(max_length=100)

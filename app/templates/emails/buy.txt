@@ -22,6 +22,8 @@ SwiftBic Code : BARCGB22
 No payment is necessary!
 {% endif %}
 
+Your ticket number is {ticket.uuid}. Please quote this in all future correspondence with us.
+
 For any queries about your ticket, please email it@girtonball.com or reply to this email.
 
 Best,

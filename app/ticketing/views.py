@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
-from .forms import BuyTicketForm, ManualLoginForm, SignupForm
+from .forms import BuyTicketForm, ManualLoginForm, PromoCodeForm, SignupForm
 from .models import Setting, Ticket, TicketAllocation, TicketKind, UserKind
 from .utils import login_required, match_identity
 
@@ -19,12 +19,24 @@ def index(request):
 def login_guest(request):
     user = request.user
 
-    if request.method == 'POST':
-        if user.is_authenticated:
-            return redirect('manage')
+    # in case a logged-in user tries to log in
+    if user.is_authenticated:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'You\'re already logged in!',
+        )
+        return redirect('manage')
 
+    # only unauthenticated users here
+    if request.method == 'POST':
+        pass
     else:
-        return render(request, "login_manual.html", {"form": ManualLoginForm()})
+        return render(
+            request,
+            "login_manual.html",
+            {"manual_login_form": ManualLoginForm(), "promocode_form": PromoCodeForm()},
+        )
 
 
 def signup_guest(request):
