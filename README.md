@@ -38,6 +38,9 @@ Changes to make:
 
 1. Set the right env vars: django_settings_module, secret_key
 2. Push: `git subtree push --prefix app heroku master` or ` git push heroku ``git subtree split --prefix app master``:master --force ` if you need to get yourself out of a pickle
+3. Set yourself as superuser and staff via psql
+4. Clean up any migrations, shortcuts: `heroku run bash` or `heroku psql`
+5. Set the right promocode, change the wave, etc
 
 ### girtifier
 
