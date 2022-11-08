@@ -33,13 +33,14 @@ class BuyTicketForm(forms.Form):
 
 class GuestLoginForm(forms.Form):
     email = forms.EmailField()
-    password = forms.CharField(max_length=20)
+    passphrase = forms.CharField(max_length=20)
 
 
 class GuestSignupForm(forms.Form):
     name = forms.CharField(max_length=100)
     surname = forms.CharField(max_length=100)
     email = forms.EmailField()
+    passphrase = forms.CharField()
     matric_date = forms.DateField()
     pname = forms.CharField(max_length=100, required=False)
     psurname = forms.CharField(max_length=100, required=False)

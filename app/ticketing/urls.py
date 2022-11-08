@@ -15,5 +15,6 @@ urlpatterns = [
     path('terms/', flatpage_views.flatpage, {'url': '/terms/'}, name='terms'),
     path('guest/', views.guest_portal, name='guest_portal'),
     path('accounts/login/guest/', views.login_guest, name='login_guest'),
+    path('accounts/logout/guest/', views.logout_guest, name='logout_guest'),
     path('', views.index, name='index'),
 ]

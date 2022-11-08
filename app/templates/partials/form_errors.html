@@ -1,0 +1,11 @@
+<section>
+    <div class="alert alert-danger">
+        <h5 class="alert-heading"><i class="bi bi-patch-exclamation-fill me-2"></i>Think again..!</h5>
+        <ul class="mb-0">
+            {% for k, v in form.errors.items %} {% for err in v %}
+                <li><u>{{k}}</u>: {{err}}</li>
+            {% endfor %} {% endfor %}
+        </ul>
+    </div>
+</section>
+

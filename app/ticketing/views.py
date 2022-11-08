@@ -36,7 +36,7 @@ def login_guest(request):
             user = authenticate(
                 request,
                 username=form.cleaned_data['username'],
-                password=form.cleaned_data['password'],
+                password=form.cleaned_data['passphrase'],
             )
             if user is not None:
                 login(request, user)
@@ -54,12 +54,17 @@ def login_guest(request):
             "login_manual.html",
             {
                 "title": "Alumni Portal",
-                "manual_login_form": GuestLoginForm(),
+                "login_form": form,
                 "signup_form": GuestSignupForm(),
             },
         )
     else:
         raise Http404("Stop looking there.")
+
+
+def logout_guest(request):
+
+    print(request.user.backend)
 
 
 # POST only
@@ -82,7 +87,7 @@ def signup_guest(request):
             User.create_user(
                 form.cleaned_data['email'],
                 form.cleaned_data['email'],
-                form.cleaned_data['password'],
+                form.cleaned_data['passphrase'],
                 pname=form.cleaned_data['pname'],
                 psurname=form.cleaned_data['psurname'],
                 matriculation_date=form.cleaned_data['matric_date'],
@@ -96,7 +101,7 @@ def signup_guest(request):
                 "login_manual.html",
                 {
                     "title": "Alumni Portal",
-                    "manual_login_form": GuestLoginForm(),
+                    "login_form": GuestLoginForm(),
                     "signup_form": form,
                 },
             )
@@ -113,7 +118,7 @@ def guest_portal(request):
         "login_manual.html",
         {
             "title": "Alumni Portal",
-            "manual_login_form": GuestLoginForm(),
+            "login_form": GuestLoginForm(),
             "signup_form": GuestSignupForm(),
         },
     )

@@ -8,16 +8,7 @@
         </p>
     </section>
     {% if form.errors %}
-        <section>
-            <div class="alert alert-danger">
-                <h4 class="alert-heading">There's a problem with the data you submitted</h4>
-                <ul class="mb-0">
-                    {% for k, v in form.errors.items %} {% for err in v %}
-                        <li><strong>{{k}}</strong>: {{err}}</li>
-                    {% endfor %} {% endfor %}
-                </ul>
-            </div>
-        </section>
+        {% include "partials/form_errors.html" with form=login_form only %}
     {% endif %}
     <form action="{% url 'signup' %}" method="post">
         {% csrf_token %}

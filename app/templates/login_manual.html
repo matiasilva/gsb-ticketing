@@ -10,19 +10,6 @@
 {% endblock %}
 
 {% block main %}
-    {% if form.errors %}
-        <section>
-            <div class="alert alert-danger">
-                <h4 class="alert-heading">Login details invalid</h4>
-                <ul class="mb-0">
-                    {% for k, v in form.errors.items %} {% for err in v %}
-                        <li><strong>{{k}}</strong>: {{err}}</li>
-                    {% endfor %} {% endfor %}
-                </ul>
-            </div>
-        </section>
-    {% endif %}
-
     <div class="row row-cols-1 row-cols-lg-2 mb-3">
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
@@ -30,6 +17,9 @@
                     <h4 class="my-0 fw-normal">Alumni login</h4>
                 </div>
                 <div class="card-body">
+                    {% if login_form.errors %}
+                        {% include "partials/form_errors.html" with form=login_form only %}
+                    {% endif %}
                     <form action="{% url 'login_guest' %}" method="post">
                         {% csrf_token %}
                         <div class="mb-3 row">
@@ -39,9 +29,9 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="{{login_form.password.id_for_label}}" class="col-lg-3 col-form-label">Password</label>
+                            <label for="{{login_form.passphrase.id_for_label}}" class="col-lg-3 col-form-label">Passphrase</label>
                             <div class="col-lg-9">
-                                <input id="{{login_form.password.id_for_label}}" type="password" class="form-control form-control-lg" name="{{ login_form.password.html_name }}">
+                                <input id="{{login_form.passphrase.id_for_label}}" type="password" class="form-control form-control-lg" name="{{ login_form.passphrase.html_name }}">
                             </div>
                         </div>
                         <button class="w-100 btn btn-lg btn-primary btn-gsb-alum" type="submit">Sign in</button>
@@ -56,6 +46,9 @@
                     <h4 class="my-0 fw-normal">Register an account</h4>
                 </div>
                 <div class="card-body">
+                    {% if signup_form.errors %}
+                        {% include "partials/form_errors.html" with form=signup_form only %}
+                    {% endif %}
                     <form action="{% url 'signup_guest' %}" method="post">
                         {% csrf_token %}
                         <div class="mb-3 row">
