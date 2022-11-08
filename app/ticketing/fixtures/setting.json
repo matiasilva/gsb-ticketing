@@ -3,7 +3,7 @@
     "model": "ticketing.Setting",
     "pk": 1,
     "fields": {
-      "current_wave": ["NONE"]
+      "current_wave": ["INTERNAL"]
     }
   }
 ]
