@@ -86,13 +86,17 @@ class TicketAdmin(admin.ModelAdmin):
             return None
 
 
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ("enum", "description")
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketKind, TicketKindAdmin)
 admin.site.register(Setting)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
-admin.site.register(PromoCode)
+admin.site.register(PromoCode, PromoCodeAdmin)
 
 admin.site.unregister(Group)
 admin.site.unregister(FlatPage)

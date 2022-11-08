@@ -2,7 +2,7 @@ from datetime import date
 
 import requests
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import BACKEND_SESSION_KEY, authenticate, login, logout
 from django.core.mail import send_mail
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
@@ -17,13 +17,22 @@ def index(request):
     return render(request, "index.html", {"title": "Home"})
 
 
+def logout_all(request):
+    if request.user.is_authenticated:
+        backend = request.session[BACKEND_SESSION_KEY]
+        if backend == 'django.contrib.auth.backends.ModelBackend':
+            return redirect('logout_guest')
+        else:
+            return redirect('raven_logout')
+    else:
+        raise Http404("Stop looking there.")
+
+
 # POST only
 def login_guest(request):
-    user = request.user
-
     if request.method == 'POST':
         # in case a logged-in user tries to log in
-        if user.is_authenticated:
+        if request.user.is_authenticated:
             messages.add_message(
                 request,
                 messages.WARNING,
@@ -35,7 +44,7 @@ def login_guest(request):
         if form.is_valid():
             user = authenticate(
                 request,
-                username=form.cleaned_data['username'],
+                username=form.cleaned_data['email'],
                 password=form.cleaned_data['passphrase'],
             )
             if user is not None:
@@ -63,8 +72,13 @@ def login_guest(request):
 
 
 def logout_guest(request):
-
-    print(request.user.backend)
+    logout(request)
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        'You have been successfully logged out.',
+    )
+    return redirect('index')
 
 
 # POST only
@@ -84,8 +98,7 @@ def signup_guest(request):
         # only new users here
         form = GuestSignupForm(request.POST)
         if form.is_valid():
-            User.create_user(
-                form.cleaned_data['email'],
+            User.objects.create_user(
                 form.cleaned_data['email'],
                 form.cleaned_data['passphrase'],
                 pname=form.cleaned_data['pname'],
@@ -93,8 +106,8 @@ def signup_guest(request):
                 matriculation_date=form.cleaned_data['matric_date'],
                 first_name=form.cleaned_data['name'],
                 last_name=form.cleaned_data['surname'],
-                has_signed_up=True,
             )
+            return redirect('guest_portal')
         else:
             return render(
                 request,

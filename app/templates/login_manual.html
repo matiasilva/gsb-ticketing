@@ -52,39 +52,51 @@
                     <form action="{% url 'signup_guest' %}" method="post">
                         {% csrf_token %}
                         <div class="mb-3 row">
+                            <label for="{{signup_form.email.id_for_label}}" class="col-lg-4 col-form-label">Email</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.email.html_name }}" type="input" class="form-control " id="{{signup_form.email.id_for_label}}" value="{{signup_form.email.value}}">
+                            </div>
+                            <span class="form-text">
+                                Your email will be used for all subsequent logins to the platform.
+                            </span>
+                        </div>
+                        <div class="mb-3 row">
                             <label for="{{signup_form.name.id_for_label}}" class="col-lg-4 col-form-label">First name</label>
                             <div class="col-lg-8">
-                                <input name="{{ signup_form.name.html_name }}" type="input" class="form-control " id="{{signup_form.name.id_for_label}}">
+                                <input name="{{ signup_form.name.html_name }}" type="input" class="form-control " id="{{signup_form.name.id_for_label}}" value="{{signup_form.name.value}}">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="{{signup_form.surname.id_for_label}}" class="col-lg-4 col-form-label">Surname</label>
                             <div class="col-lg-8">
-                                <input name="{{ signup_form.surname.html_name }}" type="input" class="form-control " id="{{signup_form.surname.id_for_label}}">
+                                <input name="{{ signup_form.surname.html_name }}" type="input" class="form-control " id="{{signup_form.surname.id_for_label}}" value="{{signup_form.surname.value}}">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="{{signup_form.matric_date.id_for_label}}" class="col-lg-4 col-form-label">Matriculation date</label>
                             <div class="col-lg-8">
-                                <input name="{{ signup_form.matric_date.html_name }}" type="date" class="form-control " id="{{signup_form.matric_date.id_for_label}}">
+                                <input name="{{ signup_form.matric_date.html_name }}" type="date" class="form-control " id="{{signup_form.matric_date.id_for_label}}" value="{{signup_form.matric_date.value}}">
                             </div>
+                            <span class="form-text">
+                                A rough estimate is sufficient to confirm your alumni status.
+                            </span>
                         </div>
                         <div class="mb-3 row">
                             <label for="{{signup_form.pname.id_for_label}}" class="col-lg-4 col-form-label">Previous first name</label>
                             <div class="col-lg-8">
-                                <input name="{{ signup_form.pname.html_name }}" type="input" class="form-control " id="{{signup_form.pname.id_for_label}}" placeholder="optional">
+                                <input name="{{ signup_form.pname.html_name }}" type="input" class="form-control " id="{{signup_form.pname.id_for_label}}" placeholder="optional" value="{{signup_form.pname.value}}">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="{{signup_form.psurname.id_for_label}}" class="col-lg-4 col-form-label">Previous surname </label>
                             <div class="col-lg-8">
-                                <input name="{{ signup_form.psurname.html_name }}" type="input" class="form-control " id="{{signup_form.psurname.id_for_label}}" placeholder="optional">
+                                <input name="{{ signup_form.psurname.html_name }}" type="input" class="form-control " id="{{signup_form.psurname.id_for_label}}" placeholder="optional" value="{{signup_form.psurname.value}}">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="{{signup_form.password.id_for_label}}" class="col-lg-4 col-form-label">Passphrase</label>
+                            <label for="{{signup_form.passphrase.id_for_label}}" class="col-lg-4 col-form-label">Passphrase</label>
                             <div class="col-lg-8">
-                                <input id="{{signup_form.password.id_for_label}}" type="password" class="form-control" name="{{ signup_form.password.html_name }}">
+                                <input id="{{signup_form.passphrase.id_for_label}}" type="password" class="form-control" name="{{ signup_form.passphrase.html_name }}">
                             </div>
                             <span class="form-text">
                                 Your passphrase should be more than 14 characters long and ideally be composed of multiple words separated by spaces.

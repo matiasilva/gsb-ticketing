@@ -5,19 +5,19 @@
         <h2 class="mb-3">Buy tickets</h2>
         <div class="bg-light p-3 rounded">
             <div class="row text-center">
-                <div class="col">
-                    <h4>Your ticket allowance</h4>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h4>Ticket allowance</h4>
                     <span class="fs-5 text-muted">{{ tickets_left }}</span>
                 </div>
-                <div class="col">
+                <div class="col-md-3 mb-4 mb-md-0">
                     <h4>Ticket group</h4>
                     <span class="fs-5 text-muted">{{ user.kind.name}}</span>
                 </div>
-                <div class="col">
+                <div class="col-md-3 mb-4 mb-md-0">
                     <h4>Ticket wave</h4>
                     <span class="fs-5 text-muted">{{ wave.name }}</span>
                 </div>
-                <div class="col align-self-center">
+                <div class="col-md-3 align-self-center">
                     {% if eligible %}
                         <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
                     {% else %}

@@ -73,8 +73,8 @@ WSGI_APPLICATION = 'wsgi.application'
 # Authentication
 
 AUTHENTICATION_BACKENDS = [
-    'ucamwebauth.backends.RavenAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'ucamwebauth.backends.RavenAuthBackend',
 ]
 
 AUTH_USER_MODEL = 'ticketing.User'
@@ -124,16 +124,13 @@ UCAMWEBAUTH_MSG = "Authentication required to purchase/manage tickets"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 14,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 

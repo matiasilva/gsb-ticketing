@@ -7,3 +7,4 @@ python manage.py loaddata wave.json
 python manage.py loaddata setting.json
 python manage.py loaddata flat_page.json
 python manage.py loaddata promocode.json
+python manage.py loaddata allowed_user.json

@@ -43,7 +43,6 @@ def login_required(
 def match_identity(user, resp):
     # first match against our list of allowed users
     allowed_user = AllowedUser.objects.filter(username=user.username)
-
     if allowed_user.exists():
         return UserKind.objects.get(enum=allowed_user.first().userkind_enum)
     else:
