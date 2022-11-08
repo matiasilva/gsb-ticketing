@@ -3,12 +3,12 @@ from datetime import date
 import requests
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
-from .forms import BuyTicketForm, ManualLoginForm, PromoCodeForm, SignupForm
-from .models import Setting, Ticket, TicketAllocation, TicketKind, UserKind
+from .forms import BuyTicketForm, GuestSignupForm, ManualLoginForm, SignupForm
+from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
 from .utils import login_required, match_identity
 
 
@@ -16,7 +16,57 @@ def index(request):
     return render(request, "index.html", {"title": "Home"})
 
 
+# POST only
 def login_guest(request):
+    user = request.user
+
+    if request.method == 'POST':
+        # in case a logged-in user tries to log in
+        if user.is_authenticated:
+            messages.add_message(
+                request,
+                messages.WARNING,
+                'You\'re already logged in!',
+            )
+            return redirect('manage')
+    else:
+        raise Http404("Stop looking there.")
+
+
+# POST only
+def signup_guest(request):
+    user = request.user
+
+    if request.method == 'POST':
+        # in case a logged-in user tries to sign up
+        if user.is_authenticated:
+            messages.add_message(
+                request,
+                messages.WARNING,
+                'You already have an account!',
+            )
+            return redirect('manage')
+
+        # only new users here
+        form = GuestSignupForm(request.POST)
+        if form.is_valid():
+            User.create_user(
+                form.cleaned_data['email'],
+                form.cleaned_data['email'],
+                form.cleaned_data['password'],
+                pname=form.cleaned_data['pname'],
+                psurname=form.cleaned_data['psurname'],
+                matriculation_date=form.cleaned_data['matric_date'],
+                first_name=form.cleaned_data['name'],
+                last_name=form.cleaned_data['surname'],
+                has_signed_up=True,
+            )
+
+    else:
+        raise Http404("Stop looking there.")
+
+
+def guest_portal(request):
     user = request.user
 
     # in case a logged-in user tries to log in
@@ -29,17 +79,16 @@ def login_guest(request):
         return redirect('manage')
 
     # only unauthenticated users here
-    if request.method == 'POST':
-        pass
-    else:
-        return render(
-            request,
-            "login_manual.html",
-            {"manual_login_form": ManualLoginForm(), "promocode_form": PromoCodeForm()},
-        )
 
-
-def signup_guest(request):
+    return render(
+        request,
+        "login_manual.html",
+        {
+            "title": "Alumni Portal",
+            "manual_login_form": ManualLoginForm(),
+            "signup_form": GuestSignupForm(),
+        },
+    )
     pass
 
 
@@ -53,7 +102,7 @@ def signup(request):
         return redirect('manage')
 
     if request.method == 'POST':
-        status = request.user.kind
+        status = user.kind
         form = SignupForm(request.POST, initial={"status": status.name})
         if form.is_valid():
             user.first_name = form.cleaned_data['name']
@@ -67,10 +116,10 @@ def signup(request):
     else:
         lookup_res = requests.get(
             'https://mw781.user.srcf.net/lookup-gsb.cgi',
-            params={"user": request.user.username},
+            params={"user": user.username},
         )
         lookup_res = lookup_res.json()
-        status = match_identity(lookup_res, user.profile.raven_for_life)
+        status = match_identity(user, lookup_res)
 
         # db
         user.kind = status

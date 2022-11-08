@@ -1,8 +1,9 @@
 from datetime import date
 
 from django import forms
+from django.core.exceptions import ValidationError
 
-from .models import TicketKind
+from .models import PromoCode, TicketKind
 
 
 class SignupForm(forms.Form):
@@ -35,5 +36,20 @@ class ManualLoginForm(forms.Form):
     password = forms.CharField(max_length=20)
 
 
-class PromoCodeForm(forms.Form):
-    code = forms.CharField(max_length=30)
+class GuestSignupForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    surname = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    matric_date = forms.DateField()
+    pname = forms.CharField(max_length=100, required=False)
+    psurname = forms.CharField(max_length=100, required=False)
+    promocode = forms.CharField(max_length=30)
+
+    def clean_promocode(self):
+        data = self.cleaned_data['promocode']
+        # 500 if no code defined
+        alum_code = PromoCode.objects.get(enum='ALUM_SIGNUP')
+        if data != alum_code.value:
+            raise ValidationError("Incorrect alumni verification code")
+
+        return data

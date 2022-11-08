@@ -64,5 +64,16 @@
       "payment_method": ["CONCESSION"],
       "ticket_kinds": [["S"]]
     }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 7,
+    "fields": {
+      "name": "Committee",
+      "enum": "COMMITTEE",
+      "allowance": 2,
+      "payment_method": ["COLLEGE_BILL"],
+      "ticket_kinds": [["S_EXT"], ["QJ_EXT"]]
+    }
   }
 ]

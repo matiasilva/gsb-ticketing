@@ -80,13 +80,6 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="{{form.dob.id_for_label}}" class="form-label">Date of Birth</label>
-                <input class="form-control" type="date" id="{{form.dob.id_for_label}}" name="{{form.dob.html_name}}"
-                    value="{{form.dob.value}}"
-                    max="2005-03-17"
-                />
-            </div>
-            <div class="mb-3">
                 <label for="{{form.kind.id_for_label}}" class="form-label">Ticket type</label>
                 <select class="form-select" name="{{form.kind.html_name}}" id="{{form.kind.id_for_label}}">
                     {% for kind in form.fields.kind.queryset %}

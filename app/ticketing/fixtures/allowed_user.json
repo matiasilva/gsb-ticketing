@@ -1,0 +1,170 @@
+[
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 1,
+    "fields": {
+      "username": "mw781",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 2,
+    "fields": {
+      "username": "ks2027",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 3,
+    "fields": {
+      "username": "ajah3",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 4,
+    "fields": {
+      "username": "am2987",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 5,
+    "fields": {
+      "username": "co431",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 6,
+    "fields": {
+      "username": "cbc38",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 7,
+    "fields": {
+      "username": "ec800",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 8,
+    "fields": {
+      "username": "eh693",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 9,
+    "fields": {
+      "username": "igc26",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 10,
+    "fields": {
+      "username": "im510",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 11,
+    "fields": {
+      "username": "ip377",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 12,
+    "fields": {
+      "username": "ja758",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 13,
+    "fields": {
+      "username": "jjh86",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 14,
+    "fields": {
+      "username": "laec2",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 15,
+    "fields": {
+      "username": "ls947",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 16,
+    "fields": {
+      "username": "mc2310",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 17,
+    "fields": {
+      "username": "ndc36",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 18,
+    "fields": {
+      "username": "nr503",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 19,
+    "fields": {
+      "username": "rm2012",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 20,
+    "fields": {
+      "username": "ww393",
+      "userkind_enum": "COMMITTEE"
+    }
+  },
+  {
+    "model": "ticketing.AllowedUser",
+    "pk": 21,
+    "fields": {
+      "username": "wkm27",
+      "userkind_enum": "COMMITTEE"
+    }
+  }
+]

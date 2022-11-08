@@ -5,11 +5,14 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
-from .enums import UserAuthType
-
 
 def gen_ticket_id():
     return f"GSB{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"
+
+
+class AllowedUserManager(models.Manager):
+    def get_by_natural_key(self, username):
+        return self.get(username=username)
 
 
 class PaymentMethodManager(models.Manager):
@@ -136,11 +139,12 @@ class User(AbstractUser):
         UserKind, on_delete=models.CASCADE, related_name='users', default=5
     )
 
-    auth_type = models.IntegerField(
-        choices=UserAuthType.choices, default=UserAuthType.RAVEN
-    )
-
     has_signed_up = models.BooleanField(default=False)
+
+    # optional fields
+    matriculation_date = models.DateField(null=True)
+    pname = models.CharField(max_length=100)
+    psurname = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'users'
@@ -292,3 +296,11 @@ class Setting(models.Model):
     current_wave = models.OneToOneField(Wave, on_delete=models.CASCADE)
 
     # TODO: ensure only a single instance
+
+
+class AllowedUser(models.Model):
+    # match them to a userkind
+    userkind_enum = models.CharField(max_length=30)
+    username = models.CharField(max_length=150)
+
+    objects = AllowedUserManager()

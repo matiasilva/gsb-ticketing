@@ -6,7 +6,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect, resolve_url
 
-from .models import UserKind
+from .models import AllowedUser, UserKind
 
 
 def login_required(
@@ -40,21 +40,26 @@ def login_required(
     return _wrapper_view
 
 
-def match_identity(resp, canceled):
-    # first, check R4L against jdCollege attribute
-    if canceled and resp['college'] == 'GIRTON':
-        return UserKind.objects.get(enum="GIRTON_ALUM")
-    groups = resp['groups']
-    # match group, if any
-    for group in groups:
-        if group['groupid'] == '002866':
-            return UserKind.objects.get(enum="GIRTON_UGRAD")
-        elif group['groupid'] == '002880':
-            return UserKind.objects.get(enum="GIRTON_PGRAD")
-        elif group['groupid'] == '002836':
-            return UserKind.objects.get(enum="GIRTON_STAFF")
+def match_identity(user, resp):
+    # first match against our list of allowed users
+    allowed_user = AllowedUser.objects.filter(username=user.username)
 
-    # TODO: implement friends
+    if allowed_user.exists():
+        return UserKind.objects.get(enum=allowed_user.first().userkind_enum)
+    else:
+        canceled = user.profile.raven_for_life
+        # first, check R4L against jdCollege attribute
+        if canceled and resp['college'] == 'GIRTON':
+            return UserKind.objects.get(enum="GIRTON_ALUM")
+        groups = resp['groups']
+        # match group, if any
+        for group in groups:
+            if group['groupid'] == '002866':
+                return UserKind.objects.get(enum="GIRTON_UGRAD")
+            elif group['groupid'] == '002880':
+                return UserKind.objects.get(enum="GIRTON_PGRAD")
+            elif group['groupid'] == '002836':
+                return UserKind.objects.get(enum="GIRTON_STAFF")
 
-    # if no match found, return other
-    return UserKind.objects.get(enum="UCAM_OTHER")
+        # if no match found, return other
+        return UserKind.objects.get(enum="UCAM_OTHER")

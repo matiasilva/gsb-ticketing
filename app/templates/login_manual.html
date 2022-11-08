@@ -4,29 +4,8 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block style%}
-
     body {
-    background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
-    }
-
-    .form-signin {
-    max-width: 367px;
-    }
-
-    .form-signin .form-floating:focus-within {
-    z-index: 2;
-    }
-
-    .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    }
-
-    .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    background-color: #FCFBF4;
     }
 {% endblock %}
 
@@ -43,36 +22,96 @@
             </div>
         </section>
     {% endif %}
-    <div class="form-signin mx-auto rounded p-3" style="background-color:  rgba(62, 63, 131, 0.7);">
-        <form action="{% url 'login_guest' %}" method="post">
-            {% csrf_token %}
-            <img class="mb-4 d-block mx-auto" src="{% static 'android-chrome-512x512.png' %}" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 fw-normal text-center">Alumni login</h1>
 
-            <div class="form-floating">
-                <input name="{{ form.email.html_name }}" type="email" class="form-control" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
+    <div class="row row-cols-1 row-cols-lg-2 mb-3">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3 text-center">
+                    <h4 class="my-0 fw-normal">Alumni login</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'login_guest' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 row">
+                            <label for="{{login_form.email.id_for_label}}" class="col-lg-3 col-form-label">Email address</label>
+                            <div class="col-lg-9">
+                                <input id="{{login_form.email.id_for_label}}" name="{{ login_form.email.html_name }}" type="email" class="form-control form-control-lg">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{login_form.password.id_for_label}}" class="col-lg-3 col-form-label">Password</label>
+                            <div class="col-lg-9">
+                                <input id="{{login_form.password.id_for_label}}" type="password" class="form-control form-control-lg" name="{{ login_form.password.html_name }}">
+                            </div>
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary btn-gsb-alum" type="submit">Sign in</button>
+
+                    </form>
+                </div>
             </div>
-            <div class="form-floating">
-                <input name="{{ form.password.html_name }}" type="password" class="form-control" placeholder="Password">
-                <label for="floatingPassword">Password</label>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3 text-center">
+                    <h4 class="my-0 fw-normal">Register an account</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'signup_guest' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.name.id_for_label}}" class="col-lg-4 col-form-label">First name</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.name.html_name }}" type="input" class="form-control " id="{{signup_form.name.id_for_label}}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.surname.id_for_label}}" class="col-lg-4 col-form-label">Surname</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.surname.html_name }}" type="input" class="form-control " id="{{signup_form.surname.id_for_label}}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.matric_date.id_for_label}}" class="col-lg-4 col-form-label">Matriculation date</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.matric_date.html_name }}" type="date" class="form-control " id="{{signup_form.matric_date.id_for_label}}">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.pname.id_for_label}}" class="col-lg-4 col-form-label">Previous first name</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.pname.html_name }}" type="input" class="form-control " id="{{signup_form.pname.id_for_label}}" placeholder="optional">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.psurname.id_for_label}}" class="col-lg-4 col-form-label">Previous surname </label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.psurname.html_name }}" type="input" class="form-control " id="{{signup_form.psurname.id_for_label}}" placeholder="optional">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.password.id_for_label}}" class="col-lg-4 col-form-label">Passphrase</label>
+                            <div class="col-lg-8">
+                                <input id="{{signup_form.password.id_for_label}}" type="password" class="form-control" name="{{ signup_form.password.html_name }}">
+                            </div>
+                            <span class="form-text">
+                                Your passphrase should be more than 14 characters long and ideally be composed of multiple words separated by spaces.
+                            </span>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="{{signup_form.promocode.id_for_label}}" class="col-lg-4 col-form-label">Verification code</label>
+                            <div class="col-lg-8">
+                                <input name="{{ signup_form.promocode.html_name }}" type="input" class="form-control " id="{{signup_form.promocode.id_for_label}}">
+                            </div>
+                            <span class="form-text">
+                                This was emailed to you by the Development Office.
+                            </span>
+
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary btn-gsb-alum" type="submit">Sign up</button>
+
+                    </form>
+                </div>
             </div>
-            <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Sign in</button>
-
-        </form>
-        <form action="{% url 'signup_guest' %}" method="post">
-            {% csrf_token %}
-            <img class="mb-4 d-block mx-auto" src="{% static 'android-chrome-512x512.png' %}" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 fw-normal text-center">Got a code?</h1>
-
-            <div class="form-floating">
-                <input name="{{ form.code.html_name }}" type="input" class="form-control" placeholder="name@example.com">
-                <label for="floatingInput">Development Office Code</label>
-            </div>
-
-            <button class="w-100 mt-3 btn btn-lg btn-primary" type="submit">Sign in</button>
-
-        </form>
+        </div>
     </div>
-
 {% endblock %}
