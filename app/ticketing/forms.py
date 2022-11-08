@@ -31,7 +31,7 @@ class BuyTicketForm(forms.Form):
     kind = forms.ModelChoiceField(queryset=None, initial=1)
 
 
-class ManualLoginForm(forms.Form):
+class GuestLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(max_length=20)
 

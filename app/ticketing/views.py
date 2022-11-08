@@ -2,12 +2,13 @@ from datetime import date
 
 import requests
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
-from .forms import BuyTicketForm, GuestSignupForm, ManualLoginForm, SignupForm
+from .forms import BuyTicketForm, GuestLoginForm, GuestSignupForm, SignupForm
 from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
 from .utils import login_required, match_identity
 
@@ -29,6 +30,34 @@ def login_guest(request):
                 'You\'re already logged in!',
             )
             return redirect('manage')
+
+        form = GuestLoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('manage')
+            else:
+                messages.add_message(
+                    request,
+                    messages.WARNING,
+                    'You entered invalid login details',
+                )
+
+        # if invalid data, or wrong pass/username
+        return render(
+            request,
+            "login_manual.html",
+            {
+                "title": "Alumni Portal",
+                "manual_login_form": GuestLoginForm(),
+                "signup_form": GuestSignupForm(),
+            },
+        )
     else:
         raise Http404("Stop looking there.")
 
@@ -61,6 +90,16 @@ def signup_guest(request):
                 last_name=form.cleaned_data['surname'],
                 has_signed_up=True,
             )
+        else:
+            return render(
+                request,
+                "login_manual.html",
+                {
+                    "title": "Alumni Portal",
+                    "manual_login_form": GuestLoginForm(),
+                    "signup_form": form,
+                },
+            )
 
     else:
         raise Http404("Stop looking there.")
@@ -69,23 +108,12 @@ def signup_guest(request):
 def guest_portal(request):
     user = request.user
 
-    # in case a logged-in user tries to log in
-    if user.is_authenticated:
-        messages.add_message(
-            request,
-            messages.WARNING,
-            'You\'re already logged in!',
-        )
-        return redirect('manage')
-
-    # only unauthenticated users here
-
     return render(
         request,
         "login_manual.html",
         {
             "title": "Alumni Portal",
-            "manual_login_form": ManualLoginForm(),
+            "manual_login_form": GuestLoginForm(),
             "signup_form": GuestSignupForm(),
         },
     )
