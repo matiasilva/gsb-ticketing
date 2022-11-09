@@ -38,3 +38,6 @@ SERVER_EMAIL = f'it@girtonball.com'
 if 'EMAIL_HOST_USER' in os.environ:
     EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
     EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+
+# expire user sessions after 1 hour
+SESSION_COOKIE_AGE = 60 * 60
