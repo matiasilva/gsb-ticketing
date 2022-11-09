@@ -274,11 +274,15 @@ def buy_ticket(request):
 
                 # send confirmation email
                 msg = render_to_string("emails/buy.txt", {"ticket": ticket})
+                recipients = [ticket.email]
+                # both purchaser and attendee should receive email
+                if not ticket.is_own:
+                    recipients.append(ticket.purchaser.email)
                 send_mail(
                     'GSB23 Ticketing: Ticket Confirmation',
                     msg,
                     'it@girtonball.com',
-                    [ticket.email],
+                    recipients,
                 )
             else:
                 messages.add_message(
