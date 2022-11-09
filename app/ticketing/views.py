@@ -267,19 +267,19 @@ def buy_ticket(request):
                 if valid_extra:
                     ticket.extras.add(valid_extra)
 
+                if allocation.count() == allocation.quantity:
+                    # disable ticket allocation once max limit has been reached
+                    allocation.is_active = False
+                    allocation.save()
+
                 # send confirmation email
                 msg = render_to_string("emails/buy.txt", {"ticket": ticket})
                 send_mail(
                     'GSB23 Ticketing: Ticket Confirmation',
                     msg,
                     'it@girtonball.com',
-                    ticket.email,
+                    [ticket.email],
                 )
-
-                if allocation.count() == allocation.quantity:
-                    # disable ticket allocation once max limit has been reached
-                    allocation.is_active = False
-                    allocation.save()
             else:
                 messages.add_message(
                     request,
