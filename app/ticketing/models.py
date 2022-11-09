@@ -268,9 +268,6 @@ class Ticket(models.Model):
                 condition=models.Q(is_own=True),
                 name='unique_own_ticket_user',
             ),
-            models.CheckConstraint(
-                check=models.Q(dob__lte=date(2005, 3, 17)), name="minimum_age_check"
-            ),
         ]
 
     def __str__(self):
