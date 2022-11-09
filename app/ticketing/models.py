@@ -231,7 +231,6 @@ class Ticket(models.Model):
     # attendee details
     name = models.CharField(max_length=100)
     email = models.EmailField(blank=True)
-    dob = models.DateField()
 
     # internal
     is_own = models.BooleanField()
