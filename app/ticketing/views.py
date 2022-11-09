@@ -255,7 +255,6 @@ def buy_ticket(request):
                 purchaser=user,
                 name=form.cleaned_data['full_name'],
                 email=form.cleaned_data['email'],
-                dob=form.cleaned_data['dob'],
                 is_own=user.is_first_own_ticket(),
                 kind=form.cleaned_data['kind'],
                 payment_method=user.kind.payment_method,

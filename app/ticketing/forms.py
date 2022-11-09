@@ -28,7 +28,6 @@ class BuyTicketForm(forms.Form):
 
     full_name = forms.CharField(max_length=100, initial="")
     email = forms.EmailField(initial="")
-    dob = forms.DateField(initial="")
     kind = forms.ModelChoiceField(queryset=None, initial=1)
 
 
