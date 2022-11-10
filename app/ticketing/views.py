@@ -9,7 +9,15 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
 from .forms import BuyTicketForm, GuestLoginForm, GuestSignupForm, SignupForm
-from .models import Setting, Ticket, TicketAllocation, TicketKind, User, UserKind
+from .models import (
+    Setting,
+    Ticket,
+    TicketAllocation,
+    TicketExtra,
+    TicketKind,
+    User,
+    UserKind,
+)
 from .utils import login_required, match_identity
 
 
@@ -106,6 +114,11 @@ def signup_guest(request):
                 matriculation_date=form.cleaned_data['matric_date'],
                 first_name=form.cleaned_data['name'],
                 last_name=form.cleaned_data['surname'],
+            )
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'You can now log in with your details on the left.',
             )
             return redirect('guest_portal')
         else:
@@ -262,10 +275,17 @@ def buy_ticket(request):
             allocation = ticket.kind.allocation
             if ticket.kind.is_available():
                 ticket.save()
-                # hardcoded
-                valid_extra = form.cleaned_data.get(f'alum_donation_{ticket.kind.pk}')
-                if valid_extra:
-                    ticket.extras.add(valid_extra)
+
+                # hardcoded extras
+                alum_donation_extra = form.cleaned_data.get(
+                    f'alum_donation_{ticket.kind.pk}'
+                )
+                if alum_donation_extra:
+                    ticket.extras.add(TicketExtra.objects.get(enum='ALUM_DONATION'))
+
+                alum_joint_extra = form.cleaned_data.get(f'alum_joint_{ticket.kind.pk}')
+                if alum_joint_extra:
+                    ticket.extras.add(TicketExtra.objects.get(enum='ALUM_JOINT'))
 
                 if allocation.count() == allocation.quantity:
                     # disable ticket allocation once max limit has been reached

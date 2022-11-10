@@ -72,6 +72,7 @@
       "enum": "S_ALUM_EXT",
       "name": "Standard",
       "price": 150,
+      "optional_extras": [["ALUM_JOINT"]],
       "allocation": ["S_ALUM"]
     }
   },
@@ -82,6 +83,7 @@
       "enum": "QJ_ALUM_EXT",
       "name": "Queue Jump",
       "price": 160,
+      "optional_extras": [["ALUM_JOINT"]],
       "allocation": ["QJ_ALUM"]
     }
   },
