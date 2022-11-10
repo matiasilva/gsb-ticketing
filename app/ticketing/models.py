@@ -250,15 +250,8 @@ class Ticket(models.Model):
     has_paid = models.BooleanField(default=False)
     date_paid = models.DateTimeField(null=True)
 
-    # TODO answers to questions
-    # crsid, then use lookup to extract the below
-    # affiliation: 31 colleges, none
-    # degree level: ugrad, pgrad, alum, none
-    # affiliation -> none implies external (non ucam)
-    # degree level -> none but some affiliation implies staff
-
-    # dietary requirements
-    # drink preferences
+    is_veg = models.BooleanField(default=False)
+    is_alc = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'tickets'

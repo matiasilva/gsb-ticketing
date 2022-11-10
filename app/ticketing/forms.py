@@ -29,6 +29,8 @@ class BuyTicketForm(forms.Form):
     full_name = forms.CharField(max_length=100, initial="")
     email = forms.EmailField(initial="")
     kind = forms.ModelChoiceField(queryset=None, initial=1)
+    is_alc = forms.BooleanField(required=False)
+    is_veg = forms.BooleanField(required=False)
 
 
 class GuestLoginForm(forms.Form):

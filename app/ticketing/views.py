@@ -270,6 +270,8 @@ def buy_ticket(request):
                 email=form.cleaned_data['email'],
                 is_own=user.is_first_own_ticket(),
                 kind=form.cleaned_data['kind'],
+                is_veg=form.cleaned_data['is_veg'],
+                is_alc=form.cleaned_data['is_alc'],
                 payment_method=user.kind.payment_method,
             )
             allocation = ticket.kind.allocation
