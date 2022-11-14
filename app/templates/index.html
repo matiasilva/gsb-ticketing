@@ -10,62 +10,55 @@
 {% endblock %}
 
 {% block main %}
-    <div class="p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal"><span class="rounded px-2" style="background-color: rgba(186,225,255, 0.7);">GSB 2023</span></h1>
-        <p class="fs-5 text-muted">
-            This is the 2023 Girton Spring Ball ticketing platform.
-        </p>
-    </div>
-
-    <div class="p-3 mb-4" style="background-color: rgba(255,223,186);">
-        <h4>Buy tickets</h4>
-        <ul class="mb-0">
-            <li>Only Girton members (undergraduate, postgraduate, staff, and alumni) are allowed to purchase tickets.</li>
-            <li>Girton members will be charged on their College Bill. Alumni are expected to carry out a bank transfer.</li>
-            <li>You are entitled to purchase a set number of tickets. Your exact allocation is revealed upon login.</li>
-            <li>Consult <a href="https://www.girtonball.com">the GSB23 website</a> for more information.</li>
-        </ul>
-    </div>
-
-    <div class="p-3 mb-4" style="background-color: rgba(186,255,201, 0.7);">
-        <h4>Manage tickets</h4>
-        <ul class="mb-0">
-            <li>Tickets will be made available for download at a date closer to the ball.</li>
-            <li>You are allowed to request a name change, subject to a cost of £xx.</li>
-            <li>Email<a href="mailto:it@girtonball.com"> it@girtonball.com</a> for any queries.</li>
-        </ul>
-    </div>
-
-    <div class="p-3" style="background-color: rgba(255,255,186, 0.7);">
-        <h4>Gaining access</h4>
-        <div class="pb-2  mb-2" style="border-bottom: 1px solid skyblue;">
-            <p>Login with Raven below to buy or manage tickets.</p>
-            <a
-                href="{% url 'raven_login' %}"
-                class="btn btn-lg btn-gsb-raven w-100 mb-2"
-            >
-                <img
-                    src="{% static 'images/raven.svg' %}"
-                    class="me-2"
-                    style="width: 2rem"
-                />
-
-                Log in with Raven
-            </a>
-            <a
-                href="{% url 'guest_portal' %}"
-                class="btn btn-lg btn-gsb-alum w-100 mb-2"
-            >
-                <img
-                    src="{% static 'images/squirrel.png' %}"
-                    class="me-2"
-                    style="width: 30px"
-                />
-
-                Alumni portal
-            </a>
+    <div style="max-width: 820px; margin: auto;">
+        <div class="p-3 mb-4" style="background-color: rgba(255,223,186);">
+            <h4>Buy tickets</h4>
+            <ul class="mb-0">
+                <li>Girton members will be charged on their College Bill. Alumni are expected to carry out a bank transfer.</li>
+                <li>You are entitled to purchase a set number of tickets. Your exact allocation is revealed upon login.</li>
+                <li>Consult <a href="https://www.girtonball.com">the GSB23 website</a> for more information.</li>
+            </ul>
         </div>
-        <p class="mb-0">Alumni are expected to use the alphanumeric code sent to them by the Development Office to register an account. Create an alumni account or manage your tickets by using the 'alumni portal' shown above.</p>
 
+        <div class="p-3 mb-4" style="background-color: rgba(186,255,201, 0.7);">
+            <h4>Manage tickets</h4>
+            <ul class="mb-0">
+                <li>Tickets will be made available for download at a date closer to the ball.</li>
+                <li>You are allowed to request a name change, subject to a cost of £xx.</li>
+                <li>Email <a href="mailto:it@girtonball.com">it@girtonball.com</a> for any queries.</li>
+            </ul>
+        </div>
+
+        <div class="p-3" style="background-color: rgba(255,255,186, 0.7);">
+            <h4>Gaining access</h4>
+            <div class="pb-2  mb-2" style="border-bottom: 1px solid skyblue;">
+                <p>Login with Raven below to buy or manage tickets.</p>
+                <a
+                    href="{% url 'raven_login' %}"
+                    class="btn btn-lg btn-gsb-raven w-100 mb-2"
+                >
+                    <img
+                        src="{% static 'images/raven.svg' %}"
+                        class="me-2"
+                        style="width: 2rem"
+                    />
+
+                    Log in with Raven
+                </a>
+                <a
+                    href="{% url 'guest_portal' %}"
+                    class="btn btn-lg btn-gsb-alum w-100 mb-2"
+                >
+                    <img
+                        src="{% static 'images/squirrel.png' %}"
+                        class="me-2"
+                        style="width: 30px"
+                    />
+
+                    Alumni portal
+                </a>
+            </div>
+            <p class="mb-0">Alumni are expected to use the alphanumeric code sent to them by the Development Office to register an account. Create an alumni account or manage your tickets by using the 'alumni portal' shown above.</p>
+        </div>
     </div>
 {% endblock %}
