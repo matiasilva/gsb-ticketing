@@ -92,7 +92,7 @@
     "pk": 9,
     "fields": {
       "enum": "BURSARY",
-      "name": "Bursary/Participation",
+      "name": "Bursary",
       "requires_first": true,
       "price": 100,
       "allocation": ["BURSARY"]
