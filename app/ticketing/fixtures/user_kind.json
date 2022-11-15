@@ -29,7 +29,7 @@
       "enum": "GIRTON_STAFF",
       "allowance": 3,
       "payment_method": ["COLLEGE_BILL"],
-      "ticket_kinds": [["S"], ["QJ"]]
+      "ticket_kinds": [["S"], ["QJ"], ["S_EXT"], ["QJ_EXT"]]
     }
   },
   {
