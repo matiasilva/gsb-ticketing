@@ -36,7 +36,7 @@
     "model": "ticketing.UserKind",
     "pk": 4,
     "fields": {
-      "name": "Girton Alumnus/a",
+      "name": "Girton Alumna/us",
       "enum": "GIRTON_ALUM",
       "allowance": 2,
       "payment_method": ["BANK_TRANSFER"],
@@ -68,6 +68,33 @@
   {
     "model": "ticketing.UserKind",
     "pk": 7,
+    "fields": {
+      "name": "GSB22 committee (graduated)",
+      "enum": "OLD_COMM_GRADUATES",
+      "allowance": 2,
+      "payment_method": ["COLLEGE_BILL"],
+      "ticket_kinds": [
+        ["FRIENDS"],
+        ["QJ_OLD_COMM"],
+        ["S_ALUM_EXT"],
+        ["QJ_ALUM_EXT"]
+      ]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 8,
+    "fields": {
+      "name": "GSB22 committee (student)",
+      "enum": "OLD_COMM_STUDENT",
+      "allowance": 3,
+      "payment_method": ["COLLEGE_BILL"],
+      "ticket_kinds": [["FRIENDS"], ["QJ_OLD_COMM"], ["S_EXT"], ["QJ_EXT"]]
+    }
+  },
+  {
+    "model": "ticketing.UserKind",
+    "pk": 9,
     "fields": {
       "name": "Committee",
       "enum": "COMMITTEE",

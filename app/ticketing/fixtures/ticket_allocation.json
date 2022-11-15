@@ -68,7 +68,16 @@
     "fields": {
       "enum": "FRIENDS",
       "name": "Girton Friends Allocation",
-      "quantity": 40
+      "quantity": 25
+    }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 9,
+    "fields": {
+      "enum": "OLD_COMM",
+      "name": "GSB 22 committee Allocation",
+      "quantity": 25
     }
   }
 ]

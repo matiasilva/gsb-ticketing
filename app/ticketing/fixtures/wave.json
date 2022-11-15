@@ -14,7 +14,7 @@
     "pk": 2,
     "fields": {
       "enum": "GIRTON_ONLY",
-      "name": "Girton Internal Wave (1st)",
+      "name": "Girton Internal Wave",
       "ticket_kinds": [["S"], ["QJ"], ["BURSARY"]],
       "user_kinds": [
         ["GIRTON_UGRAD"],
@@ -29,7 +29,31 @@
     "pk": 3,
     "fields": {
       "enum": "ALL",
-      "name": "General Release (2nd)",
+      "name": "Guests Release",
+      "ticket_kinds": [
+        ["S"],
+        ["QJ"],
+        ["S_EXT"],
+        ["QJ_EXT"],
+        ["S_OLD_COMM"],
+        ["QJ_OLD_COMM"]
+      ],
+      "user_kinds": [
+        ["GIRTON_UGRAD"],
+        ["GIRTON_PGRAD"],
+        ["GIRTON_STAFF"],
+        ["OLD_COMM_STUDENT"],
+        ["OLD_COMM_GRADUATES"],
+        ["COMMITTEE"]
+      ]
+    }
+  },
+  {
+    "model": "ticketing.Wave",
+    "pk": 4,
+    "fields": {
+      "enum": "ALUMNI",
+      "name": "Alumni and Guests release",
       "ticket_kinds": [
         ["S"],
         ["QJ"],
@@ -49,6 +73,14 @@
         ["FRIENDS"],
         ["COMMITTEE"]
       ]
+    }
+  },
+  {
+    "model": "ticketing.Wave",
+    "pk": 5,
+    "fields": {
+      "enum": "SOLD_OUT",
+      "name": "SOLD OUT"
     }
   }
 ]

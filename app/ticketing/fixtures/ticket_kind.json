@@ -102,6 +102,28 @@
     "model": "ticketing.TicketKind",
     "pk": 10,
     "fields": {
+      "enum": "QJ_OLD_COMM",
+      "name": "GSB22 Committee QJ Upgrade",
+      "requires_first": true,
+      "price": 10,
+      "allocation": ["OLD_COMM"]
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 11,
+    "fields": {
+      "enum": "S_OLD_COMM",
+      "name": "GSB22 Committee Standard",
+      "requires_first": true,
+      "price": 0,
+      "allocation": ["OLD_COMM"]
+    }
+  },
+  {
+    "model": "ticketing.TicketKind",
+    "pk": 12,
+    "fields": {
       "enum": "FRIENDS",
       "name": "Friends of GSB",
       "requires_first": true,

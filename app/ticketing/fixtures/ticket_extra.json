@@ -17,7 +17,7 @@
       "enum": "ALUM_JOINT",
       "name": "Alumni joint ticket",
       "price": -15,
-      "label": "I am buying this ticket for another Girton alumnus/a",
+      "label": "I am buying this ticket for another Girton alumnus/a and do not wish to contribute to the ball.",
       "opt_out": false
     }
   }
