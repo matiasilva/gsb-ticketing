@@ -4,4 +4,5 @@ git+https://github.com/matiasilva/django-ucamwebauth@master
 gunicorn
 psycopg2
 requests
+simpleanalytics
 whitenoise

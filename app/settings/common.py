@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # custom apps
     'ticketing.apps.TicketingConfig',
     'ucamwebauth',
+    'simpleanalytics',
 ]
 
 MIDDLEWARE = [

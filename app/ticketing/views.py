@@ -22,7 +22,12 @@ from .utils import login_required, match_identity
 
 
 def index(request):
-    return render(request, "index.html", {"title": "Home"})
+    settings = Setting.objects.get(pk=1)
+    wave = settings.current_wave
+    if wave.enum == 'INTERNAL':
+        return render(request, "bepatient.html", {"title": "Home"})
+    else:
+        return render(request, "index.html", {"title": "Home"})
 
 
 def logout_all(request):

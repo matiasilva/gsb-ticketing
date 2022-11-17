@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "enum": "INTERNAL",
-      "name": "Committee Internal Wave (0th)",
+      "name": "Tickets not released",
       "ticket_kinds": [["S"], ["QJ"], ["S_EXT"], ["QJ_EXT"]],
       "user_kinds": [["COMMITTEE"]]
     }
