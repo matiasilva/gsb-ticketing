@@ -33,7 +33,7 @@ class UserAdmin(UserAdminOriginal):
             },
         ),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
-        ("Custom fields", {"fields": ("kind",)}),
+        ("Custom fields", {"fields": ("kind", "has_signed_up")}),
     )
 
 
