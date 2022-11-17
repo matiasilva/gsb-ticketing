@@ -178,11 +178,15 @@ def signup(request):
         else:
             return render(request, "signup.html", {"title": "Signup", "form": form})
     else:
-        lookup_res = requests.get(
-            'https://mw781.user.srcf.net/lookup-gsb.cgi',
-            params={"user": user.username},
-        )
-        lookup_res = lookup_res.json()
+        try:
+            lookup_res = requests.get(
+                'https://mw781.user.srcf.net/lookup-gsb.cgi',
+                params={"user": user.username},
+                timeout=10,
+            )
+            lookup_res = lookup_res.json()
+        except:
+            lookup_res = {}
         status = match_identity(user, lookup_res)
 
         # db
@@ -190,12 +194,23 @@ def signup(request):
         user.save()
 
         # this is non-ideal, but it's a reasonable compromise
-        split_name = lookup_res['visibleName'].split(' ', 1)
+        visible_name = lookup_res.get('visibleName', "")
+        if visible_name == "":
+            name = ""
+            surname = ""
+        else:
+            split_name = visible_name.split(' ', 1)
+            name = split_name[0]
+            surname = split_name[1]
         # don't guess email if they're an alum
         email = f'{user.username}@cam.ac.uk' if not user.profile.raven_for_life else ''
         form = SignupForm(
-            {"name": split_name[0], "surname": split_name[1], "email": email},
-            initial={"status": user.kind.name},
+            initial={
+                "status": user.kind.name,
+                "name": name,
+                "surname": surname,
+                "email": email,
+            },
             auto_id='signup_%s',
         )
 

@@ -49,7 +49,7 @@
     "fields": {
       "name": "Cambridge University Member",
       "enum": "UCAM_OTHER",
-      "allowance": 2,
+      "allowance": 0,
       "payment_method": ["BANK_TRANSFER"],
       "ticket_kinds": [["S_EXT"], ["QJ_EXT"]]
     }

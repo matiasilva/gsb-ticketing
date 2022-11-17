@@ -48,9 +48,9 @@ def match_identity(user, resp):
     else:
         canceled = user.profile.raven_for_life
         # first, check R4L against jdCollege attribute
-        if canceled and resp['college'] == 'GIRTON':
+        if canceled and resp.get('college') == 'GIRTON':
             return UserKind.objects.get(enum="GIRTON_ALUM")
-        groups = resp['groups']
+        groups = resp.get('groups', [])
         # match group, if any
         for group in groups:
             if group['groupid'] == '002866':
