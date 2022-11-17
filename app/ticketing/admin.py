@@ -13,6 +13,7 @@ from .models import (
     TicketKind,
     User,
     UserKind,
+    Wave,
 )
 
 
@@ -94,6 +95,7 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketKind, TicketKindAdmin)
 admin.site.register(Setting)
+admin.site.register(Wave)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
 admin.site.register(PromoCode, PromoCodeAdmin)

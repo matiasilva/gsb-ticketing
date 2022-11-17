@@ -49,7 +49,7 @@
                     {% if signup_form.errors %}
                         {% include "partials/form_errors.html" with form=signup_form only %}
                     {% endif %}
-                    <form action="{% url 'signup_guest' %}" method="post">
+                    <form action="{% url 'signup_guest' %}" method="post" class="mb-3">
                         {% csrf_token %}
                         <div class="mb-3 row">
                             <label for="{{signup_form.email.id_for_label}}" class="col-lg-4 col-form-label">Email</label>

@@ -124,7 +124,9 @@ class TicketKind(models.Model):
     allocation = models.ForeignKey(
         TicketAllocation, on_delete=models.CASCADE, related_name='kinds'
     )
-    optional_extras = models.ManyToManyField(TicketExtra, related_name='kinds')
+    optional_extras = models.ManyToManyField(
+        TicketExtra, related_name='kinds', blank=True
+    )
 
     objects = TicketKindManager()
 
@@ -242,7 +244,7 @@ class Ticket(models.Model):
     kind = models.ForeignKey(
         TicketKind, on_delete=models.CASCADE, related_name='tickets'
     )
-    extras = models.ManyToManyField(TicketExtra, related_name='tickets')
+    extras = models.ManyToManyField(TicketExtra, related_name='tickets', blank=True)
 
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.CASCADE, related_name='tickets'

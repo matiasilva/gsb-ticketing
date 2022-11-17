@@ -5,7 +5,7 @@
     "fields": {
       "enum": "S_GIRTON",
       "name": "Girton Standard Internal Allocation",
-      "quantity": 425
+      "quantity": 375
     }
   },
   {
@@ -32,7 +32,7 @@
     "fields": {
       "enum": "BURSARY",
       "name": "Girton Bursary Allocation",
-      "quantity": 100
+      "quantity": 150
     }
   },
   {
