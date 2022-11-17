@@ -366,3 +366,11 @@ def buy_ticket(request):
 
 def buy_change(request):
     pass
+
+
+def server_error(request, exception=None):
+    return render(request, "errors/500.html", {}, status=500)
+
+
+def page_not_found(request, exception):
+    return render(request, "errors/404.html", {}, status=404)
