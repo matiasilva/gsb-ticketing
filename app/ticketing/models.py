@@ -250,7 +250,7 @@ class Ticket(models.Model):
         PaymentMethod, on_delete=models.CASCADE, related_name='tickets'
     )
     has_paid = models.BooleanField(default=False)
-    date_paid = models.DateTimeField(null=True)
+    date_paid = models.DateTimeField(null=True, blank=True)
 
     is_veg = models.BooleanField(default=False)
     is_alc = models.BooleanField(default=False)
