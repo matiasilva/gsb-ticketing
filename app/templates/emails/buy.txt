@@ -8,7 +8,7 @@ The amount due must be paid to the bank account (details follow) within a week o
 
 IMPORTANT: The exact payment reference provided must be used. This is also availble on the ticketing platform in case you want to consult this at a later time.
 
-Account Name : Girton Ball
+Account Name : Girton College
 Bank Name : Barclays Bank
 Sort Code : 20-17-68
 Account Number : 50402508
