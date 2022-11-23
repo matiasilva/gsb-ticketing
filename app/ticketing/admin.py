@@ -67,6 +67,7 @@ class TicketKindAdmin(admin.ModelAdmin):
 
 
 class TicketAdmin(admin.ModelAdmin):
+    search_fields = ['name', 'uuid']
     list_display = (
         "purchaser",
         "name",
@@ -92,12 +93,16 @@ class PromoCodeAdmin(admin.ModelAdmin):
     list_display = ("enum", "description")
 
 
+class AllowedUserAdmin(admin.ModelAdmin):
+    list_display = ("userkind_enum", "username")
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketKind, TicketKindAdmin)
 admin.site.register(Setting)
 admin.site.register(Wave)
-admin.site.register(AllowedUser)
+admin.site.register(AllowedUser, AllowedUserAdmin)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
 admin.site.register(PromoCode, PromoCodeAdmin)
