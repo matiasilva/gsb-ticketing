@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import (
+    AllowedUser,
     PromoCode,
     Setting,
     Ticket,
@@ -96,6 +97,7 @@ admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketKind, TicketKindAdmin)
 admin.site.register(Setting)
 admin.site.register(Wave)
+admin.site.register(AllowedUser)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
 admin.site.register(PromoCode, PromoCodeAdmin)
