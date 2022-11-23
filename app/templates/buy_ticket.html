@@ -49,7 +49,7 @@
                         class="form-control"
                         name="{{form.full_name.html_name}}"
                         value="{{form.full_name.value}}"
-                        {% if user.is_first_own_ticket %}disabled{% endif %}
+                        {% if user.has_firstonly_ticketkinds and user.is_first_own_ticket %}disabled{% endif %}
                     />
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     id="{{form.email.id_for_label}}"
                     value="{{form.email.value}}"
                     name="{{form.email.html_name}}"
-                    {% if user.is_first_own_ticket %}disabled{% endif %}
+                    {% if user.has_firstonly_ticketkinds and user.is_first_own_ticket %}disabled{% endif %}
                 />
                 <div class="form-text">
                     This is the email of the attendee (yourself/your guest). We'll use this email to send them all ticketing-related correspondence,

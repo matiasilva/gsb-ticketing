@@ -278,7 +278,7 @@ def buy_ticket(request):
     if request.method == 'POST':
 
         req_post = request.POST.copy()
-        if user.is_first_own_ticket():
+        if user.has_firstonly_ticketkinds() and user.is_first_own_ticket():
             # fill in name and email as disabled form fields are not sent
             req_post.update({'full_name': user.get_full_name(), 'email': user.email})
         # only handle active tickets from now on
@@ -288,7 +288,9 @@ def buy_ticket(request):
                 purchaser=user,
                 name=form.cleaned_data['full_name'],
                 email=form.cleaned_data['email'],
-                is_own=user.is_first_own_ticket(),
+                is_own=(
+                    user.has_firstonly_ticketkinds() and user.is_first_own_ticket()
+                ),
                 kind=form.cleaned_data['kind'],
                 is_veg=form.cleaned_data['is_veg'],
                 is_alc=form.cleaned_data['is_alc'],
