@@ -89,7 +89,7 @@ class TicketAdmin(admin.ModelAdmin):
         "kind",
         "has_paid",
         "payment_method",
-        "has_donated",
+        "email",
     )
     actions = ['send_confirmation']
 
