@@ -35,7 +35,7 @@ class BuyTicketForm(forms.Form):
 
 class GuestLoginForm(forms.Form):
     email = forms.EmailField()
-    passphrase = forms.CharField(max_length=20)
+    passphrase = forms.CharField(max_length=30)
 
 
 class GuestSignupForm(forms.Form):

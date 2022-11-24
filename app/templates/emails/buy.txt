@@ -6,7 +6,7 @@ The amount due will be debited from your Lent Term College Bill. Once confirmati
 {% elif ticket.payment_method.enum == 'BANK_TRANSFER' %}
 The amount due must be paid to the bank account (details follow) within a week of purchase. After this, the tickets will be re-released into the pool where they can be bought by other interested buyers.
 
-IMPORTANT: The exact payment reference provided must be used. This is also availble on the ticketing platform in case you want to consult this at a later time.
+IMPORTANT: The exact payment reference provided must be used. This is also available on the ticketing platform in case you want to consult this at a later time.
 
 Account Name : Girton College
 Bank Name : Barclays Bank
