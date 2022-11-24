@@ -45,33 +45,6 @@ class TicketExtraManager(models.Manager):
         return self.get(enum=enum)
 
 
-class UserManager(BaseUserManager):
-    def create_user(
-        self,
-        email,
-        password,
-        pname=None,
-        psurname=None,
-        matriculation_date=None,
-        first_name=None,
-        last_name=None,
-    ):
-        user = self.model(
-            username=email,
-            email=email,
-            pname=pname,
-            psurname=psurname,
-            matriculation_date=matriculation_date,
-            first_name=first_name,
-            last_name=last_name,
-            has_signed_up=True,
-            kind=UserKind.objects.get(enum='GIRTON_ALUM'),
-        )
-        user.set_password(password)
-        user.save()
-        return user
-
-
 class PaymentMethod(models.Model):
     enum = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
@@ -154,6 +127,34 @@ class UserKind(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserManager(BaseUserManager):
+    def create_user(
+        self,
+        email,
+        password,
+        pname=None,
+        psurname=None,
+        matriculation_date=None,
+        first_name=None,
+        last_name=None,
+        kind=UserKind.objects.get(enum='GIRTON_ALUM'),
+    ):
+        user = self.model(
+            username=email,
+            email=email,
+            pname=pname,
+            psurname=psurname,
+            matriculation_date=matriculation_date,
+            first_name=first_name,
+            last_name=last_name,
+            has_signed_up=True,
+            kind=kind,
+        )
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class User(AbstractUser):

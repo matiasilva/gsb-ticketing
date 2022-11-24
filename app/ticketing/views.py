@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 
 from .forms import BuyTicketForm, GuestLoginForm, GuestSignupForm, SignupForm
 from .models import (
+    AllowedUser,
     Setting,
     Ticket,
     TicketAllocation,
@@ -111,6 +112,13 @@ def signup_guest(request):
         # only new users here
         form = GuestSignupForm(request.POST)
         if form.is_valid():
+            allowed_user = AllowedUser.objects.filter(
+                username=form.cleaned_data['email']
+            )
+            if allowed_user.exists():
+                userkind = UserKind.objects.get(enum=allowed_user.first().userkind_enum)
+            else:
+                userkind = UserKind.objects.get(enum='GIRTON_ALUM')
             User.objects.create_user(
                 form.cleaned_data['email'],
                 form.cleaned_data['passphrase'],
@@ -119,6 +127,7 @@ def signup_guest(request):
                 matriculation_date=form.cleaned_data['matric_date'],
                 first_name=form.cleaned_data['name'],
                 last_name=form.cleaned_data['surname'],
+                kind=userkind,
             )
             messages.add_message(
                 request,
