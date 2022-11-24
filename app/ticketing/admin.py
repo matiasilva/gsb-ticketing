@@ -1,9 +1,11 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
 from django.contrib.auth.models import Group
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from .models import (
     AllowedUser,
@@ -79,6 +81,7 @@ class TicketKindAdmin(admin.ModelAdmin):
 
 
 class TicketAdmin(admin.ModelAdmin):
+
     search_fields = ['name', 'uuid']
     list_display = (
         "purchaser",
@@ -88,6 +91,7 @@ class TicketAdmin(admin.ModelAdmin):
         "payment_method",
         "has_donated",
     )
+    actions = ['send_confirmation']
 
     @admin.display(description='Donated', boolean=True)
     def has_donated(self, obj):
@@ -99,6 +103,26 @@ class TicketAdmin(admin.ModelAdmin):
                 return False
         else:
             return None
+
+    @admin.action(description='Send confirmation email')
+    def send_confirmation(self, request, queryset):
+        for ticket in queryset:
+            msg = render_to_string("emails/buy.txt", {"ticket": ticket})
+            recipients = [ticket.email]
+            # both purchaser and attendee should receive email
+            if not ticket.is_own:
+                recipients.append(ticket.purchaser.email)
+            send_mail(
+                'GSB23 Ticketing: Ticket Confirmation',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+        self.message_user(
+            request,
+            f'{queryset.count()} emails were successfully sent.',
+            messages.SUCCESS,
+        )
 
 
 class PromoCodeAdmin(admin.ModelAdmin):
