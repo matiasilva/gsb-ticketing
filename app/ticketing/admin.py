@@ -19,6 +19,14 @@ from .models import (
 
 
 class UserAdmin(UserAdminOriginal):
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "tickets_bought",
+        "kind",
+    )
     readonly_fields = ["last_login", "date_joined"]
     fieldsets = (
         (None, {"fields": ("username",)}),
@@ -36,6 +44,10 @@ class UserAdmin(UserAdminOriginal):
         ("Important dates", {"fields": ("last_login", "date_joined")}),
         ("Custom fields", {"fields": ("kind", "has_signed_up")}),
     )
+
+    @admin.display(description='Tickets bought')
+    def tickets_bought(self, obj):
+        return obj.tickets.count()
 
 
 class UserKindAdmin(admin.ModelAdmin):
