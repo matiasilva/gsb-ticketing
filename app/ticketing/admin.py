@@ -13,6 +13,7 @@ from .models import (
     Setting,
     Ticket,
     TicketAllocation,
+    TicketExtra,
     TicketKind,
     User,
     UserKind,
@@ -80,6 +81,14 @@ class TicketKindAdmin(admin.ModelAdmin):
         return f"{int(100*obj.allocation.count()/obj.allocation.quantity)}%"
 
 
+class TicketExtraAdmin(admin.ModelAdmin):
+    list_display = ("name", "tickets_bought")
+
+    @admin.display(description='Extras bought')
+    def tickets_bought(self, obj):
+        return obj.tickets.count()
+
+
 class TicketAdmin(admin.ModelAdmin):
 
     search_fields = ['name', 'uuid']
@@ -142,6 +151,7 @@ admin.site.register(AllowedUser, AllowedUserAdmin)
 admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
 admin.site.register(PromoCode, PromoCodeAdmin)
+admin.site.register(TicketExtra, TicketExtraAdmin)
 
 admin.site.unregister(Group)
 admin.site.unregister(FlatPage)
