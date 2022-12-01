@@ -100,7 +100,7 @@ class TicketAdmin(admin.ModelAdmin):
         "payment_method",
         "email",
     )
-    actions = ['send_confirmation']
+    actions = ['send_confirmation', 'send_payment_confirmation']
 
     @admin.display(description='Donated', boolean=True)
     def has_donated(self, obj):
@@ -123,6 +123,26 @@ class TicketAdmin(admin.ModelAdmin):
                 recipients.append(ticket.purchaser.email)
             send_mail(
                 'GSB23 Ticketing: Ticket Confirmation',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+        self.message_user(
+            request,
+            f'{queryset.count()} emails were successfully sent.',
+            messages.SUCCESS,
+        )
+
+    @admin.action(description='Send payment confirm email')
+    def send_payment_confirmation(self, request, queryset):
+        for ticket in queryset:
+            msg = render_to_string("emails/confirm.txt", {"ticket": ticket})
+            recipients = [ticket.email]
+            # both purchaser and attendee should receive email
+            if not ticket.is_own:
+                recipients.append(ticket.purchaser.email)
+            send_mail(
+                'GSB23 Ticketing: Payment Cleared',
                 msg,
                 'it@girtonball.com',
                 recipients,

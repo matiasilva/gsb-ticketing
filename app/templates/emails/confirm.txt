@@ -1,0 +1,12 @@
+Hi {{ticket.name}},
+
+Your payment for your {{ticket.kind.name}}{%if not ticket.is_own %} (Guest){% endif %} ticket to the 2023 Girton Spring Ball at the cost of £{{ticket.price}} with reference {{ticket.uuid}} has been cleared.
+
+No further action on this matter is required. Your ticket will be downloadable on the platform at a date closer to the Ball.
+
+For any queries about your ticket, please email it@girtonball.com or reply to this email.
+
+With warm wishes,
+
+Matias & Krish
+GSB23 IT & Ticketing
