@@ -1,3 +1,6 @@
+from functools import reduce
+from operator import or_
+
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
 from django.contrib.auth.models import Group
@@ -5,6 +8,7 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.template.loader import render_to_string
 
 from .models import (
@@ -101,6 +105,20 @@ class TicketAdmin(admin.ModelAdmin):
         "email",
     )
     actions = ['send_confirmation', 'send_payment_confirmation']
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super(TicketAdmin, self).get_search_results(
+            request, queryset, search_term
+        )
+        search_words = search_term.split()
+        if search_words:
+            q_objects = [
+                Q(**{field + '__icontains': word})
+                for field in self.search_fields
+                for word in search_words
+            ]
+            queryset |= self.model.objects.filter(reduce(or_, q_objects))
+        return queryset, use_distinct
 
     @admin.display(description='Donated', boolean=True)
     def has_donated(self, obj):
