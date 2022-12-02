@@ -105,6 +105,7 @@ class TicketAdmin(admin.ModelAdmin):
         "email",
     )
     actions = ['send_confirmation', 'send_payment_confirmation']
+    list_per_page = 1200
 
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super(TicketAdmin, self).get_search_results(
