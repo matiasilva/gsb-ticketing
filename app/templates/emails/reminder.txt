@@ -1,0 +1,26 @@
+Hi {{ticket.name}},
+
+You have NOT yet paid for the {{ticket.kind.name}}{%if not ticket.is_own %} (Guest){% endif %} ticket you purchased to the 2023 Girton Spring Ball at the cost of £{{ticket.price}}.
+
+This is a reminder to pay the amount due within 24 hours of your receipt of this email. After this date, your ticket will be canceled and the spot will be handed over to the next person on the waiting list.
+
+IMPORTANT: The exact payment reference provided must be used. This is also available on the ticketing platform in case you want to consult this at a later time.
+
+Account Name : Girton College
+Bank Name : Barclays Bank
+Sort Code : 20-17-68
+Account Number : 50402508
+Reference : {{ticket.uuid}}
+
+For payments from Overseas:
+IBAN Number : GB48BARC20176850402508
+SwiftBic Code : BARCGB22
+
+Your ticket number is {{ticket.uuid}}. Please quote this in all future correspondence with us.
+
+For any queries about your ticket, please email it@girtonball.com or reply to this email.
+
+With warm wishes,
+
+Matias & Krish
+GSB23 IT & Ticketing

@@ -172,6 +172,26 @@ class TicketAdmin(admin.ModelAdmin):
             messages.SUCCESS,
         )
 
+    @admin.action(description='Make them pay')
+    def send_payment_confirmation(self, request, queryset):
+        for ticket in queryset:
+            msg = render_to_string("emails/reminder.txt", {"ticket": ticket})
+            recipients = [ticket.email]
+            # both purchaser and attendee should receive email
+            if not ticket.is_own:
+                recipients.append(ticket.purchaser.email)
+            send_mail(
+                'GSB23 Ticketing: Payment reminder',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+        self.message_user(
+            request,
+            f'{queryset.count()} emails were successfully sent.',
+            messages.SUCCESS,
+        )
+
 
 class PromoCodeAdmin(admin.ModelAdmin):
     list_display = ("enum", "description")
