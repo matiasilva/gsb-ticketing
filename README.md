@@ -53,6 +53,10 @@ Usage: `python3 girtifier.py -h` to find out.
 - [Single app project](https://zindilis.com/posts/django-anatomy-for-single-app/)
 - [Useful prod setup](https://www.oreilly.com/library/view/lightweight-django/9781491946275/ch01.html)
 
+### scanner
+
+Web-based QR code scanner for ticket check-in.
+
 ## License
 
 MIT
