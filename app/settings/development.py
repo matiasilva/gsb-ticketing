@@ -15,3 +15,7 @@ DATABASES = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ADMINS = [
+    ('Bob', 'bob@thebuilder.com'),
+]

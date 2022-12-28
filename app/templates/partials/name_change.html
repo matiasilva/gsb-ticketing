@@ -1,0 +1,17 @@
+<div class="col">
+    <div class="card h-100 {% if not nc.has_paid %}border-warning{% else %}border-success{% endif %}">
+        <div class="card-header">
+            <small class="text-muted">{% if not nc.has_paid %}Requested{% else %}Actioned{% endif %} {{ nc.date_requested | timesince }} ago</small>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"><i class="bi-ticket-perforated me-2"></i>{{ nc.ticket.uuid }}</h5>
+            <ul class="card-text list-group list-group-flush">
+                <li class="list-group-item"><i class="bi-person-circle me-2"></i>New name — {{nc.new_name}}</li>
+                <li class="list-group-item"><i class="bi-envelope me-2"></i>New email — {{nc.new_email}}</li>
+                <li class="list-group-item"><i class="bi-123 me-2"></i>Reference — {{nc.payment_ref}}</li>
+                <li class="list-group-item fw-bold">{% if not nc.has_paid %}<i class="bi-hourglass-split me-2"></i>Status — Please pay{% else %}<i class="bi-patch-check me-2"></i>Status — Actioned{% endif %}</li>
+            </ul>
+        </div>
+
+    </div>
+</div>

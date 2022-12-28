@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 
 from .models import (
     AllowedUser,
+    NameChange,
     PromoCode,
     Setting,
     Ticket,
@@ -201,6 +202,46 @@ class AllowedUserAdmin(admin.ModelAdmin):
     list_display = ("userkind_enum", "username")
 
 
+class NameChangeAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "payment_ref",
+        "purchaser_username",
+        "purchaser_name",
+        "new_name",
+        "old_name",
+        "has_paid",
+    )
+    search_fields = ['purchaser_username', 'payment_ref']
+    actions = ['mark_completed']
+
+    @admin.display(description='Old name')
+    def old_name(self, obj):
+        return obj.ticket.name
+
+    @admin.display(description='Purchaser username')
+    def purchaser_username(self, obj):
+        return obj.purchaser.username
+
+    @admin.display(description='Purchaser name')
+    def purchaser_name(self, obj):
+        return obj.purchaser.get_full_name()
+
+    @admin.action(description='Mark NC as paid')
+    def mark_completed(self, request, queryset):
+        for nc in queryset:
+            nc.ticket.name = nc.new_name
+            nc.ticket.email = nc.new_email
+            nc.has_paid = True
+            nc.ticket.save()
+            nc.save()
+        self.message_user(
+            request,
+            f'{queryset.count()} name changes were successfully actioned and marked paid.',
+            messages.SUCCESS,
+        )
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketKind, TicketKindAdmin)
@@ -211,6 +252,7 @@ admin.site.register(UserKind, UserKindAdmin)
 admin.site.register(TicketAllocation)
 admin.site.register(PromoCode, PromoCodeAdmin)
 admin.site.register(TicketExtra, TicketExtraAdmin)
+admin.site.register(NameChange, NameChangeAdmin)
 
 admin.site.unregister(Group)
 admin.site.unregister(FlatPage)

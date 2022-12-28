@@ -1,6 +1,32 @@
 {% extends "base.html" %}
 {% block main %}
     <section class="mb-4">
+        <h2 class="mb-3">Your tickets</h2>
+        {% if user.tickets.all %}
+            <p>Hi {{user.first_name}}, these are all the tickets you have requested or purchased.</p>
+            <div class="row row-cols-1 row-cols-lg-3 g-4 mb-3">
+                {% for ticket in user.tickets.all %}
+                    {% include "partials/ticket.html" with ticket=ticket only %}
+                {% endfor %}
+            </div>
+            <p class="text-muted card-text">PDF tickets and further instructions regarding ball entry will be made available closer to the date of the ball.</p>
+        {% else %}
+            <p>You have not purchased any tickets.</p>
+        {% endif %}
+    </section>
+    {% if user.name_changes.all %}
+        <section class="mb-4">
+            <h2 class="mb-3">Name change requests</h2>
+            <p>Hi {{user.first_name}}, these are all the name changes you have requested or purchased.</p>
+            <div class="row row-cols-1 row-cols-lg-3 g-4 mb-3">
+                {% for nc in user.name_changes.all %}
+                    {% include "partials/name_change.html" with nc=nc only %}
+                {% endfor %}
+            </div>
+            <p class="text-muted card-text">Allow for an additional 24 hours for your name change to be actioned once payment has been received.</p>
+        </section>
+    {% endif %}
+    <section class="mb-4">
         <h2 class="mb-3">Buy tickets</h2>
         <div class="bg-light p-3 rounded">
             <div class="row text-center">
@@ -25,20 +51,5 @@
                 </div>
             </div>
         </div>
-    </section>
-    <section class="mb-4">
-        <h2 class="mb-3">Your tickets</h2>
-        {% if user.tickets.all %}
-            <p>Hi {{user.first_name}}, these are all the tickets you have requested or purchased.</p>
-            <div class="row row-cols-1 row-cols-lg-3 g-4 mb-3">
-                {% for ticket in user.tickets.all %}
-                    {% include "partials/ticket.html" with ticket=ticket only %}
-                {% endfor %}
-            </div>
-            <p class="text-muted card-text">All College Bill payments will be cleared once they have been charged on your Lent Term bill. No further action is needed.</p>
-        {% else %}
-            <p>You have not purchased any tickets.</p>
-        {% endif %}
-
     </section>
 {% endblock %}

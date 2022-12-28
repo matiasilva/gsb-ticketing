@@ -3,14 +3,21 @@ from datetime import date
 import requests
 from django.contrib import messages
 from django.contrib.auth import BACKEND_SESSION_KEY, authenticate, login, logout
-from django.core.mail import send_mail
-from django.http import Http404, HttpResponse
+from django.core.mail import mail_admins, send_mail
+from django.http import Http404, HttpResponse, QueryDict
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 
-from .forms import BuyTicketForm, GuestLoginForm, GuestSignupForm, SignupForm
+from .forms import (
+    BuyTicketForm,
+    GuestLoginForm,
+    GuestSignupForm,
+    NameChangeForm,
+    SignupForm,
+)
 from .models import (
     AllowedUser,
+    NameChange,
     Setting,
     Ticket,
     TicketAllocation,
@@ -19,7 +26,7 @@ from .models import (
     User,
     UserKind,
 )
-from .utils import login_required, match_identity
+from .utils import login_required, match_identity, validate_ticket_ref
 
 
 def index(request):
@@ -375,17 +382,119 @@ def buy_ticket(request):
         )
 
 
-def buy_change(request):
+@login_required
+def buy_change(request, ref=None):
+    # no ticket ref provided
+    if ref is None:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'No ticket reference provided!',
+        )
+        return redirect('manage')
+
+    # validate ticket ref
+    if validate_ticket_ref(ref) is None:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'Invalid ticket reference provided!',
+        )
+        return redirect('manage')
+
+    try:
+        ticket = Ticket.objects.get(uuid=ref)
+    except Ticket.DoesNotExist:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'Nonexistent ticket reference provided!',
+        )
+        return redirect('manage')
+
+    # ensure ticket belongs to this user
+    has_bought_ticket = ticket in request.user.tickets.all()
+    if not has_bought_ticket:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'You tried to mess with our platform, violating the terms and conditions in the process. Your account has been reported and appropriate action will be taken.',
+        )
+        msg = render_to_string(
+            "emails/violation.txt",
+            {
+                "user": request.user,
+                "violation": "use ticket reference that was not theirs",
+            },
+        )
+        mail_admins('User TC violation', msg, fail_silently=False)
+        return redirect('manage')
+
+    # ensure ticket is a guest ticket (now that we now ticket belongs to user)
+    if ticket.is_own:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            "You can't change the name on your own ticket!",
+        )
+        return redirect('manage')
+
+    # check name change is already in progress
+    if ticket.has_active_name_changes():
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'A name change request is already in progress. Please follow the payment instructions sent by email.',
+        )
+        return redirect('manage')
+
     if request.method == 'POST':
-        pass
+        print(request.POST)
+        form = NameChangeForm(request.POST)
+        if form.is_valid():
+            name_change = NameChange(
+                new_name=form.cleaned_data['new_name'],
+                new_email=form.cleaned_data['new_email'],
+                ticket=ticket,
+                purchaser=request.user,
+            )
+            name_change.save()
+
+            msg = render_to_string(
+                "emails/name_change.txt", {"nc": name_change, "ticket": ticket}
+            )
+            recipients = [name_change.new_email, ticket.purchaser.email]
+            send_mail(
+                'GSB23 Ticketing: Name Change Request',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Name change successfully requested. Please check your email for payment details.',
+            )
+        else:
+            return render(
+                request,
+                "name_change.html",
+                {"title": "Name change", "form": form, "ticket": ticket},
+            )
+        return redirect('manage')
 
     elif request.method == 'GET':
-        # render form
-        pass
+        # no ticket ref provided
+        form = NameChangeForm()
+        return render(
+            request,
+            'name_change.html',
+            {"title": "Name change", "form": form, "ticket": ticket},
+        )
 
 
 def patience(request):
-    return render(request, "bepatient.html", {"title": "Name change"})
+    return render(request, "bepatient.html", {"title": "Patience"})
 
 
 def server_error(request, exception=None):

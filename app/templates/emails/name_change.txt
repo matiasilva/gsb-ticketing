@@ -1,10 +1,20 @@
-Hi {{ticket.name}},
+Hi {{ticket.purchaser.name}},
 
-You've requested a {{ticket.kind.name}} for your {%if not ticket.is_own %} (Guest){% endif %} ticket to the 2023 Girton Spring Ball at the cost of £{{ticket.price}}. This is a confirmation email.
-{% if ticket.payment_method.enum == 'COLLEGE_BILL' %}
-The amount due will be debited from your Lent Term College Bill. Once confirmation of this has been received from the Bursary Clerk, your ticket purchase will be marked as 'completed'. Until then, it will show up as 'pending'. Rest assured, your ticket has been secured.
-{% elif ticket.payment_method.enum == 'BANK_TRANSFER' %}
-The amount due must be paid to the bank account (details follow) within a week of purchase. After this, the tickets will be re-released into the pool where they can be bought by other interested buyers.
+You've requested a name change for your {{ticket.kind.name}} (Guest) ticket to the 2023 Girton Spring Ball. This is a request for payment.
+
+## Previous attendee information ##
+
+Name: {{ticket.name}}
+Email: {{ticket.email}}
+
+## New attendee information ##
+
+Name: {{nc.new_name}}
+Email: {{nc.new_email}}
+
+## Payment details ##
+
+The amount due must be paid to this bank account within 24 hours of receipt of this email. If no payment is received after this, the name change will be canceled.
 
 IMPORTANT: The exact payment reference provided must be used. This is also available on the ticketing platform in case you want to consult this at a later time.
 
@@ -12,17 +22,17 @@ Account Name : Girton College
 Bank Name : Barclays Bank
 Sort Code : 20-17-68
 Account Number : 50402508
-Reference : {{ticket.uuid}}
+Reference : {{nc.payment_ref}}
+Amount : {{nc.price}}
 
 For payments from Overseas:
 IBAN Number : GB48BARC20176850402508
 SwiftBic Code : BARCGB22
-{% else %}
-No payment is necessary!
-{% endif %}
-Your ticket number is {{ticket.uuid}}. Please quote this in all future correspondence with us.
 
-For any queries about your ticket, please email it@girtonball.com or reply to this email.
+The ticket reference is {{ticket.uuid}}.
+The name change reference is {{nc.payment_ref}}.
+
+Please quote both in all future correspondence with us regarding this matter. For any queries about your name change request, please email it@girtonball.com or reply to this email.
 
 With warm wishes,
 

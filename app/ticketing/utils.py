@@ -1,4 +1,5 @@
 import random
+import re
 from functools import wraps
 from urllib.parse import urlparse
 
@@ -62,3 +63,7 @@ def match_identity(user, resp):
 
         # if no match found, return other
         return UserKind.objects.get(enum="UCAM_OTHER")
+
+
+def validate_ticket_ref(ref):
+    return re.match(r"^GSB[A-Z1-9]{8}$", ref)

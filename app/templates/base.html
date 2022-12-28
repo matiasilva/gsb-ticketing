@@ -106,12 +106,13 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% endif %} d-flex align-items-center justify-content-center">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>
-                        {{message}}
-                    </div>
-                </div>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    {% include "partials/message.html" with msg=message class='alert-warning' icon_class='bi-exclamation-triangle-fill' only %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    {% include "partials/message.html" with msg=message class='alert-success' icon_class='bi-check-circle-fill' only %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    {% include "partials/message.html" with msg=message class='alert-danger' icon_class='bi-x-circle-fill' only %}
+                {% endif %}
             {% endfor %}
         {% endif %}
         <main class="container mb-3 p-3 pb-0">{% block main %}{% endblock %}</main>

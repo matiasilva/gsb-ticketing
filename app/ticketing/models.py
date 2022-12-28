@@ -6,8 +6,18 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 
+def gen_random_id(prefix):
+    return (
+        f"{prefix}{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"
+    )
+
+
 def gen_ticket_id():
-    return f"GSB{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789', k=8))}"
+    return gen_random_id('GSB')
+
+
+def gen_namechange_id():
+    return gen_random_id('GSBNC')
 
 
 class AllowedUserManager(models.Manager):
@@ -281,6 +291,9 @@ class Ticket(models.Model):
         else:
             return self.email
 
+    def has_active_name_changes(self):
+        return self.name_changes.filter(has_paid=False).count() > 0
+
     @property
     def price(self):
         sum_extras = 0
@@ -292,10 +305,15 @@ class Ticket(models.Model):
 class NameChange(models.Model):
     new_name = models.CharField(max_length=100)
     new_email = models.EmailField()
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    has_paid = models.BooleanField()
-    payment_ref = models.CharField(max_length=13, default=gen_ticket_id)
+    ticket = models.ForeignKey(
+        Ticket, on_delete=models.CASCADE, related_name='name_changes'
+    )
+    has_paid = models.BooleanField(default=False)
+    payment_ref = models.CharField(max_length=13, default=gen_namechange_id)
     date_requested = models.DateTimeField(auto_now_add=True)
+    purchaser = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='name_changes'
+    )
 
     def __str__(self):
         return self.payment_ref

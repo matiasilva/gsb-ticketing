@@ -1,0 +1,3 @@
+Attention!
+
+A user with name {{user.get_full_name}} and email {{user.email}} attempted to {{violation}} at time {% now "SHORT_DATETIME_FORMAT" %} .

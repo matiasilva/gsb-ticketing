@@ -1,5 +1,5 @@
 <div class="col">
-    <div class="card h-100 {% if not ticket.has_paid %}border-warning{% else %}border-success{% endif %}">
+    <div class="card {% if not ticket.has_paid %}border-warning{% else %}border-success{% endif %}">
         <div class="card-header">
             <small class="text-muted">{% if not ticket.has_paid %}Requested{% else %}Purchased{% endif %} {{ ticket.date_applied | timesince }} ago</small>
         </div>
@@ -16,9 +16,9 @@
                 {% endif %}
                 <li class="list-group-item fw-bold">{% if not ticket.has_paid %}<i class="bi-hourglass-split me-2"></i>Status — Pending{% else %}<i class="bi-patch-check me-2"></i>Status — Purchased{% endif %}</li>
             </ul>
-            <div class="pt-2" style="border-top: 1px solid #bebee0">
+            <div class="pt-2" style="border-top: 1.5px solid #bebee0">
                 <ul class="card-text list-group list-group-flush">
-                    <li class="list-group-item"><i class="bi-pencil me-2"></i><a href="{% url 'buy_change' %}" class="card-link">Request name change</a></li>
+                    {% if not ticket.is_own and not ticket.has_active_name_changes %}<li class="list-group-item"><i class="bi-pencil me-2"></i><a href="{% url 'buy_change' ref=ticket.uuid %}" class="card-link">Request name change</a></li>{% endif %}
                     <li class="list-group-item"><i class="bi-file-earmark-arrow-down me-2"></i><a href="{% url 'patience' %}" class="card-link">Download ticket</a></li>
                 </ul>
             </div>

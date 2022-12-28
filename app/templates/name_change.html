@@ -1,1 +1,50 @@
 {% extends "base.html" %}
+
+{% block main %}
+    <section class="mb-4">
+        <h1>Request a name change</h1>
+        <p>
+            A name change allows ownership of the ticket to be transferred in case your guest can no longer attend. There are no limits to the number of changes but each comes at a cost of £15 per change.
+        </p>
+    </section>
+    {% if form.errors %}
+        {% include "partials/form_errors.html" with form=login_form only %}
+    {% endif %}
+    <form action="{% url 'buy_change' ref=ticket.uuid %}" method="post">
+        {% csrf_token %}
+        <div class="mb-4 bg-light p-3 rounded">
+            <h4>New attendee's details</h4>
+            <div class="mb-3">
+                <label for="{{form.new_name.id_for_label}}" class="form-label">Name</label>
+                <input
+                    id="{{form.new_name.id_for_label}}"
+                    type="text"
+                    class="form-control"
+                    name="{{form.new_name.html_name}}"
+                    value="{{form.new_name.value}}"
+                />
+            </div>
+            <div>
+                <label for="{{form.new_email.id_for_label}}" class="form-label"
+                >Email address
+                </label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="{{form.new_email.id_for_label}}"
+                    value="{{form.new_email.value}}"
+                    name="{{form.new_email.html_name}}"
+                />
+                <div class="form-text">
+                    We'll use this email to send them all ticketing-related correspondence,
+                    including their tickets.
+                </div>
+            </div>
+        </div>
+        <p>
+            I understand this action will come with a cost of £15 and details cannot be amended once the change is requested. A request for payment will be sent to you and your new guest informing them of the appropriate payment timeline.
+        </p>
+        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </form>
+{% endblock %}
+
