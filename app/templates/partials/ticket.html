@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">{{ticket.kind.name}}</h5>
-            <ul class="card-text list-group list-group-flush">
+            <ul class="card-text list-group list-group-flush mb-2">
                 <li class="list-group-item"><i class="bi-person-circle me-2"></i>Attendee — {{ticket.name}}</li>
                 <li class="list-group-item"><i class="bi-envelope me-2"></i>Email — {{ticket.email}}</li>
                 <li class="list-group-item"><i class="bi-card-list me-2"></i>Subtype — {% if not ticket.is_own %}Guest{% else %}Internal{% endif %}</li>
@@ -15,8 +15,13 @@
                     <li class="list-group-item"><i class="bi-keyme-2"></i>Payment reference — {{ ticket.uuid }}</li>
                 {% endif %}
                 <li class="list-group-item fw-bold">{% if not ticket.has_paid %}<i class="bi-hourglass-split me-2"></i>Status — Pending{% else %}<i class="bi-patch-check me-2"></i>Status — Purchased{% endif %}</li>
-
             </ul>
+            <div class="pt-2" style="border-top: 1px solid #bebee0">
+                <ul class="card-text list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi-pencil me-2"></i><a href="{% url 'buy_change' %}" class="card-link">Request name change</a></li>
+                    <li class="list-group-item"><i class="bi-file-earmark-arrow-down me-2"></i><a href="{% url 'patience' %}" class="card-link">Download ticket</a></li>
+                </ul>
+            </div>
         </div>
 
     </div>

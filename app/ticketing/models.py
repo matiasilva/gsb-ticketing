@@ -289,6 +289,21 @@ class Ticket(models.Model):
         return sum_extras + self.kind.price
 
 
+class NameChange(models.Model):
+    new_name = models.CharField(max_length=100)
+    new_email = models.EmailField()
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    has_paid = models.BooleanField()
+    payment_ref = models.CharField(max_length=13, default=gen_ticket_id)
+    date_requested = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.payment_ref
+
+    def price(self):
+        return TicketKind.objects.get(enum='NAME_CHANGE').price
+
+
 class PromoCode(models.Model):
     enum = models.CharField(max_length=20)
     description = models.CharField(max_length=200)

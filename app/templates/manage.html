@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %}{{title}}{% endblock %}
-
+{% extends "base.html" %}
 {% block main %}
     <section class="mb-4">
         <h2 class="mb-3">Buy tickets</h2>
@@ -31,7 +30,7 @@
         <h2 class="mb-3">Your tickets</h2>
         {% if user.tickets.all %}
             <p>Hi {{user.first_name}}, these are all the tickets you have requested or purchased.</p>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+            <div class="row row-cols-1 row-cols-lg-3 g-4 mb-3">
                 {% for ticket in user.tickets.all %}
                     {% include "partials/ticket.html" with ticket=ticket only %}
                 {% endfor %}

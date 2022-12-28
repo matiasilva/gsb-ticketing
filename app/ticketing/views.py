@@ -376,7 +376,16 @@ def buy_ticket(request):
 
 
 def buy_change(request):
-    pass
+    if request.method == 'POST':
+        pass
+
+    elif request.method == 'GET':
+        # render form
+        pass
+
+
+def patience(request):
+    return render(request, "bepatient.html", {"title": "Name change"})
 
 
 def server_error(request, exception=None):

@@ -17,5 +17,6 @@ urlpatterns = [
     path('accounts/login/guest/', views.login_guest, name='login_guest'),
     path('accounts/logout/guest/', views.logout_guest, name='logout'),
     path('logout/', views.logout_all, name="logout_all"),
+    path('patience/', views.patience, name="patience"),
     path('', views.index, name='index'),
 ]

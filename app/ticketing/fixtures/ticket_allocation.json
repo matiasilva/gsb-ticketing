@@ -79,5 +79,16 @@
       "name": "GSB 22 committee Allocation",
       "quantity": 25
     }
+  },
+  {
+    "model": "ticketing.TicketAllocation",
+    "pk": 10,
+    "fields": {
+      "enum": "NAME_CHANGE",
+      "name": "GSB 22 committee Allocation",
+      "quantity": 0,
+      "is_active": false,
+      "is_visible": false
+    }
   }
 ]

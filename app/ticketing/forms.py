@@ -14,6 +14,10 @@ class SignupForm(forms.Form):
     status = forms.CharField(disabled=True)
 
 
+class NameChangeForm(forms.Form):
+    new_name = forms.CharField(max_length=100, initial="")
+
+
 class BuyTicketForm(forms.Form):
     def __init__(self, tickets_qs, *args, **kwargs):
         super(BuyTicketForm, self).__init__(*args, **kwargs)

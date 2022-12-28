@@ -1,6 +1,30 @@
 {% extends "base.html" %}
-{% block title %}{{title}}{% endblock %}
+{% load static %}
+{% block style %}
+    @font-face {font-family: "Comic Sans MS";
+    src: url("{% static 'fonts/comicsans.woff2'%}") format("woff2"), /* chrome firefox */
+    url("{% static 'fonts/comicsans.woff'%}.woff") format("woff"), /* chrome firefox */
+    url("{% static 'fonts/comicsans.ttf'%}.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+    }
+    .rainbow-text {
+    animation: rainbow 2s linear;
+    animation-iteration-count: infinite;
+    background: linear-gradient(to right, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%)
+    0 0/200% 100%;
+    background-clip: text;
+    color: transparent;
+    }
+
+    main > p, main > h1 {
+    font-family: 'Comic Sans MS', sans-serif;
+    }
+
+    @keyframes rainbow {
+    to {background-position:-200% 0%}
+    }
+{% endblock %}
 {% block main %}
-    <h1>Patience, please!</h1>
-    <h3 class="fw-normal"><a href="https://i.pinimg.com/originals/6a/ff/e7/6affe715379ae38e72dd430ca22e6f68.jpg">Our engineers</a> have put on their hard hats and are hard at work bringing you Beyond the Skies!</h3>
+    <h1 class="fw-bold rainbow-text p-2" style="font-size:calc(3rem + 2.7vw)">Patience, please!</h1>
+    <p class="display-4"><a href="https://i.pinimg.com/originals/6a/ff/e7/6affe715379ae38e72dd430ca22e6f68.jpg">Our engineers</a> have put on their <span class="rainbow-text">hard hats</span> and are hard at work on that!</p>
+    <p class="text-muted">Copyright (c) 1995 Microsoft Corporation. All rights reserved.</p>
 {% endblock %}
