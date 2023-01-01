@@ -449,7 +449,6 @@ def buy_change(request, ref=None):
         return redirect('manage')
 
     if request.method == 'POST':
-        print(request.POST)
         form = NameChangeForm(request.POST)
         if form.is_valid():
             name_change = NameChange(

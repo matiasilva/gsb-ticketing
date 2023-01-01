@@ -25,5 +25,6 @@ handler500 = 'ticketing.views.server_error'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(url=static('favicon.ico'))),
+    path('scanner/', include('scanner.urls')),
     path('', include('ticketing.urls')),
 ]

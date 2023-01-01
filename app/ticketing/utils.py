@@ -36,6 +36,8 @@ def login_required(
             path = request.get_full_path()
         from django.contrib.auth.views import redirect_to_login
 
+        print(path, resolved_login_url, redirect_field_name)
+
         return redirect_to_login(path, resolved_login_url, redirect_field_name)
 
     return _wrapper_view
