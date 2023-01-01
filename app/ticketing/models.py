@@ -350,7 +350,7 @@ class Attendance(models.Model):
     )
     date = models.DateTimeField(auto_now_add=True)
     checker = models.ForeignKey(
-        User, on_delete=models.SET_NULL, related_name='attendances'
+        User, on_delete=models.SET_NULL, related_name='attendances', null=True
     )
 
 
