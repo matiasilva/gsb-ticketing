@@ -1,3 +1,5 @@
+exclude: /vendor/.*$
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
@@ -17,8 +19,6 @@ repos:
     hooks:
       - id: prettier
         exclude: .*/templates/.*$
-      - id: prettier
-        exclude: .*/vendor/.*\.js$
 
   # Black formats python3 files without changing the AST
   - repo: https://github.com/psf/black
