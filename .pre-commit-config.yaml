@@ -18,7 +18,7 @@ repos:
       - id: prettier
         exclude: .*/templates/.*$
       - id: prettier
-        exclude: .*/vendor/.*.js{.map}?$
+        exclude: .*/vendor/.*\.js$
 
   # Black formats python3 files without changing the AST
   - repo: https://github.com/psf/black
