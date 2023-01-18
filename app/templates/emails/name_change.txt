@@ -1,4 +1,4 @@
-Hi {{ticket.purchaser.full_name}},
+Hi {{ticket.purchaser.get_full_name}},
 
 You've requested a name change for your {{ticket.kind.name}} (Guest) ticket to the 2023 Girton Spring Ball. This is a request for payment.
 
