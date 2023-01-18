@@ -398,7 +398,7 @@ def buy_change(request, ref=None):
         messages.add_message(
             request,
             messages.WARNING,
-            'Invalid ticket reference provided!',
+            'Nonexistent ticket reference provided!',
         )
         return redirect('manage')
 

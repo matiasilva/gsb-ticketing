@@ -16,7 +16,7 @@ class SignupForm(forms.Form):
 
 class NameChangeForm(forms.Form):
     new_name = forms.CharField(max_length=100, initial="")
-    new_email = forms.EmailField()
+    new_email = forms.EmailField(initial="")
 
 
 class BuyTicketForm(forms.Form):
