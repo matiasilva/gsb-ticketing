@@ -26,30 +26,32 @@
             <p class="text-muted card-text">Allow for an additional 24 hours for your name change to be actioned once payment has been received.</p>
         </section>
     {% endif %}
-    <section class="mb-4">
-        <h2 class="mb-3">Buy tickets</h2>
-        <div class="bg-light p-3 rounded">
-            <div class="row text-center">
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h4>Ticket allowance</h4>
-                    <span class="fs-5 text-muted">{{ tickets_left }}</span>
-                </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h4>Ticket group</h4>
-                    <span class="fs-5 text-muted">{{ user.kind.name}}</span>
-                </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h4>Ticket wave</h4>
-                    <span class="fs-5 text-muted">{{ wave.name }}</span>
-                </div>
-                <div class="col-md-3 align-self-center">
-                    {% if eligible %}
-                        <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
-                    {% else %}
-                        <a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
-                    {% endif %}
+    {% if not wave.enum == 'SOLD_OUT' %}
+        <section class="mb-4">
+            <h2 class="mb-3">Buy tickets</h2>
+            <div class="bg-light p-3 rounded">
+                <div class="row text-center">
+                    <div class="col-md-3 mb-4 mb-md-0">
+                        <h4>Ticket allowance</h4>
+                        <span class="fs-5 text-muted">{{ tickets_left }}</span>
+                    </div>
+                    <div class="col-md-3 mb-4 mb-md-0">
+                        <h4>Ticket group</h4>
+                        <span class="fs-5 text-muted">{{ user.kind.name}}</span>
+                    </div>
+                    <div class="col-md-3 mb-4 mb-md-0">
+                        <h4>Ticket wave</h4>
+                        <span class="fs-5 text-muted">{{ wave.name }}</span>
+                    </div>
+                    <div class="col-md-3 align-self-center">
+                        {% if eligible %}
+                            <a href="{% url 'buy_ticket' %}" class="btn btn-success btn-lg"><span>Buy a ticket<span></a>
+                        {% else %}
+                            <a class="btn btn-success btn-lg disabled"><span>Buy a ticket<span></a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
 {% endblock %}
