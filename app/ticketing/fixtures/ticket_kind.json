@@ -130,15 +130,5 @@
       "price": 0,
       "allocation": ["FRIENDS"]
     }
-  },
-  {
-    "model": "ticketing.TicketKind",
-    "pk": 13,
-    "fields": {
-      "enum": "NAME_CHANGE",
-      "name": "Name Change",
-      "price": 15,
-      "allocation": []
-    }
   }
 ]

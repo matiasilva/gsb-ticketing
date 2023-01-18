@@ -318,9 +318,6 @@ class NameChange(models.Model):
     def __str__(self):
         return self.payment_ref
 
-    def price(self):
-        return TicketKind.objects.get(enum='NAME_CHANGE').price
-
 
 class PromoCode(models.Model):
     enum = models.CharField(max_length=20)

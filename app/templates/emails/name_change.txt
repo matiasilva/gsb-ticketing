@@ -23,7 +23,7 @@ Bank Name : Barclays Bank
 Sort Code : 20-17-68
 Account Number : 50402508
 Reference : {{nc.payment_ref}}
-Amount : {{nc.price}}
+Amount : £15
 
 For payments from Overseas:
 IBAN Number : GB48BARC20176850402508
