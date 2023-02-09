@@ -193,6 +193,21 @@ class TicketAdmin(admin.ModelAdmin):
             messages.SUCCESS,
         )
 
+    @admin.action(description='Download as CSV for ticket generation')
+    def download_ticketing_details(self, request, queryset):
+        import csv
+        import io
+
+        from django.http import HttpResponse
+
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(["name", "uuid", "kind"])
+        for ticket in queryset:
+            writer.writerow([ticket.name, ticket.uuid, ticket.kind])
+        buffer.seek(0)
+        return HttpResponse(buffer, content_type='text/csv')
+
 
 class PromoCodeAdmin(admin.ModelAdmin):
     list_display = ("enum", "description")
