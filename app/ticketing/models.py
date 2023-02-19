@@ -341,16 +341,6 @@ class Wave(models.Model):
         return self.name
 
 
-class Attendance(models.Model):
-    ticket = models.OneToOneField(
-        Ticket, on_delete=models.CASCADE, related_name='attendance'
-    )
-    date = models.DateTimeField(auto_now_add=True)
-    checker = models.ForeignKey(
-        User, on_delete=models.SET_NULL, related_name='attendances', null=True
-    )
-
-
 class Setting(models.Model):
 
     current_wave = models.OneToOneField(Wave, on_delete=models.CASCADE)

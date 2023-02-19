@@ -39,4 +39,4 @@ def checkin(request):
         )
 
     else:
-        pass
+        return render(request, 'index.html')

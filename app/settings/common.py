@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     # custom apps
     'ticketing.apps.TicketingConfig',
-    'scanner.apps.ScannerConfig',
     'ucamwebauth',
     'simpleanalytics',
 ]

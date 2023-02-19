@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- stuff I always include because... -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,shrink-to-fit=no"
+        />
+
+        <!-- stylesheets -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" integrity="sha256-ky6hUQiSiZG88MCkZBX8ZS3l/8AVjDUgU1e5DGXus4Y=" crossorigin="anonymous">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+        />
+        <link rel="stylesheet" href="{% static 'style.css' %}" />
+
+        <!-- favicon -->
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="{% static 'apple-touch-icon.png' %}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{% static 'favicon-32x32.png' %}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="{% static 'favicon-16x16.png' %}"
+        />
+        <link rel="manifest" href="{% static 'site.webmanifest' %}" />
+
+        <!--important head stuff -->
+        <title>{{ title | default:"Home"}} | GSB23 Ticketing</title>
+
+        <!-- SEO tags -->
+        <meta property="og:title" content="GSB23 Ticketing" />
+        <meta name="robots" content="noarchive" />
+        <meta name="description" content="GSB 2023 Ticketing System" />
+        <meta property="og:description" content="GSB 2023 Ticketing System" />
+
+        <!-- internal CSS -->
+        <style>
+            .nav-link:hover {
+                text-decoration: underline;
+            }
+            {% block style %}
+
+            {% endblock %}
+        </style>
+        {% simpleanalytics_sync %}
+    </head>
+    <body>
+        {% simpleanalytics_noscript_block %}
+        <div
+            style="
+                background: url('/static/images/banner.svg') no-repeat;
+                background-position: center;
+                background-size: cover;
+            "
+        >
+            <div class="container">
+                <header
+                    class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
+                    style="color: white"
+                >
+                    <a href="/" class="d-flex mb-3 mb-md-0 me-md-auto">
+                        <img
+                            src="{% static 'images/gsb.svg' %}"
+                            id="title"
+                            alt="Girton Spring Ball 2023!"
+                            style="max-width: 30vw; max-height: 14vh; padding: 3vh 3vw;"
+                        />
+                    </a>
+
+                    <ul class="nav my-auto">
+                        <!--
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-light"><i class="bi bi-patch-question me-1"></i>Support</a>
+                    </li>
+                -->
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a href="{% url 'manage' %}" class="nav-link text-light"><i class="bi bi-wallet me-2"></i>My tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'logout' %}" class="nav-link text-light"><i class="bi bi-box-arrow-left me-2"></i>Log out</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="https://girtonball.com/legal.html" class="nav-link text-light"><i class="bi bi-shield-shaded me-2"></i>Legal</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </header>
+            </div>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    {% include "partials/message.html" with msg=message class='alert-warning' icon_class='bi-exclamation-triangle-fill' only %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    {% include "partials/message.html" with msg=message class='alert-success' icon_class='bi-check-circle-fill' only %}
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    {% include "partials/message.html" with msg=message class='alert-danger' icon_class='bi-x-circle-fill' only %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <main class="container mb-3 p-3 pb-0">{% block main %}{% endblock %}</main>
+        <footer
+            style="
+                background: url('{% static 'images/banner.svg' %}') no-repeat;
+                background-position: center;
+                background-size: cover;
+                margin-top: 3rem;
+            "
+            class="text-center p-3"
+        >
+            <p class="mb-0 text-light">
+                GSB ticketing brought to you by
+                Matias 🥐 (<a href="https://www.github.com/matiasilva" class="text-light "><u>@matiasilva</u></a>) and
+                Krish 🥛 (<a href="https://www.github.com/k12ish" class="text-light "><u>@k12ish</u></a>)
+            </p>
+            <p class="mb-0 text-light">
+                Art by Evan 🏤 (<a href="https://www.instagram.com/hall.arch/" class="text-light" ><u>@hall.arch</u></a >)
+            </p>
+        </footer>
+        <!-- lazy load JS -->
+        {% block scripts %} {% endblock %}
+    </body>
+</html>
