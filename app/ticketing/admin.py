@@ -83,7 +83,9 @@ class TicketKindAdmin(admin.ModelAdmin):
 
     @admin.display(description='Availability')
     def availability(self, obj):
-        return f"{int(100*obj.allocation.count()/obj.allocation.quantity)}%"
+        if obj.allocation.quantity != 0:
+            return f"{int(100*obj.allocation.count()/obj.allocation.quantity)}%"
+        return "0%"
 
 
 class TicketExtraAdmin(admin.ModelAdmin):
@@ -105,7 +107,12 @@ class TicketAdmin(admin.ModelAdmin):
         "payment_method",
         "email",
     )
-    actions = ['send_confirmation', 'send_payment_confirmation']
+    actions = [
+        'send_confirmation',
+        'send_payment_confirmation',
+        'download_ticketing_details',
+        'send_payment_confirm',
+    ]
     list_per_page = 1200
 
     def get_search_results(self, request, queryset, search_term):
@@ -154,7 +161,7 @@ class TicketAdmin(admin.ModelAdmin):
         )
 
     @admin.action(description='Send payment confirm email')
-    def send_payment_confirmation(self, request, queryset):
+    def send_payment_confirm(self, request, queryset):
         for ticket in queryset:
             msg = render_to_string("emails/confirm.txt", {"ticket": ticket})
             recipients = [ticket.email]
