@@ -42,7 +42,20 @@ Changes to make:
 4. Clean up any migrations, shortcuts: `heroku run bash` or `heroku psql`
 5. Set the right promocode, change the wave, etc
 
-### girtifier
+## Ticket scanning
+
+A custom scanner web app is used to scan tickets. A Raspberry Pi running a WiFi AP hosts the app.
+
+### Setting up the Pi
+
+- usual update stuff `sudo apt update`, `sudo apt upgrade`
+- install postgres `sudo apt install postgresql -y`
+- create pi user `sudo su postgres`, `createuser pi -P --interactive`
+- update `settings.py` with database details
+
+https://www.tal.org/tutorials/setup-raspberry-pi-headless-use-usb-serial-console
+
+## girtifier
 
 Verifies that a list of Cambridge emails meet these requirements: current student + current member of Girton College.
 
