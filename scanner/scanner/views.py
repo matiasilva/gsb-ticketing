@@ -1,42 +1,112 @@
+import json
+import re
+
+from django import forms
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
 from scanner.models import Attendance, Ticket
 
 
-def checkin(request):
-    if request.method == 'POST':
-        ref = request.POST.get('ref')
+class NameForm(forms.Form):
+    name = forms.CharField(max_length=100)
 
-        response_code = 0
-        message = ""
 
-        if validate_ticket_ref(ref) is None:
-            message = 'Invalid ticket reference provided!'
+# retrieve ticket data
+def get_ticket_data(request):
+    if request.method == 'GET':
+        ticket_id = request.GET.get('id')
+
+        is_valid_id = re.match(r"^GSB[A-Z1-9]{8}$", ticket_id)
+        if is_valid_id is None:
+            return JsonResponse({'success': 0, 'payload': 'invalid ticket reference'})
 
         try:
-            ticket = Ticket.objects.get(uuid=ref)
+            ticket = Ticket.objects.get(uuid=ticket_id)
         except Ticket.DoesNotExist:
-            message = 'Nonexistent ticket reference provided!'
+            return JsonResponse(
+                {'success': 0, 'payload': 'nonexistent ticket reference'}
+            )
 
-        if ticket.attendance.exists():
-            message = f'User already checked in at {ticket.attendance.date}!'
+        try:
+            has_attendance = bool(ticket.attendance)
+        except Ticket.attendance.RelatedObjectDoesNotExist:
+            has_attendance = False
 
-        attendance = Attendance(ticket=ticket, checker=request.user)
+        return JsonResponse(
+            {
+                'success': 1,
+                'payload': {
+                    'name': ticket.name,
+                    'type': str(ticket.kind),
+                    'isCheckedIn': has_attendance,
+                },
+            }
+        )
+
+
+# check user in
+def checkin(request):
+    if request.method == 'POST':
+        ticket_id = json.loads(request.body).get('id')
+
+        is_valid_id = re.match(r"^GSB[A-Z1-9]{8}$", ticket_id)
+        if is_valid_id is None:
+            return JsonResponse({'success': 0, 'payload': 'invalid ticket reference'})
+
+        try:
+            ticket = Ticket.objects.get(uuid=ticket_id)
+        except Ticket.DoesNotExist:
+            return JsonResponse(
+                {'success': 0, 'payload': 'nonexistent ticket reference'}
+            )
+
+        try:
+            has_attendance = ticket.attendance
+        except Ticket.attendance.RelatedObjectDoesNotExist:
+            has_attendance = False
+
+        if has_attendance:
+            return JsonResponse(
+                {
+                    'success': 0,
+                    'payload': f'user already checked in at {ticket.attendance.date}!',
+                }
+            )
+
+        attendance = Attendance(
+            ticket=ticket, checker=request.session.get('checker_name')
+        )
         attendance.save()
 
-        # indicate success
-        message = f'{ticket.name} ({ticket.uuid}) checked in'
-        response_code = 1
         tickets_scanned = Ticket.objects.filter(attendance__isnull=False).count()
 
         return JsonResponse(
             {
-                'code': response_code,
-                'message': message,
-                'tickets_scanned': tickets_scanned,
+                'success': 1,
+                'payload': {'scanCount': tickets_scanned},
             }
         )
 
+
+def set_name(request):
+    if request.method == 'POST':
+        form = NameForm(request.POST)
+        if form.is_valid():
+            request.session['checker_name'] = request.POST.get('name')
+            return redirect('scanner')
+        else:
+            return redirect('set_name')
     else:
-        return render(request, 'index.html')
+        return render(request, 'setname.html')
+
+
+def scanner(request):
+    # if no name set then...
+    if request.session.get('checker_name', None) is None:
+        return redirect('set_name')
+    return render(
+        request,
+        'index.html',
+        {'tickets_scanned': Ticket.objects.filter(attendance__isnull=False).count()},
+    )

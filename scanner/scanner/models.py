@@ -156,6 +156,4 @@ class Attendance(models.Model):
         Ticket, on_delete=models.CASCADE, related_name='attendance'
     )
     date = models.DateTimeField(auto_now_add=True)
-    checker = models.ForeignKey(
-        User, on_delete=models.SET_NULL, related_name='attendances', null=True
-    )
+    checker = models.CharField(max_length=30)

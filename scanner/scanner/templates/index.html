@@ -19,21 +19,68 @@
             height: 100%;
             width: 100%;
         }
+
+        td > span {
+            font-weight: bold;
+            background-color: pink;
+        }
+
+        th {
+            font-weight: normal;
+            padding-right: 1rem;
+        }
     </style>
-{% endblock %} {% block main %}
-    <div id="video-container">
+{% endblock %}
+{% block main %}
+    <div class="text-center mb-3">
+        <h1>GSB23 Ticket Scanner</h1>
+        <p>scanner: {{ request.session.checker_name }}</p>
+    </div>
+
+    <div id="video-container" class="mb-3">
         <video id="qr-video"></video>
     </div>
+
     <div>
         <button id="flash-toggle">📸 Flash: <span id="flash-state">off</span></button>
     </div>
-    <br />
-    <b>Detected QR code: </b>
-    <span id="cam-qr-result">None</span>
 
-    <button id="checkin-button">CHECK IN</button>
-    <b>Tickets checked-in </b>
-    <span id="tickets-checked">None</span>
+    <div class="mb-3">
+        <h4>details of last scan</h4>
+        <table>
+            <tbody>
+                <tr>
+                    <th>attendee name:</th>
+                    <td><span id="attendee-result">no ticket scanned</span></td>
+                </tr>
+                <tr>
+                    <th>ticket type:</th>
+                    <td><span id="type-result">no ticket scanned</span></td>
+                </tr>
+                <tr>
+                    <th>ticket id:</th>
+                    <td><span id="id-result">no ticket scanned</span></td>
+                </tr>
+                <tr>
+                    <th>checked in:</th>
+                    <td><span id="checkedin-result">no ticket scanned</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <button type="button" id="checkin-button" class="w-100 btn btn-primary btn-lg mb-2">check in</button>
+        <p id="checkin-status">no ticket scanned</p>
+    </div>
+
+    <div>
+        <h4>global stats</h4>
+        <ul>
+            <li>tickets scanned: <span id="scan-count">{{ tickets_scanned }}</span></li>
+            <li>average time per scan: <span id="avg-scan-time">n/a</span></li>
+        </ul>
+    </div>
 
     <script type="module">
         import QrScanner from "{% static 'scripts/vendor/qr-scanner.min.js' %}";
@@ -42,29 +89,68 @@
         const videoContainer = document.getElementById("video-container");
         const flashToggle = document.getElementById("flash-toggle");
         const flashState = document.getElementById("flash-state");
-        const camQrResult = document.getElementById("cam-qr-result");
 
-        function setResult(label, result) {
-            console.log(result.data);
-            label.textContent = result.data;
-            camQrResultTimestamp.textContent = new Date().toString();
-            label.style.color = "teal";
-            clearTimeout(label.highlightTimeout);
-            label.highlightTimeout = setTimeout(
-                () => (label.style.color = "inherit"),
-                100
-            );
+        // scan data
+        const attendeeName  = document.getElementById("attendee-result");
+        const ticketType  = document.getElementById("type-result");
+        const ticketID  = document.getElementById("id-result");
+        const checkedin  = document.getElementById("checkedin-result");
+        const checkinStatus = document.getElementById("checkin-status");
+        const scanCountField = document.getElementById("scan-count");
+        const allFields = [attendeeName, ticketType, ticketID, checkedin];
+
+        // buttons
+        const checkinButton = document.getElementById("checkin-button");
+
+        let lastScannedID = "";
+        let lastScannedName = "";
+
+        function gotData(result) {
+            lastScannedID = result.data;
+            // query ticket database
+            fetch('{% url 'get_ticket_data' %}?' + new URLSearchParams({
+                id: lastScannedID,
+            }).toString()).then((response) => {
+                if (!response.ok) {
+                    for (var i = allFields.length - 1; i >= 0; i--) {
+                        allFields[i].textContent = 'network error!';
+                        allFields[i].style.color = "red";
+                    }
+                }
+
+                response.json().then((data) => {
+                    if (!data.success) {
+                        for (var i = allFields.length - 1; i >= 0; i--) {
+                            allFields[i].textContent = data.payload;
+                            allFields[i].style.color = "red";
+                        }
+                    } else {
+                        const {name, type, isCheckedIn}  = data.payload;
+                        lastScannedName = name;
+                        for (var i = allFields.length - 1; i >= 0; i--) {
+                            allFields[i].style.color = "black";
+                        }
+                        checkedin.style.color = isCheckedIn ? "red" : "green";
+                        attendeeName.textContent = name;
+                        ticketType.textContent = type;
+                        ticketID.textContent = lastScannedID;
+                        checkedin.textContent = isCheckedIn;
+                    }
+                })
+            })
         }
-
-        // ####### Web Cam Scanning #######
 
         const scanner = new QrScanner(
             video,
-            (result) => setResult(camQrResult, result),
+            (result) => gotData(result),
             {
                 onDecodeError: (error) => {
-                    camQrResult.textContent = error;
-                    camQrResult.style.color = "inherit";
+                    if (error !== QrScanner.NO_QR_CODE_FOUND){
+                        for (var i = allFields.length - 1; i >= 0; i--) {
+                            allFields[i].textContent = error;
+                            allFields[i].style.color = "red";
+                        }
+                    }
                 },
                 highlightScanRegion: true,
                 highlightCodeOutline: true,
@@ -91,6 +177,30 @@
                 .then(
                 () => (flashState.textContent = scanner.isFlashOn() ? "on" : "off")
             );
+        });
+
+        // check the user in when we submit
+        checkinButton.addEventListener("click", () => {
+            const opts = { method: 'POST', headers: {'Content-Type': 'application/json', "X-CSRFToken": '{{csrf_token}}'}, body: JSON.stringify({id: lastScannedID})};
+            fetch('{% url 'checkin' %}', opts).then((response) => {
+                if (!response.ok) {
+                    checkinStatus.textContent = 'network error!';
+                    checkinStatus.style.color = "red";
+                }
+
+                // we're entering callback hell now
+                response.json().then((data) => {
+                    if (!data.success) {
+                        checkinStatus.textContent = data.payload;
+                        checkinStatus.style.color = "red";
+                    } else {
+                        const {scanCount}  = data.payload;
+                        checkinStatus.style.color = "black"
+                        checkinStatus.textContent = `just checked in ${lastScannedName} ✅`
+                        scanCountField.textContent = scanCount;
+                    }
+                });
+            });
         });
     </script>
 {% endblock %}
