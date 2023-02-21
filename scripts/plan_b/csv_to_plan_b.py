@@ -8,13 +8,10 @@ from pylatex import (
     Head,
     LargeText,
     LineBreak,
-    LongTable,
     MediumText,
     MiniPage,
     PageStyle,
-    UnsafeCommand,
 )
-from pylatex.base_classes import Environment
 from pylatex.package import Package
 from pylatex.utils import NoEscape, bold
 
@@ -62,12 +59,26 @@ def make_doc(data: list):
     doc.preamble.append(STYLE)
     doc.preamble.append(NoEscape(r"\definecolor{highlight}{gray}{0.88}"))
 
-    with doc.create(LongTable("l r", pos=["r"])) as table:
-        for ticket in data:
-            table.add_hline()
-            uuid = NoEscape(r"\texttt{" + ticket["uuid"] + "}")
-            table.add_row([ticket["name"], uuid], color=ticket["color"])
+    doc.packages.append(Package('supertabular'))
+    doc.packages.append(Package('color'))
+    doc.packages.append(Package('colortbl'))
 
+    doc.append(NoEscape(r"\twocolumn"))
+    doc.append(NoEscape(r"\begin{supertabular}{lr}"))
+    for ticket in data:
+        if ticket["color"] is not None:
+            doc.append(NoEscape(r"\rowcolor{" + ticket["color"] + "}"))
+        doc.append(
+            NoEscape(
+                r"\hline%"
+                + "\n"
+                + ticket["name"]
+                + r"& \texttt{"
+                + ticket["uuid"]
+                + r"} \\"
+            )
+        )
+    doc.append(NoEscape(r"\end{supertabular}"))
     return doc
 
 
@@ -85,9 +96,9 @@ def process(tickets: list):
     prev = None
     toggle = True
     for ticket in tickets:
-        if ticket["name"].lower()[:2] != prev:
+        if ticket["name"].split()[0].lower() != prev:
             toggle = not toggle
-            prev = ticket["name"].lower()[:2]
+            prev = ticket["name"].split()[0].lower()
         ticket["color"] = "highlight" if toggle else None
 
 
@@ -95,6 +106,10 @@ process(queue_jump)
 process(standard)
 
 doc = make_doc(queue_jump)
-doc.generate_pdf(OUT_DIR / "queue_jump", clean_tex=False, compiler="pdflatex")
+doc.generate_pdf(
+    OUT_DIR / "queue_jump", clean=False, clean_tex=False, compiler="pdflatex"
+)
 doc = make_doc(standard)
-doc.generate_pdf(OUT_DIR / "standard", clean_tex=False, compiler="pdflatex")
+doc.generate_pdf(
+    OUT_DIR / "standard", clean=False, clean_tex=False, compiler="pdflatex"
+)
