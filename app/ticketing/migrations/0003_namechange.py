@@ -52,37 +52,5 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-        ),
-        migrations.CreateModel(
-            name="Attendance",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("date", models.DateTimeField(auto_now_add=True)),
-                (
-                    "checker",
-                    models.ForeignKey(
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        related_name="attendances",
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                (
-                    "ticket",
-                    models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="attendance",
-                        to="ticketing.ticket",
-                    ),
-                ),
-            ],
-        ),
+        )
     ]

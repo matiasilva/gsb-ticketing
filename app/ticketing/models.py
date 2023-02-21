@@ -219,6 +219,8 @@ class User(AbstractUser):
 
         tickets_qs = tickets_qs.filter(allocation__is_visible=True)
 
+        print(tickets_qs.first().id)
+
         # secondly, mask out any ticketkinds not allowed in this wave
         # hack around limitations of intersection filtering
         return tickets_qs.filter(
@@ -228,6 +230,7 @@ class User(AbstractUser):
     def get_available_ticketkinds(self, wave):
         # return the ticketkinds available NOW to the user
         tickets_qs = self.get_valid_ticketkinds(wave)
+
         # remove any explicitly hidden or disabled tickets
         return tickets_qs.filter(allocation__is_active=True).all()
 

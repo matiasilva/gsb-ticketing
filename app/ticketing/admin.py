@@ -235,7 +235,8 @@ class NameChangeAdmin(admin.ModelAdmin):
         "has_paid",
     )
     search_fields = ['purchaser_username', 'payment_ref']
-    actions = ['mark_completed']
+    raw_id_fields = ("ticket", "purchaser")
+    actions = ['mark_completed', 'send_payment_email']
 
     @admin.display(description='Old name')
     def old_name(self, obj):
@@ -260,6 +261,25 @@ class NameChangeAdmin(admin.ModelAdmin):
         self.message_user(
             request,
             f'{queryset.count()} name changes were successfully actioned and marked paid.',
+            messages.SUCCESS,
+        )
+
+    @admin.action(description='Send payment email')
+    def send_payment_email(self, request, queryset):
+        for nc in queryset:
+            msg = render_to_string(
+                "emails/name_change.txt", {"nc": nc, "ticket": nc.ticket}
+            )
+            recipients = [nc.new_email, nc.ticket.purchaser.email, nc.ticket.email]
+            send_mail(
+                'GSB23 Ticketing: Name Change Request',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+        self.message_user(
+            request,
+            f'{queryset.count()} name changes were successfully emailed.',
             messages.SUCCESS,
         )
 
