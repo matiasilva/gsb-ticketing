@@ -219,8 +219,6 @@ class User(AbstractUser):
 
         tickets_qs = tickets_qs.filter(allocation__is_visible=True)
 
-        print(tickets_qs.first().id)
-
         # secondly, mask out any ticketkinds not allowed in this wave
         # hack around limitations of intersection filtering
         return tickets_qs.filter(
