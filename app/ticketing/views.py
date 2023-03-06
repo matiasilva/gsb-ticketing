@@ -393,16 +393,8 @@ def buy_change(request, ref=None):
         )
         return redirect('manage')
 
-    # validate ticket ref
-    if validate_ticket_ref(ref) is None:
-        messages.add_message(
-            request,
-            messages.WARNING,
-            'Nonexistent ticket reference provided!',
-        )
-        return redirect('manage')
-
     try:
+        assert validate_ticket_ref(ref) is not None 
         ticket = Ticket.objects.get(uuid=ref)
     except Ticket.DoesNotExist:
         messages.add_message(
