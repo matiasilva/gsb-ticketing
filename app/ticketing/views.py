@@ -1,12 +1,20 @@
-from datetime import date
 
 import requests
 from django.contrib import messages
 from django.contrib.auth import BACKEND_SESSION_KEY, authenticate, login, logout
 from django.core.mail import mail_admins, send_mail
-from django.http import Http404, HttpResponse, QueryDict
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+
+import os
+import json
+from google.oauth2.service_account import Credentials
+from google.cloud import storage
+from datetime import timedelta
+import base64
+
+
 
 from .forms import (
     BuyTicketForm,
@@ -20,9 +28,7 @@ from .models import (
     NameChange,
     Setting,
     Ticket,
-    TicketAllocation,
     TicketExtra,
-    TicketKind,
     User,
     UserKind,
 )
@@ -158,7 +164,6 @@ def signup_guest(request):
 
 
 def guest_portal(request):
-    user = request.user
 
     return render(
         request,
@@ -482,6 +487,68 @@ def buy_change(request, ref=None):
             'name_change.html',
             {"title": "Name change", "form": form, "ticket": ticket},
         )
+
+
+
+@login_required
+def download_ticket(request, ref=None):
+    # no ticket ref provided
+    if ref is None:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'No ticket reference provided!',
+        )
+        return redirect('manage')
+
+    try:
+        assert validate_ticket_ref(ref) is not None
+        ticket = Ticket.objects.get(uuid=ref)
+    except Ticket.DoesNotExist or AssertionError:
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'Nonexistent ticket reference provided!',
+        )
+        return redirect('manage')
+
+    # ensure ticket belongs to this user
+    has_bought_ticket = ticket in request.user.tickets.all()
+    if not has_bought_ticket:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'You tried to mess with our platform, violating the terms and conditions in the process. Your account has been reported and appropriate action will be taken.',
+        )
+        msg = render_to_string(
+            "emails/violation.txt",
+            {
+                "user": request.user,
+                "violation": "tried to download ticket which wasn't theirs",
+            },
+        )
+        mail_admins('User TC violation', msg, fail_silently=False)
+        return redirect('manage')
+
+    if request.method == 'GET':
+        # Google uses JSON files and heroku works with env vars, So base64
+        # encoded json env vars is my best compromise to work with both systems
+        cred_dict = json.loads(base64.b64decode(os.environ["GOOGLE_BASE_64_CREDS"]))
+        creds = Credentials.from_service_account_info(cred_dict)
+        client = storage.Client(credentials=creds)
+
+        # Get the bucket and file objects
+        bucket = client.bucket(os.environ["GOOGLE_BUCKET_NAME"])
+        blob = bucket.blob(ref + ".pdf")
+
+        # Generate a signed URL with the Content-Disposition header set
+        url = blob.generate_signed_url(
+            response_disposition="attachment;",
+            version="v4",
+            expiration=timedelta(hours=10),
+            method="GET",
+        )
+        return redirect(url)
 
 
 def patience(request):

@@ -4,7 +4,6 @@ from google.oauth2.service_account import Credentials
 from google.cloud import storage
 from datetime import timedelta
 from pathlib import Path
-
 import base64
 
 

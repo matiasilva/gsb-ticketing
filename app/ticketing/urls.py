@@ -10,6 +10,7 @@ urlpatterns = [
     path('buy/ticket/', views.buy_ticket, name='buy_ticket'),
     path('buy/change/<str:ref>', views.buy_change, name='buy_change'),
     path('buy/', views.buy_ticket, name='buy_ticket'),
+    path('download/<str:ref>', views.download_ticket, name='download_ticket'),
     path('guest/', views.guest_portal, name='guest_portal'),
     path('logout/', views.logout_all, name="logout_all"),
     path('manage/', views.manage, name='manage'),
