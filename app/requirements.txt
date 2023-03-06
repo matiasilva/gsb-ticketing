@@ -1,6 +1,8 @@
 dj-database-url
 django
 git+https://github.com/matiasilva/django-ucamwebauth@master
+google-auth
+google-cloud-storage
 gunicorn
 psycopg2
 requests

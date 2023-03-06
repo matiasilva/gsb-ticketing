@@ -5,3 +5,9 @@ db.sqlite3
 source.db
 #django-ucamwebauth/
 
+
+# Avoid comitting user info
+scripts/plan_b/pdfs/
+scripts/ticket_generation/pdfs/
+scripts/ticket_generation/svgs/
+
