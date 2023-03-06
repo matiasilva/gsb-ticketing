@@ -1,3 +1,7 @@
+import base64
+import json
+import os
+from datetime import timedelta
 
 import requests
 from django.contrib import messages
@@ -6,15 +10,8 @@ from django.core.mail import mail_admins, send_mail
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-
-import os
-import json
-from google.oauth2.service_account import Credentials
 from google.cloud import storage
-from datetime import timedelta
-import base64
-
-
+from google.oauth2.service_account import Credentials
 
 from .forms import (
     BuyTicketForm,
@@ -399,7 +396,7 @@ def buy_change(request, ref=None):
         return redirect('manage')
 
     try:
-        assert validate_ticket_ref(ref) is not None 
+        assert validate_ticket_ref(ref) is not None
         ticket = Ticket.objects.get(uuid=ref)
     except Ticket.DoesNotExist:
         messages.add_message(
@@ -487,7 +484,6 @@ def buy_change(request, ref=None):
             'name_change.html',
             {"title": "Name change", "form": form, "ticket": ticket},
         )
-
 
 
 @login_required

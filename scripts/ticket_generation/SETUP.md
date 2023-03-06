@@ -4,8 +4,7 @@ Upload all pdfs to `gsb-tickets` bucket:
 gsutil cp *.pdf gs://gsb-tickets
 ```
 
-**INFO:** this is limited by bandwidth, may take some time for large uploads. 
-
+**INFO:** this is limited by bandwidth, may take some time for large uploads.
 
 Get env vars for local production
 
