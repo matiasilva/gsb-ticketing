@@ -13,3 +13,5 @@ for verb in "$@"; do
     reset) reset;;
   esac
 done
+
+export `heroku config -a gsb-ticketing -s | grep GOOGLE`
