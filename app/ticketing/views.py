@@ -398,7 +398,7 @@ def buy_change(request, ref=None):
     try:
         assert validate_ticket_ref(ref) is not None
         ticket = Ticket.objects.get(uuid=ref)
-    except Ticket.DoesNotExist:
+    except Ticket.DoesNotExist or AssertionError:
         messages.add_message(
             request,
             messages.WARNING,
