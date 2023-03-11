@@ -526,6 +526,15 @@ def download_ticket(request, ref=None):
         mail_admins('User TC violation', msg, fail_silently=False)
         return redirect('manage')
 
+    # check name change is already in progress
+    if ticket.has_active_name_changes():
+        messages.add_message(
+            request,
+            messages.WARNING,
+            'A name change for this ticket is in progress. Please follow the payment instructions sent by email.',
+        )
+        return redirect('manage')
+
     if request.method == 'GET':
         # Google uses JSON files and heroku works with env vars, So base64
         # encoded json env vars is my best compromise to work with both systems
