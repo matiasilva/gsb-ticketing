@@ -48,6 +48,8 @@ A custom scanner web app is used to scan tickets. A Raspberry Pi running a WiFi 
 
 ### Setting up the Pi
 
+- headless control
+  - install raspi lite
 - usual update stuff `sudo apt update`, `sudo apt upgrade`
 - install postgres `sudo apt install postgresql -y`
 - create pi user `sudo su postgres`, `createuser pi -P --interactive`
