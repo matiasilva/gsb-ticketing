@@ -26,7 +26,7 @@
                             <i class="bi-pencil me-2"></i><a href="{% url 'buy_change' ref=ticket.uuid %}" class="card-link">Request name change</a>
                         </li>
                     {% endif %}
-                    <li class="list-group-item"><i class="bi-file-earmark-arrow-down me-2"></i> <a href="{% url 'patience' %}" class="card-link">Download ticket</a></li>
+                    <li class="list-group-item"><i class="bi-file-earmark-arrow-down me-2"></i><a href="{% url 'download_ticket' ref=ticket.uuid %}" class="card-link">Download ticket</a></li>
                 </ul>
             </div>
         </div>
