@@ -5,6 +5,8 @@
         {% csrf_token %}
         <label for="name">enter your name:</label>
         <input type="text" id="name" name="name" required>
+        <label for="name">enter the passphrase:</label>
+        <input type="text" id="passphrase" name="passphrase" required>
         <input type="submit" value="submit">
     </form>
 {% endblock %}

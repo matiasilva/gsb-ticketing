@@ -5,12 +5,12 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = "croissant"
 
-DEBUG = False
+DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     "django.contrib.contenttypes",
@@ -22,7 +22,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Here
+    # "whitenoise.middleware.WhiteNoiseMiddleware",  # Here
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -49,13 +49,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "scanner.wsgi.application"
 
-MAX_CONN_AGE = 600
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgres://matias@localhost/gsb23_tickets',
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 
-DATABASES = dict()
-
-DATABASES["default"] = dj_database_url.config(
-    conn_max_age=MAX_CONN_AGE, ssl_require=True
-)
 
 # expire user sessions after 2 hours
 SESSION_COOKIE_AGE = 60 * 60 * 2
@@ -74,12 +75,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-
-ADMINS = [
-    ('Matias', 'info@matiasilva.com'),
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

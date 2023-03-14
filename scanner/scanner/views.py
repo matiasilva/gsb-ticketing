@@ -10,6 +10,7 @@ from scanner.models import Attendance, Ticket
 
 class NameForm(forms.Form):
     name = forms.CharField(max_length=100)
+    passphrase = forms.CharField(max_length=100)
 
 
 # retrieve ticket data
@@ -92,8 +93,10 @@ def checkin(request):
 def set_name(request):
     if request.method == 'POST':
         form = NameForm(request.POST)
-        if form.is_valid():
-            request.session['checker_name'] = request.POST.get('name')
+        form_valid = form.is_valid()
+        pass_valid = form.cleaned_data["passphrase"] == os.environ['PASSPHRASE']
+        if form_valid and pass_valid:
+            request.session['checker_name'] = form.cleaned_data["name"]
             return redirect('scanner')
         else:
             return redirect('set_name')

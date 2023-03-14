@@ -1,0 +1,2 @@
+release: ./boot.sh
+web: gunicorn scanner.wsgi

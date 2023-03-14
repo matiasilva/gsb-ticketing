@@ -22,5 +22,5 @@ for table in $TABLES_TO_DROP; do
 done
 
 # migrate
-. .venv/bin/activate
-python manage.py migrate
+#. .venv/bin/activate
+#python manage.py migrate
