@@ -86,3 +86,12 @@ ADMINS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_HOST = 'smtp.zeptomail.eu'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+SERVER_EMAIL = f'it@girtonball.com'
+
+if 'EMAIL_HOST_USER' in os.environ:
+    EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+    EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
