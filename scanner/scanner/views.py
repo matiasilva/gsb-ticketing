@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from datetime import datetime
 
 from django import forms
 from django.http import JsonResponse
@@ -72,7 +73,7 @@ def checkin(request):
             return JsonResponse(
                 {
                     'success': 0,
-                    'payload': f'user already checked in at {ticket.attendance.date}!',
+                    'payload': f'user already checked in at {datetime.fromisoformat(ticket.attendance.date).time}!',
                 }
             )
 

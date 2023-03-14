@@ -31,6 +31,5 @@ for ticket in result:
     conn.commit()
     print(f'changed {name} to {ticket_newname} for id {ticket_id}')
 
-conn.commit()
 cur.close()
 conn.close()
