@@ -44,18 +44,13 @@ Changes to make:
 
 ## Ticket scanning
 
-A custom scanner web app is used to scan tickets. A Raspberry Pi running a WiFi AP hosts the app.
+A custom scanner web app is used to scan tickets. A stripped out database is hosted on another Heroku instance.
 
-### Setting up the Pi
+To prepare the database, run the setup script to clean a fresh copy of the DB on a local machine then:
 
-- headless control
-  - install raspi lite
-- usual update stuff `sudo apt update`, `sudo apt upgrade`
-- install postgres `sudo apt install postgresql -y`
-- create pi user `sudo su postgres`, `createuser pi -P --interactive`
-- update `settings.py` with database details
-
-https://www.tal.org/tutorials/setup-raspberry-pi-headless-use-usb-serial-console
+```
+heroku pg:push gsb23_tickets DATABASE_URL --app gsb-scanner
+```
 
 ## girtifier
 
