@@ -1,5 +1,9 @@
 from functools import reduce
 from operator import or_
+import base64
+import json
+import os
+from datetime import timedelta
 
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
@@ -10,6 +14,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.template.loader import render_to_string
+from google.cloud import storage
+from google.oauth2.service_account import Credentials
 
 from .models import (
     AllowedUser,
@@ -112,6 +118,7 @@ class TicketAdmin(admin.ModelAdmin):
         'send_payment_confirmation',
         'download_ticketing_details',
         'send_payment_confirm',
+        'send_download_link',
     ]
     list_per_page = 1200
 
@@ -214,6 +221,38 @@ class TicketAdmin(admin.ModelAdmin):
             writer.writerow([ticket.name, ticket.uuid, ticket.kind])
         buffer.seek(0)
         return HttpResponse(buffer, content_type='text/csv')
+
+    
+    @admin.action(description='Send link to download tickets')
+    def send_download_link(self, request, queryset):
+        # Google uses JSON files and heroku works with env vars, So base64
+        # encoded json env vars is my best compromise to work with both systems
+        cred_dict = json.loads(base64.b64decode(os.environ["GOOGLE_BASE_64_CREDS"]))
+        creds = Credentials.from_service_account_info(cred_dict)
+        client = storage.Client(credentials=creds)
+        bucket = client.bucket(os.environ["GOOGLE_BUCKET_NAME"])
+        for ticket in queryset:
+            blob = bucket.blob(str(ticket.uuid) + ".pdf")
+            # Generate a signed URL with the Content-Disposition header set
+            url = blob.generate_signed_url(
+                response_disposition="attachment;",
+                version="v4",
+                expiration=timedelta(days=7),
+                method="GET",
+            )
+            msg = render_to_string("emails/link_email.txt", {"url": url, "ticket":ticket})
+            recipients = [ticket.email]
+            send_mail(
+                'GSB23 Ticketing: Payment reminder',
+                msg,
+                'it@girtonball.com',
+                recipients,
+            )
+        self.message_user(
+            request,
+            f'{queryset.count()} emails were successfully sent.',
+            messages.SUCCESS,
+        )
 
 
 class PromoCodeAdmin(admin.ModelAdmin):

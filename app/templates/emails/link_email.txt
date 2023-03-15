@@ -1,0 +1,14 @@
+Hi {{ticket.name}},
+
+It seems like you are having difficulty accessing your ticket,
+
+Here's a <a href="{{url}}">link</a> to it.
+
+
+
+For any queries, please email it@girtonball.com or reply to this email.
+
+Warm wishes,
+
+Matias & Krish
+GSB23 IT & Ticketing
