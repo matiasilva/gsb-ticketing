@@ -197,7 +197,7 @@
                         const {scanCount}  = data.payload;
                         checkinStatus.style.color = "black"
                         checkinStatus.textContent = `just checked in ${lastScannedName} ✅`
-                        scanCountField.textContent = `${scanCount} (${scanCount/936})%`;
+                        scanCountField.textContent = `${scanCount} (${Math.round(100*scanCount/936)})%`;
                     }
                 });
             });
