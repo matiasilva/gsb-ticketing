@@ -113,7 +113,7 @@
             }).toString()).then((response) => {
                 if (!response.ok) {
                     for (var i = allFields.length - 1; i >= 0; i--) {
-                        allFields[i].textContent = 'network error!';
+                        allFields[i].textContent = 'network error (ticket data)!';
                         allFields[i].style.color = "red";
                     }
                 }
@@ -184,7 +184,7 @@
             const opts = { method: 'POST', headers: {'Content-Type': 'application/json', "X-CSRFToken": '{{csrf_token}}'}, body: JSON.stringify({id: lastScannedID})};
             fetch('{% url 'checkin' %}', opts).then((response) => {
                 if (!response.ok) {
-                    checkinStatus.textContent = 'network error!';
+                    checkinStatus.textContent = 'network error (check in)!';
                     checkinStatus.style.color = "red";
                 }
 
