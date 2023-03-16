@@ -1,9 +1,9 @@
-from functools import reduce
-from operator import or_
 import base64
 import json
 import os
 from datetime import timedelta
+from functools import reduce
+from operator import or_
 
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdminOriginal
@@ -222,7 +222,6 @@ class TicketAdmin(admin.ModelAdmin):
         buffer.seek(0)
         return HttpResponse(buffer, content_type='text/csv')
 
-    
     @admin.action(description='Send link to download tickets')
     def send_download_link(self, request, queryset):
         # Google uses JSON files and heroku works with env vars, So base64
@@ -240,10 +239,12 @@ class TicketAdmin(admin.ModelAdmin):
                 expiration=timedelta(days=7),
                 method="GET",
             )
-            msg = render_to_string("emails/link_email.txt", {"url": url, "ticket":ticket})
+            msg = render_to_string(
+                "emails/link_email.txt", {"url": url, "ticket": ticket}
+            )
             recipients = [ticket.email]
             send_mail(
-                'GSB23 Ticketing: Payment reminder',
+                'GSB23 Ticketing: Download your ticket',
                 msg,
                 'it@girtonball.com',
                 recipients,
