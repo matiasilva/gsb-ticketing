@@ -120,6 +120,7 @@ class TicketAdmin(admin.ModelAdmin):
         'download_ticketing_details',
         'send_payment_confirm',
         'send_download_link',
+        "mark_paid",
     ]
     list_per_page = 1200
 
@@ -254,6 +255,18 @@ class TicketAdmin(admin.ModelAdmin):
         self.message_user(
             request,
             f'{queryset.count()} emails were successfully sent.',
+            messages.SUCCESS,
+        )
+
+
+    @admin.action(description='Mark Ticket As Paid')
+    def mark_paid(self, request, queryset):
+        for ticket in queryset:
+            ticket.has_paid = True
+            ticket.save()
+        self.message_user(
+            request,
+            f'Processed {queryset.count()} tickets',
             messages.SUCCESS,
         )
 
