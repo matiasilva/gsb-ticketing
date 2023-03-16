@@ -1,6 +1,6 @@
 Hi {{ticket.name}},
 
-You've requested access to your ticket recently and/or are unable to log in to your account. Please find your ticket <a href="{{url}}">here</a>.
+You've requested access to your ticket recently and/or are unable to log in to your account. Please find your ticket {% autoescape off %} <a href="{{url}}">here</a>. {% endautoescape %}
 
 For any queries, please email it@girtonball.com or reply to this email.
 
