@@ -14,6 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from google.cloud import storage
 from google.oauth2.service_account import Credentials
 
@@ -245,9 +246,10 @@ class TicketAdmin(admin.ModelAdmin):
             recipients = [ticket.email]
             send_mail(
                 'GSB23 Ticketing: Download your ticket',
-                msg,
+                strip_tags(msg),
                 'it@girtonball.com',
                 recipients,
+                html_message=msg,
             )
         self.message_user(
             request,
