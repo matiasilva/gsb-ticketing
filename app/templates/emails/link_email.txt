@@ -1,10 +1,6 @@
 Hi {{ticket.name}},
 
-It seems like you are having difficulty accessing your ticket,
-
-Here's a <a href="{{url}}">link</a> to it.
-
-
+You've requested access to your ticket recently and/or are unable to log in to your account. Please find your ticket <a href="{{url}}">here</a>.
 
 For any queries, please email it@girtonball.com or reply to this email.
 
