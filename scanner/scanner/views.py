@@ -73,7 +73,7 @@ def checkin(request):
             return JsonResponse(
                 {
                     'success': 0,
-                    'payload': f'user already checked in at {datetime.fromisoformat(ticket.attendance.date).time}!',
+                    'payload': f'user already checked in at {ticket.attendance.date.time()}!',
                 }
             )
 
